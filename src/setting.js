@@ -1,5 +1,5 @@
 export default {
-  navTheme: "light",
+  navTheme: "dark",
   primaryColor: "#027db4",
   layout: "sidemenu",
   contentWidth: "Fluid",
@@ -7,6 +7,6 @@ export default {
   fixSiderbar: true,
   siderWidth: 220,
   colorWeak: false,
-  title: "Vue Admin",
+  title: "ET 管理系统",
   production: process.env.NODE_ENV === "production",
 };
