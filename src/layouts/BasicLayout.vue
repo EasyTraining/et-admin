@@ -16,7 +16,7 @@
       <right-content :top-menu="settings.layout === 'topmenu'" :is-mobile="false" :theme="settings.theme" />
     </template>
     <template v-slot:footerRender>
-      <span></span>
+      <span>Copyright © EasyTraining</span>
     </template>
     <router-view />
   </pro-layout>

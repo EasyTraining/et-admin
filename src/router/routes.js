@@ -239,19 +239,19 @@ export default [
           {
             name: "/system/org",
             path: "/system/org",
-            component: () => import("@/views/System/Index"),
+            component: () => import("@/views/System/Org/Index"),
             meta: { title: "组织架构" },
           },
           {
             name: "/system/menu",
             path: "/system/menu",
-            component: () => import("@/views/System/Index"),
+            component: () => import("@/views/System/Menu/Index"),
             meta: { title: "系统菜单" },
           },
           {
             name: "/system/dict",
             path: "/system/dict",
-            component: () => import("@/views/System/Index"),
+            component: () => import("@/views/System/Dict/Index"),
             meta: { title: "字典管理" },
           },
           {
