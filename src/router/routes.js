@@ -31,27 +31,48 @@ export default [
             path: "/todo/workspace",
             component: () => import("@/views/Todo/Index"),
             meta: { title: "我的待办" },
-          }
-        ]
+          },
+        ],
       },
       {
         name: "/exam",
         path: "/exam",
         component: RouteView,
         meta: { title: "题库管理", icon: "read" },
-        redirect: "/exam/import",
+        redirect: "/exam/library",
         children: [
           {
-            name: "/exam/import",
-            path: "/exam/import",
-            component: () => import("@/views/Exam/Index"),
-            meta: { title: "导入题库" },
+            name: "/exam/library",
+            path: "/exam/library",
+            component: () => import("@/views/Exam/Library/Index"),
+            meta: { title: "题库列表" },
+          },
+          {
+            hidden: true,
+            name: "/exam/library/add",
+            path: "/exam/library/add",
+            component: () => import("@/views/Exam/Library/Form"),
+            meta: { title: "添加题库" },
+          },
+          {
+            hidden: true,
+            name: "/exam/library/edit/:id",
+            path: "/exam/library/edit/:id",
+            component: () => import("@/views/Exam/Library/Form"),
+            meta: { title: "编辑题库" },
+          },
+          {
+            hidden: true,
+            name: "/exam/library/detail/:id",
+            path: "/exam/library/detail/:id",
+            component: () => import("@/views/Exam/Library/Detail"),
+            meta: { title: "查看题库" },
           },
           {
             name: "/exam/paper",
             path: "/exam/paper",
             component: () => import("@/views/Exam/Index"),
-            meta: { title: "试卷管理" },
+            meta: { title: "试卷列表" },
           },
           {
             name: "/exam/homework",
@@ -65,7 +86,7 @@ export default [
             component: () => import("@/views/Exam/Index"),
             meta: { title: "统计分析" },
           },
-        ]
+        ],
       },
       {
         name: "/vote",
@@ -79,8 +100,8 @@ export default [
             path: "/vote/index",
             component: () => import("@/views/Vote/Index"),
             meta: { title: "投票清单" },
-          }
-        ]
+          },
+        ],
       },
       {
         name: "/activity",
@@ -94,8 +115,8 @@ export default [
             path: "/activity/index",
             component: () => import("@/views/Activity/Index"),
             meta: { title: "活动清单" },
-          }
-        ]
+          },
+        ],
       },
       {
         name: "/questionnaire",
@@ -109,8 +130,8 @@ export default [
             path: "/questionnaire/index",
             component: () => import("@/views/Questionnaire/Index"),
             meta: { title: "问卷清单" },
-          }
-        ]
+          },
+        ],
       },
       {
         name: "/customer",
@@ -124,8 +145,8 @@ export default [
             path: "/customer/index",
             component: () => import("@/views/Customer/Index"),
             meta: { title: "客户清单" },
-          }
-        ]
+          },
+        ],
       },
       {
         name: "/order",
@@ -139,8 +160,8 @@ export default [
             path: "/order/index",
             component: () => import("@/views/Order/Index"),
             meta: { title: "订单清单" },
-          }
-        ]
+          },
+        ],
       },
       {
         name: "/hr",
@@ -154,8 +175,8 @@ export default [
             path: "/hr/index",
             component: () => import("@/views/Hr/Index"),
             meta: { title: "员工清单" },
-          }
-        ]
+          },
+        ],
       },
       {
         name: "/finance",
@@ -169,8 +190,8 @@ export default [
             path: "/finance/index",
             component: () => import("@/views/Finance/Index"),
             meta: { title: "收支清单" },
-          }
-        ]
+          },
+        ],
       },
       {
         name: "/website",
@@ -184,8 +205,8 @@ export default [
             path: "/website/index",
             component: () => import("@/views/Website/Index"),
             meta: { title: "访问统计" },
-          }
-        ]
+          },
+        ],
       },
       {
         name: "/broadcast",
@@ -205,8 +226,8 @@ export default [
             path: "/broadcast/history",
             component: () => import("@/views/Broadcast/Index"),
             meta: { title: "历史记录" },
-          }
-        ]
+          },
+        ],
       },
       {
         name: "/tool",
@@ -226,8 +247,8 @@ export default [
             path: "/tool/t2",
             component: () => import("@/views/Tool/Index"),
             meta: { title: "Banner制作" },
-          }
-        ]
+          },
+        ],
       },
       {
         name: "/system",
@@ -260,7 +281,7 @@ export default [
             component: () => import("@/views/System/Index"),
             meta: { title: "系统设置" },
           },
-        ]
+        ],
       },
     ],
   },

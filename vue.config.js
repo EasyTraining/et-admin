@@ -89,7 +89,7 @@ const vueConfig = {
     port: 6001,
     proxy: {
       "/api": {
-        target: "http://139.196.214.125:9000",
+        target: "http://127.0.0.1:6002",
         // ws: false,
         changeOrigin: true,
       },
