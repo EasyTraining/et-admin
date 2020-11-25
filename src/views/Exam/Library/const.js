@@ -19,10 +19,12 @@ export const tableColumns = [
   {
     title: "创建时间",
     dataIndex: "create_at",
+    scopedSlots: { customRender: "create_at" },
   },
   {
     title: "更新时间",
     dataIndex: "update_at",
+    scopedSlots: { customRender: "update_at" },
   },
   {
     title: "操作",
