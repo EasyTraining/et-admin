@@ -1,7 +1,7 @@
 <template>
   <div>
     <p>
-      <a-button type="primary" icon="plus" @click="setModalVisible(true)">添加菜单</a-button>
+      <a-button type="primary" icon="plus" @click="setModalVisible(true)">新增菜单</a-button>
     </p>
 
     <a-card :loading="mounting">
@@ -21,7 +21,7 @@
       :width="600"
       centered
       v-model="modalVisible"
-      :title="modalForm.id ? '编辑菜单' : '添加菜单'"
+      :title="modalForm.id ? '编辑菜单' : '新增菜单'"
       @cancel="setModalVisible(false)"
       @ok="onModalOk"
     >
@@ -96,7 +96,7 @@ export default {
     async fetchTreeData() {
       this.loading = true;
       try {
-        const res = await this.$http({ method: "GET", url: "/menu/tree" });
+        const res = await this.$http({ method: "GET", url: "/system/menu/tree" });
         if (res.code !== 200) {
           this.$message.error(res.message);
           return;
@@ -113,7 +113,7 @@ export default {
       this.loading = true;
       try {
         const fd = { current: 1, pagesize: 1000 };
-        const res = await this.$http({ method: "POST", url: "/menu/get", data: fd });
+        const res = await this.$http({ method: "POST", url: "/system/menu/get", data: fd });
         if (res.code !== 200) {
           this.$message.error(res.message);
           return;
@@ -130,7 +130,7 @@ export default {
     async remove({ id }) {
       this.loading = true;
       try {
-        const res = await this.$http({ method: "DELETE", url: `/menu?id=${id}` });
+        const res = await this.$http({ method: "DELETE", url: `/system/menu?id=${id}` });
         if (res.code !== 200) {
           this.$message.error(res.message);
           return;
@@ -169,7 +169,7 @@ export default {
         try {
           const fd = _.cloneDeep(this.modalForm);
           if (!fd.id) delete fd.id;
-          const res = await this.$http({ method: "POST", url: "/menu", data: fd });
+          const res = await this.$http({ method: "POST", url: "/system/menu", data: fd });
           if (res.code !== 200) {
             this.$message.error(res.message);
             return;

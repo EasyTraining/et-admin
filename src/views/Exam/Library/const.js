@@ -1,10 +1,15 @@
 export const tableColumns = [
   {
-    title: "名称",
+    title: "题库名称",
     dataIndex: "name",
   },
   {
-    title: "来源",
+    title: "题库状态",
+    dataIndex: "enable",
+    scopedSlots: { customRender: "enable" },
+  },
+  {
+    title: "题库来源",
     dataIndex: "from",
   },
   {
@@ -26,6 +31,6 @@ export const tableColumns = [
   },
 ];
 
-export const formRules = {
+export const modalRules = {
   name: [{ required: true, message: "请填写类型名称" }],
 };

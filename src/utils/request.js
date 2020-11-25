@@ -3,7 +3,7 @@ import { Cookies } from "@/utils/index";
 import { VueAxios } from "./axios";
 
 const request = axios.create({
-  baseURL: process.env.VUE_APP_API_BASE_URL,
+  baseURL: process.env.VUE_APP_API_URL,
   timeout: 6000,
 });
 

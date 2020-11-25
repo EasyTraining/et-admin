@@ -1,7 +1,7 @@
 <template>
   <div>
     <p>
-      <a-button type="primary" icon="plus" @click="setModalVisible(true)">添加组织架构</a-button>
+      <a-button type="primary" icon="plus" @click="setModalVisible(true)">新增组织架构</a-button>
     </p>
 
     <a-card :loading="mounting">
@@ -21,7 +21,7 @@
       :width="600"
       centered
       v-model="modalVisible"
-      :title="modalForm.id ? '编辑组织架构' : '添加组织架构'"
+      :title="modalForm.id ? '编辑组织架构' : '新增组织架构'"
       @cancel="setModalVisible(false)"
       @ok="onModalOk"
     >
@@ -122,7 +122,7 @@ export default {
     async fetchMenuTreeData() {
       this.loading = true;
       try {
-        const res = await this.$http({ method: "GET", url: "/menu/tree" });
+        const res = await this.$http({ method: "GET", url: "/system/menu/tree" });
         if (res.code !== 200) {
           this.$message.error(res.message);
           return;

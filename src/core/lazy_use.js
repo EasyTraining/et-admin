@@ -123,3 +123,6 @@ import "echarts/lib/component/tooltip";
 import "echarts/lib/component/title";
 import "echarts/lib/component/legend";
 Vue.component("v-chart", ECharts);
+
+import VueUeditorWrap from "vue-ueditor-wrap";
+Vue.component("vue-ueditor-wrap", VueUeditorWrap);
