@@ -185,15 +185,15 @@ export default {
       try {
         const res = await this.$http({
           method: "PUT",
-          url: `/exam/paper/${this.paperId}`,
-          data: { name: this.info.name, questions },
+          url: `/exam/paper/${this.paperId}/questions`,
+          data: { questions },
         });
         if (res.code !== 200) {
           this.$message.error(res.message);
           return;
         }
         this.$message.success(res.message);
-        await this.$router.push("/exam/paper");
+        await this.fetchDetail();
       } catch (e) {
         this.$message.error(e.message);
       } finally {
