@@ -1,26 +1,28 @@
 <template>
-  <pro-layout
-    v-bind="settings"
-    :menus="authorizedRoutes"
-    :collapsed="collapsed"
-    :mediaQuery="{}"
-    :isMobile="false"
-    :handleMediaQuery="none"
-    :handleCollapse="handleCollapse"
-  >
-    <template v-slot:menuHeaderRender>
-      <img src="../assets/logo.png" width="40" alt="" />
-      <h1>{{ title }}</h1>
-    </template>
-    <template v-slot:rightContentRender>
-      <right-content :top-menu="settings.layout === 'topmenu'" :is-mobile="false" :theme="settings.theme" />
-    </template>
-    <template v-slot:footerRender>
-      <span>Copyright © EasyTraining</span>
-    </template>
-    <page-header-wrapper />
-    <router-view />
-  </pro-layout>
+  <a-spin tip="数据接收中..." :spinning="loading">
+    <pro-layout
+      v-bind="settings"
+      :menus="authorizedRoutes"
+      :collapsed="collapsed"
+      :mediaQuery="{}"
+      :isMobile="false"
+      :handleMediaQuery="none"
+      :handleCollapse="handleCollapse"
+    >
+      <template v-slot:menuHeaderRender>
+        <img src="../assets/logo.png" width="40" alt="" />
+        <h1>{{ title }}</h1>
+      </template>
+      <template v-slot:rightContentRender>
+        <right-content :top-menu="settings.layout === 'topmenu'" :is-mobile="false" :theme="settings.theme" />
+      </template>
+      <template v-slot:footerRender>
+        <span>Copyright © EasyTraining</span>
+      </template>
+      <page-header-wrapper />
+      <router-view />
+    </pro-layout>
+  </a-spin>
 </template>
 
 <script>
@@ -43,9 +45,9 @@ export default {
   },
   data() {
     return {
-      authorizedRoutes: [],
-      menus: [],
+      loading: false,
       collapsed: false,
+      authorizedRoutes: [],
       title: setting.title,
       settings: {
         layout: setting.layout,
