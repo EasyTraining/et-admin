@@ -22,9 +22,6 @@
             @change="switchStatus(record)"
           />
         </template>
-        <template slot="update_at" slot-scope="text, record">
-          <span>{{ record.update_at | date }}</span>
-        </template>
         <template slot="action" slot-scope="text, record">
           <router-link :to="'/exam/library/' + record._id + '/questions'">题目管理</router-link>
           <a-divider type="vertical" />

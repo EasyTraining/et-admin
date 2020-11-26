@@ -13,7 +13,7 @@
         <a-tree-select
           v-model="formData.parent_id"
           :tree-data="treeData"
-          :replace-fields="{ title: 'name', key: '_id', value: '_id' }"
+          :replace-fields="{ title: 'title', key: '_id', value: '_id' }"
           :dropdown-style="{ maxHeight: '400px', overflow: 'auto' }"
           allow-clear
           tree-default-expand-all

@@ -1,17 +1,16 @@
 <template>
   <div :class="wrpCls">
-    <avatar-dropdown :menu="showMenu" :current-user="currentUser" :class="prefixCls" />
+    <avatar-dropdown :menu="showMenu" :current-user="user" :class="prefixCls" />
   </div>
 </template>
 
 <script>
 import AvatarDropdown from "./AvatarDropdown";
+import { mapState } from "vuex";
 
 export default {
   name: "RightContent",
-  components: {
-    AvatarDropdown,
-  },
+  components: { AvatarDropdown },
   props: {
     prefixCls: {
       type: String,
@@ -33,23 +32,18 @@ export default {
   data() {
     return {
       showMenu: true,
-      currentUser: {},
     };
   },
   computed: {
+    ...mapState({
+      user: (state) => state.app.user,
+    }),
     wrpCls() {
       return {
         "ant-pro-global-header-index-right": true,
         [`ant-pro-global-header-index-${this.isMobile || !this.topMenu ? "light" : this.theme}`]: true,
       };
     },
-  },
-  mounted() {
-    setTimeout(() => {
-      this.currentUser = {
-        name: "管理员",
-      };
-    }, 1500);
   },
 };
 </script>

@@ -21,9 +21,6 @@
             @change="switchStatus(record)"
           />
         </template>
-        <template slot="update_at" slot-scope="text, record">
-          <span>{{ record.update_at | date }}</span>
-        </template>
         <template slot="action" slot-scope="text, record">
           <a href="javascript:;" @click="onEdit(record)">编辑</a>
           <a-divider type="vertical" />

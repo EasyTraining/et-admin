@@ -1,7 +1,7 @@
 <template>
   <div>
     <p>
-      <a-button type="primary" icon="plus" @click="onAdd">新增部门</a-button>
+      <a-button type="primary" icon="plus" @click="onAdd">新增用户</a-button>
     </p>
 
     <a-card :loading="mounting">
@@ -22,6 +22,8 @@
           />
         </template>
         <template slot="action" slot-scope="text, record">
+          <a href="javascript:;" @click="onReset(record)">重置密码</a>
+          <a-divider type="vertical" />
           <a href="javascript:;" @click="onEdit(record)">编辑</a>
           <a-divider type="vertical" />
           <a-popconfirm title="删除以后无法恢复, 是否继续?" @confirm="onRemove(record)">
@@ -31,17 +33,19 @@
       </a-table>
     </a-card>
 
-    <update-modal :visible="visible" :initial-values="editedRecord" @cancel="closeModal" @ok="onModalOk" />
+    <update-modal :visible="editModalVisible" :id="currentUserId" @refresh="fetchTableData" @cancel="closeEditModal" />
+    <reset-modal :visible="resetModalVisible" :id="currentUserId" @refresh="fetchTableData" @cancel="closeResetModal" />
   </div>
 </template>
 
 <script>
 import { tableColumns } from "./const";
 import UpdateModal from "./components/UpdateModal";
+import ResetModal from "./components/ResetModal";
 
 export default {
   name: "OrgIndex",
-  components: { UpdateModal },
+  components: { UpdateModal, ResetModal },
   data() {
     return {
       mounting: false,
@@ -57,8 +61,9 @@ export default {
         total: 0,
       },
 
-      visible: false,
-      editedRecord: null,
+      currentUserId: "",
+      resetModalVisible: false,
+      editModalVisible: false,
     };
   },
   async mounted() {
@@ -73,18 +78,33 @@ export default {
     },
 
     onAdd() {
-      this.visible = true;
+      this.editModalVisible = true;
     },
 
-    onEdit(record) {
-      this.editedRecord = record;
-      this.visible = true;
+    onEdit({ _id }) {
+      this.currentUserId = _id;
+      this.editModalVisible = true;
+    },
+
+    closeEditModal() {
+      this.editModalVisible = false;
+      this.editedRecord = null;
+    },
+
+    onReset({ _id }) {
+      this.currentUserId = _id;
+      this.resetModalVisible = true;
+    },
+
+    closeResetModal() {
+      this.currentUserId = "";
+      this.resetModalVisible = false;
     },
 
     async onRemove({ _id }) {
       this.loading = true;
       try {
-        const res = await this.$http({ method: "DELETE", url: `/system/org/${_id}` });
+        const res = await this.$http({ method: "DELETE", url: `/system/user/${_id}` });
         if (res.code !== 200) {
           this.$message.error(res.message);
           return;
@@ -101,7 +121,7 @@ export default {
     async fetchTableData() {
       this.loading = true;
       try {
-        const res = await this.$http({ method: "GET", url: "/system/org" });
+        const res = await this.$http({ method: "GET", url: "/system/user" });
         if (res.code !== 200) {
           this.$message.error(res.message);
           return;
@@ -119,7 +139,7 @@ export default {
     async switchStatus({ _id, enable }) {
       this.loading = true;
       try {
-        const res = await this.$http({ method: "PUT", url: `/system/org/${_id}/enable`, data: { enable } });
+        const res = await this.$http({ method: "PUT", url: `/system/user/${_id}/enable`, data: { enable } });
         if (res.code !== 200) {
           this.$message.error(res.message);
           return;
@@ -130,11 +150,6 @@ export default {
       } finally {
         this.loading = false;
       }
-    },
-
-    closeModal() {
-      this.visible = false;
-      this.editedRecord = null;
     },
 
     async onModalOk() {

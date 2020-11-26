@@ -16,6 +16,7 @@ const app = {
     multiTab: true,
     routes: routes,
     authorizedRouteNames: [],
+    user: {},
   },
   mutations: {
     SIDEBAR_TYPE: (state, type) => {
@@ -57,6 +58,9 @@ const app = {
     SET_AUTHORIZED_ROUTE_NAMES: (state, payload) => {
       state.authorizedRouteNames = payload;
       storage.set("authorizedRouteNames", payload);
+    },
+    SET_USER: (state, payload) => {
+      state.user = payload;
     },
   },
 };

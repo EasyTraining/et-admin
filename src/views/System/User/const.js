@@ -1,20 +1,25 @@
 export const tableColumns = [
   {
-    title: "部门名称",
-    dataIndex: "name",
+    title: "用户昵称",
+    dataIndex: "nick_name",
   },
   {
-    title: "用户数",
-    dataIndex: "user_count",
+    title: "所属部门",
+    dataIndex: "org_name",
   },
   {
-    title: "部门描述",
-    dataIndex: "desc",
+    title: "手机号码",
+    dataIndex: "phone",
   },
   {
     title: "启用状态",
     width: 120,
     scopedSlots: { customRender: "enable" },
+  },
+  {
+    title: "上次登录时间",
+    width: 180,
+    dataIndex: "last_login_date",
   },
   {
     title: "更新时间",

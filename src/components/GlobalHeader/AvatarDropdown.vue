@@ -1,20 +1,11 @@
 <template>
-  <a-dropdown v-if="currentUser && currentUser.name" placement="bottomRight">
+  <a-dropdown v-if="currentUser && currentUser.nick_name" placement="bottomRight">
     <span class="ant-pro-account-avatar">
-      <span>{{ currentUser.name }}</span>
+      <span>{{ currentUser.nick_name }}</span>
     </span>
     <template v-slot:overlay>
       <a-menu class="ant-pro-drop-down menu" :selected-keys="[]">
-        <a-menu-item v-if="menu" key="center" @click="handleToCenter">
-          <a-icon type="user" />
-          个人中心
-        </a-menu-item>
-        <a-menu-item v-if="menu" key="settings" @click="handleToSettings">
-          <a-icon type="setting" />
-          个人设置
-        </a-menu-item>
-        <a-menu-divider v-if="menu" />
-        <a-menu-item key="logout" @click="handleLogout">
+        <a-menu-item key="logout" @click="logout">
           <a-icon type="logout" />
           退出登录
         </a-menu-item>
@@ -28,6 +19,7 @@
 
 <script>
 import { Modal } from "ant-design-vue";
+import { Cookies } from "@/utils";
 
 export default {
   name: "AvatarDropdown",
@@ -42,22 +34,23 @@ export default {
     },
   },
   methods: {
-    handleToCenter() {
-      this.$router.push({ path: "/account/center" });
+    toProfile() {
+      this.$router.push({ path: "/user/profile" });
     },
-    handleToSettings() {
-      this.$router.push({ path: "/account/settings" });
+
+    toResetPwd() {
+      this.$router.push({ path: "/user/reset-pwd" });
     },
-    handleLogout(e) {
+
+    logout() {
       Modal.confirm({
-        title: this.$t("layouts.usermenu.dialog.title"),
-        content: this.$t("layouts.usermenu.dialog.content"),
+        title: "提示",
+        content: "是否确认退出?",
         onOk: () => {
-          // return new Promise((resolve, reject) => {
-          //   setTimeout(Math.random() > 0.5 ? resolve : reject, 1500)
-          // }).catch(() => console.log('Oops errors!'))
-          return this.$store.dispatch("Logout").then(() => {
-            this.$router.push({ name: "login" });
+          return new Promise((resolve) => {
+            Cookies.remove("token");
+            this.$router.push("/login");
+            resolve();
           });
         },
         onCancel() {},

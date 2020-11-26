@@ -23,9 +23,6 @@
             @change="switchStatus(record)"
           />
         </template>
-        <template slot="update_at" slot-scope="text, record">
-          <span>{{ record.update_at | date }}</span>
-        </template>
         <template slot="action" slot-scope="text, record">
           <router-link :to="'/system/dict/edit/' + record._id">编辑</router-link>
           <a-divider type="vertical" />
@@ -62,8 +59,7 @@ const tableColumns = [
   {
     title: "更新时间",
     width: 180,
-    dataIndex: "update_at",
-    scopedSlots: { customRender: "update_at" },
+    dataIndex: "update_at_format",
   },
   {
     title: "操作",

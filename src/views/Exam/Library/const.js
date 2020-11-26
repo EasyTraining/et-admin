@@ -21,8 +21,7 @@ export const tableColumns = [
   {
     title: "更新时间",
     width: 180,
-    dataIndex: "update_at",
-    scopedSlots: { customRender: "update_at" },
+    dataIndex: "update_at_format",
   },
   {
     title: "操作",

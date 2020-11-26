@@ -15,13 +15,14 @@ export default {
   name: "app",
   data() {
     return {
+      loading: false,
       locale: zhCN,
     };
   },
-  mounted() {
+  async mounted() {
     if (process.env.NODE_ENV !== "production") {
       updateTheme(setting.primaryColor);
     }
-  },
+  }
 };
 </script>

@@ -21,12 +21,6 @@
             @change="switchStatus(record)"
           />
         </template>
-        <template slot="create_at" slot-scope="text, record">
-          <span>{{ record.create_at | date }}</span>
-        </template>
-        <template slot="update_at" slot-scope="text, record">
-          <span>{{ record.update_at | date }}</span>
-        </template>
         <template slot="action" slot-scope="text, record">
           <router-link :to="'/exam/paper/' + record._id + '/questions'">题目管理</router-link>
           <a-divider type="vertical" />
@@ -72,9 +66,9 @@
 </template>
 
 <script>
+import { _ } from "@/utils";
 import { tableColumns } from "./const";
 import { modalRules } from "./const";
-import { _ } from "@/utils";
 
 export default {
   name: "PaperIndex",

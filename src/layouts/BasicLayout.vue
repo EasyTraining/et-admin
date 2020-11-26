@@ -1,7 +1,7 @@
 <template>
   <pro-layout
     v-bind="settings"
-    :menus="menus"
+    :menus="authorizedRoutes"
     :collapsed="collapsed"
     :mediaQuery="{}"
     :isMobile="false"
@@ -25,9 +25,15 @@
 
 <script>
 import { mapState } from "vuex";
+import TreeNodeUtils from "tree-node-utils";
 import RightContent from "@/components/GlobalHeader/RightContent";
 import GlobalFooter from "@/components/GlobalFooter";
 import setting from "@/setting";
+
+const treeUtils = new TreeNodeUtils({
+  childrenField: "children",
+  keyField: "id",
+});
 
 export default {
   name: "BasicLayout",
@@ -37,9 +43,8 @@ export default {
   },
   data() {
     return {
-      // base
+      authorizedRoutes: [],
       menus: [],
-      // 侧栏收起状态
       collapsed: false,
       title: setting.title,
       settings: {
@@ -57,22 +62,48 @@ export default {
   },
   computed: {
     ...mapState({
-      // 动态主路由
       routes: (state) => state.app.routes,
     }),
   },
   created() {
-    const routes = this.routes.find((item) => item.path === "/");
-    this.menus = (routes && routes.children) || [];
     this.$watch("collapsed", () => {
       this.$store.commit("SIDEBAR_TYPE", this.collapsed);
     });
+  },
+  async mounted() {
+    await this.getUserInfo();
   },
   methods: {
     none() {},
 
     handleCollapse(val) {
       this.collapsed = val;
+    },
+
+    getAuthorizedRoutes(authorizedRouteNames) {
+      const root = (this.routes || []).find((item) => item.path === "/");
+      this.authorizedRoutes = treeUtils.filterNodes(root.children || [], (node) => {
+        return authorizedRouteNames.includes(node.name);
+      });
+    },
+
+    async getUserInfo() {
+      this.loading = true;
+      try {
+        const res = await this.$http({ method: "GET", url: "/user/info" });
+        if (res.code !== 200) {
+          await this.$router.push("/login");
+          return;
+        }
+        const { menu_names } = res.data;
+        await this.$store.commit("SET_USER", res.data);
+        await this.$store.commit("SET_AUTHORIZED_ROUTE_NAMES", menu_names);
+        await this.getAuthorizedRoutes(menu_names);
+      } catch (e) {
+        this.$message.error(e.message);
+      } finally {
+        this.loading = false;
+      }
     },
   },
 };

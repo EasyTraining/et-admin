@@ -284,6 +284,12 @@ export default [
             meta: { title: "部门管理" },
           },
           {
+            name: "/system/user",
+            path: "/system/user",
+            component: () => import("@/views/System/User/Index"),
+            meta: { title: "用户管理" },
+          },
+          {
             name: "/system/menu",
             path: "/system/menu",
             component: () => import("@/views/System/Menu/Index"),
