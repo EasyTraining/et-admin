@@ -1,19 +1,7 @@
 <template>
   <div>
-    <a-breadcrumb>
-      <a-breadcrumb-item>
-        <router-link to="/">控制台</router-link>
-      </a-breadcrumb-item>
-      <a-breadcrumb-item>
-        <router-link to="/exam/paper">试卷管理</router-link>
-      </a-breadcrumb-item>
-      <a-breadcrumb-item>{{ paperName }}</a-breadcrumb-item>
-      <a-breadcrumb-item>题目管理</a-breadcrumb-item>
-    </a-breadcrumb>
-
     <div class="page__actions">
       <a-button type="primary" icon="plus" @click="modalVisible = true">新增题目</a-button>
-      <a-button :loading="submitting" type="primary" icon="save" @click="submit">保存</a-button>
     </div>
     <a-card>
       <a-table :columns="tableColumns" row-key="_id" :data-source="tableData" :loading="loading" :pagination="false">
@@ -33,6 +21,10 @@
         </div>
       </a-table>
     </a-card>
+
+    <footer-tool-bar>
+      <a-button :loading="submitting" type="primary" icon="save" @click="submit">保存</a-button>
+    </footer-tool-bar>
 
     <a-modal
       :keyboard="false"
@@ -67,8 +59,8 @@
 </template>
 
 <script>
-import { questionColumns } from "./const";
 import { _ } from "@/utils";
+import { questionColumns } from "./const";
 
 export default {
   name: "PaperForm",
@@ -173,10 +165,6 @@ export default {
       });
       this.tableData = questions;
       this.modalVisible = false;
-    },
-
-    cancel() {
-      this.$router.go(-1);
     },
 
     async submit() {

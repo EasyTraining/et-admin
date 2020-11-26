@@ -18,6 +18,7 @@
     <template v-slot:footerRender>
       <span>Copyright © EasyTraining</span>
     </template>
+    <page-header-wrapper />
     <router-view />
   </pro-layout>
 </template>
@@ -47,6 +48,7 @@ export default {
         primaryColor: setting.primaryColor,
         fixedHeader: setting.fixedHeader,
         fixSiderbar: setting.fixSiderbar,
+        siderWidth: setting.siderWidth,
         colorWeak: setting.colorWeak,
         hideHintAlert: false,
         hideCopyButton: false,

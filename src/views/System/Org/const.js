@@ -1,25 +1,26 @@
 export const tableColumns = [
   {
-    title: "名称",
+    title: "部门名称",
     dataIndex: "name",
   },
   {
-    title: "描述",
+    title: "部门描述",
     dataIndex: "desc",
   },
   {
+    title: "启用状态",
+    width: 120,
+    scopedSlots: { customRender: "enable" },
+  },
+  {
     title: "更新时间",
+    width: 180,
     dataIndex: "update_at",
+    scopedSlots: { customRender: "update_at" },
   },
   {
     title: "操作",
-    width: 200,
+    width: 180,
     scopedSlots: { customRender: "action" },
   },
 ];
-
-export const modalRules = {
-  parent: [{ required: true, message: "请选择父节点" }],
-  menu: [{ required: true, message: "请选择菜单" }],
-  name: [{ required: true, message: "请填写名称" }],
-};

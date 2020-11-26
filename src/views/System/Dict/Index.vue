@@ -1,26 +1,37 @@
 <template>
   <div>
+    <p>
+      <router-link to="/system/dict/add">
+        <a-button type="primary" icon="plus">新增字典</a-button>
+      </router-link>
+    </p>
+
     <a-card :loading="mounting">
-      <p>
-        <span>字典类型：</span>
-        <a-select
-          v-model="selectedDictType"
-          style="width: 200px"
-          show-search
-          placeholder="请选择字典类型"
-          @change="onSelectDictType"
-        >
-          <a-select-option v-for="(item, index) in dictTypes" :key="index" :value="item">{{ item }}</a-select-option>
-        </a-select>
-      </p>
-      <a-table :columns="tableColumns" row-key="id" :data-source="tableData" :loading="loading">
-        <template slot="status" slot-scope="text, record">
+      <a-table
+        :columns="tableColumns"
+        row-key="_id"
+        :data-source="tableData"
+        :loading="loading"
+        :pagination="tablePager"
+        @change="onTableChange"
+      >
+        <template slot="enable" slot-scope="text, record">
           <a-switch
-            :checked="record.enable"
+            v-model="record.enable"
             checked-children="已启用"
             un-checked-children="已停用"
-            @change="switchStatus($event, record.id)"
+            @change="switchStatus(record)"
           />
+        </template>
+        <template slot="update_at" slot-scope="text, record">
+          <span>{{ record.update_at | date }}</span>
+        </template>
+        <template slot="action" slot-scope="text, record">
+          <router-link :to="'/system/dict/edit/' + record._id">编辑</router-link>
+          <a-divider type="vertical" />
+          <a-popconfirm title="删除以后无法恢复, 是否继续?" @confirm="remove(record)">
+            <a href="javascript:;">删除</a>
+          </a-popconfirm>
         </template>
       </a-table>
     </a-card>
@@ -28,7 +39,38 @@
 </template>
 
 <script>
-import { tableColumns } from "./const";
+const tableColumns = [
+  {
+    title: "字典编码",
+    width: 150,
+    dataIndex: "code",
+  },
+  {
+    title: "字典名称",
+    width: 100,
+    dataIndex: "name",
+  },
+  {
+    title: "字典描述",
+    dataIndex: "desc",
+  },
+  {
+    title: "启用状态",
+    width: 120,
+    scopedSlots: { customRender: "enable" },
+  },
+  {
+    title: "更新时间",
+    width: 180,
+    dataIndex: "update_at",
+    scopedSlots: { customRender: "update_at" },
+  },
+  {
+    title: "操作",
+    width: 180,
+    scopedSlots: { customRender: "action" },
+  },
+];
 
 export default {
   name: "OrgIndex",
@@ -37,50 +79,39 @@ export default {
       mounting: false,
       loading: false,
 
-      dictTypes: [],
-      selectedDictType: undefined,
-
       tableColumns,
       tableData: [],
+      tablePager: {
+        current: 1,
+        pageSize: 30,
+        showSizeChanger: true,
+        showQuickJumper: true,
+        total: 0,
+      },
     };
   },
   async mounted() {
-    this.mounting = true;
-    await this.fetchDictTypes();
-    this.mounting = false;
+    await this.fetchTableData();
   },
   methods: {
-    onSelectDictType() {
-      this.fetchList();
+    onTableChange(pagination, filters, sorter) {
+      const { current, pageSize } = pagination;
+      this.tablePager.current = current;
+      this.tablePager.pageSize = pageSize;
+      this.fetchTableData();
     },
 
-    async fetchDictTypes() {
-      try {
-        const res = await this.$http({ method: "GET", url: "/system/dic_types" });
-        if (res.code !== 200) {
-          this.$message.error(res.message);
-          return;
-        }
-        this.dictTypes = res.data || [];
-        if (this.dictTypes.length) {
-          this.selectedDictType = this.dictTypes[0];
-          await this.fetchList();
-        }
-      } catch (e) {
-        this.$message.error(e.message);
-      }
-    },
-
-    async fetchList() {
+    async fetchTableData() {
       this.loading = true;
       try {
-        const fd = { current: 1, pagesize: 1000, type: this.selectedDictType };
-        const res = await this.$http({ method: "POST", url: "/system/dic_list", data: fd });
+        const res = await this.$http({ method: "GET", url: "/system/dict" });
         if (res.code !== 200) {
           this.$message.error(res.message);
           return;
         }
-        this.tableData = res.data || [];
+        const { total, data } = res.data;
+        this.tableData = data;
+        this.tablePager.total = total;
       } catch (e) {
         this.$message.error(e.message);
       } finally {
@@ -88,16 +119,32 @@ export default {
       }
     },
 
-    async switchStatus(enable, id) {
+    async remove({ _id }) {
       this.loading = true;
       try {
-        const res = await this.$http({ method: "POST", url: "/system/dic_update", data: { id, enable } });
+        const res = await this.$http({ method: "DELETE", url: `/system/dict/${_id}` });
         if (res.code !== 200) {
           this.$message.error(res.message);
           return;
         }
-        this.$message.success("操作成功");
-        await this.fetchList();
+        this.$message.success(res.message);
+        await this.fetchTableData();
+      } catch (e) {
+        this.$message.error(e.message);
+      } finally {
+        this.loading = false;
+      }
+    },
+
+    async switchStatus({ _id, enable }) {
+      this.loading = true;
+      try {
+        const res = await this.$http({ method: "PUT", url: `/system/dict/${_id}/enable`, data: { enable } });
+        if (res.code !== 200) {
+          this.$message.error(res.message);
+          return;
+        }
+        await this.fetchTableData();
       } catch (e) {
         this.$message.error(e.message);
       } finally {

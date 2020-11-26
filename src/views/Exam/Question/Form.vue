@@ -1,12 +1,5 @@
 <template>
   <div class="card-container" v-if="info">
-    <a-breadcrumb>
-      <a-breadcrumb-item>控制台</a-breadcrumb-item>
-      <a-breadcrumb-item>试卷管理</a-breadcrumb-item>
-      <a-breadcrumb-item>{{ info.name }}</a-breadcrumb-item>
-      <a-breadcrumb-item>题目管理</a-breadcrumb-item>
-    </a-breadcrumb>
-
     <a-tabs type="card">
       <a-tab-pane key="1" tab="复制导入">
         <paste-tab :info="info" />

@@ -281,7 +281,7 @@ export default [
             name: "/system/org",
             path: "/system/org",
             component: () => import("@/views/System/Org/Index"),
-            meta: { title: "组织架构" },
+            meta: { title: "部门管理" },
           },
           {
             name: "/system/menu",
@@ -294,6 +294,20 @@ export default [
             path: "/system/dict",
             component: () => import("@/views/System/Dict/Index"),
             meta: { title: "字典管理" },
+          },
+          {
+            hidden: true,
+            name: "/system/dict/add",
+            path: "/system/dict/add",
+            component: () => import("@/views/System/Dict/Form"),
+            meta: { title: "新增字典" },
+          },
+          {
+            hidden: true,
+            name: "/system/dict/edit/:id",
+            path: "/system/dict/edit/:id",
+            component: () => import("@/views/System/Dict/Form"),
+            meta: { title: "编辑字典" },
           },
           {
             name: "/system/config",

@@ -1,16 +1,5 @@
 <template>
   <div>
-    <a-breadcrumb>
-      <a-breadcrumb-item>
-        <router-link to="/">控制台</router-link>
-      </a-breadcrumb-item>
-      <a-breadcrumb-item>
-        <router-link to="/exam/library">试卷管理</router-link>
-      </a-breadcrumb-item>
-      <a-breadcrumb-item>{{ info.name }}</a-breadcrumb-item>
-      <a-breadcrumb-item>题目管理</a-breadcrumb-item>
-    </a-breadcrumb>
-
     <p>
       <router-link :to="'/exam/library/' + info._id + '/questions/add'">
         <a-button type="primary" icon="plus">新增题目</a-button>
@@ -19,7 +8,6 @@
 
     <a-card>
       <a-table
-        size="small"
         :columns="tableColumns"
         row-key="_id"
         :data-source="info.questions"

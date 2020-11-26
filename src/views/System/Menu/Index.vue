@@ -1,107 +1,99 @@
 <template>
   <div>
     <p>
-      <a-button type="primary" icon="plus" @click="setModalVisible(true)">新增菜单</a-button>
+      <a-button type="primary" icon="plus" @click="onAdd">新增菜单</a-button>
     </p>
 
     <a-card :loading="mounting">
-      <a-table :columns="tableColumns" row-key="id" :data-source="tableData" :loading="loading">
+      <a-table
+        :columns="tableColumns"
+        row-key="_id"
+        :data-source="tableData"
+        :loading="loading"
+        :pagination="tablePager"
+        @change="onTableChange"
+      >
+        <template slot="enable" slot-scope="text, record">
+          <a-switch
+            v-model="record.enable"
+            checked-children="已启用"
+            un-checked-children="已停用"
+            @change="switchStatus(record)"
+          />
+        </template>
+        <template slot="update_at" slot-scope="text, record">
+          <span>{{ record.update_at | date }}</span>
+        </template>
         <template slot="action" slot-scope="text, record">
-          <a href="javascript:;" @click="showEditModal(record)">编辑</a>
+          <a href="javascript:;" @click="onEdit(record)">编辑</a>
           <a-divider type="vertical" />
-          <a-popconfirm title="删除以后无法恢复, 是否继续?" @confirm="remove(record)">
+          <a-popconfirm title="删除以后无法恢复, 是否继续?" @confirm="onRemove(record)">
             <a href="javascript:;">删除</a>
           </a-popconfirm>
         </template>
       </a-table>
     </a-card>
 
-    <a-modal
-      :keyboard="false"
-      :width="600"
-      centered
-      v-model="modalVisible"
-      :title="modalForm.id ? '编辑菜单' : '新增菜单'"
-      @cancel="setModalVisible(false)"
-      @ok="onModalOk"
-    >
-      <a-form-model
-        ref="modalForm"
-        :model="modalForm"
-        :rules="modalRules"
-        :label-col="{ span: 6 }"
-        :wrapper-col="{ span: 14 }"
-      >
-        <a-form-model-item label="上级菜单" prop="parent">
-          <a-tree-select
-            v-model="modalForm.parent"
-            :tree-data="menuTreeData"
-            :replace-fields="{ title: 'title', key: 'id', value: 'id' }"
-            :dropdown-style="{ maxHeight: '400px', overflow: 'auto' }"
-            allow-clear
-            tree-default-expand-all
-            style="width: 100%"
-            search-placeholder="请选择上级菜单"
-          />
-        </a-form-model-item>
-        <a-form-model-item label="名称" prop="title">
-          <a-input v-model="modalForm.title" placeholder="请填写名称" />
-        </a-form-model-item>
-        <a-form-model-item label="标识" prop="name">
-          <a-input v-model="modalForm.name" placeholder="请填写标识" />
-        </a-form-model-item>
-        <a-form-model-item label="附加数据" prop="meta">
-          <a-textarea v-model="modalForm.meta" :auto-size="{ minRows: 3, maxRows: 5 }" placeholder="请填写描述" />
-        </a-form-model-item>
-      </a-form-model>
-    </a-modal>
+    <update-modal :visible="visible" :initial-values="editedRecord" @cancel="closeModal" @ok="onModalOk" />
   </div>
 </template>
 
 <script>
-import { _ } from "@/utils";
-import { tableColumns, modalRules } from "./const";
+import { tableColumns } from "./const";
+import UpdateModal from "./components/UpdateModal";
 
 export default {
-  name: "MenuIndex",
+  name: "OrgIndex",
+  components: { UpdateModal },
   data() {
     return {
       mounting: false,
       loading: false,
 
-      // 表格
       tableColumns,
       tableData: [],
-
-      // 弹窗
-      modalVisible: false,
-      menuTreeData: [],
-      modalForm: {
-        id: "",
-        parent: undefined,
-        title: "",
-        name: "",
-        meta: "",
+      tablePager: {
+        current: 1,
+        pageSize: 30,
+        showSizeChanger: true,
+        showQuickJumper: true,
+        total: 0,
       },
-      modalRules,
+
+      visible: false,
+      editedRecord: null,
     };
   },
   async mounted() {
-    this.mounting = true;
-    await this.fetchTreeData();
-    await this.fetchList();
-    this.mounting = false;
+    await this.fetchTableData();
   },
   methods: {
-    async fetchTreeData() {
+    onTableChange(pagination, filters, sorter) {
+      const { current, pageSize } = pagination;
+      this.tablePager.current = current;
+      this.tablePager.pageSize = pageSize;
+      this.fetchTableData();
+    },
+
+    onAdd() {
+      this.visible = true;
+    },
+
+    onEdit(record) {
+      this.editedRecord = record;
+      this.visible = true;
+    },
+
+    async onRemove({ _id }) {
       this.loading = true;
       try {
-        const res = await this.$http({ method: "GET", url: "/system/menu/tree" });
+        const res = await this.$http({ method: "DELETE", url: `/system/menu/${_id}` });
         if (res.code !== 200) {
           this.$message.error(res.message);
           return;
         }
-        this.menuTreeData = [res.data];
+        this.$message.success(res.message);
+        await this.fetchTableData();
       } catch (e) {
         this.$message.error(e.message);
       } finally {
@@ -109,17 +101,17 @@ export default {
       }
     },
 
-    async fetchList() {
+    async fetchTableData() {
       this.loading = true;
       try {
-        const fd = { current: 1, pagesize: 1000 };
-        const res = await this.$http({ method: "POST", url: "/system/menu/get", data: fd });
+        const res = await this.$http({ method: "GET", url: "/system/menu" });
         if (res.code !== 200) {
           this.$message.error(res.message);
           return;
         }
-        const tableData = (res.data || []).filter((item) => item.title !== "菜单目录");
-        this.tableData = tableData;
+        const { total, data } = res.data;
+        this.tableData = data;
+        this.tablePager.total = total;
       } catch (e) {
         this.$message.error(e.message);
       } finally {
@@ -127,16 +119,15 @@ export default {
       }
     },
 
-    async remove({ id }) {
+    async switchStatus({ _id, enable }) {
       this.loading = true;
       try {
-        const res = await this.$http({ method: "DELETE", url: `/system/menu?id=${id}` });
+        const res = await this.$http({ method: "PUT", url: `/system/menu/${_id}/enable`, data: { enable } });
         if (res.code !== 200) {
           this.$message.error(res.message);
           return;
         }
-        this.$message.success("操作成功");
-        await this.fetchList();
+        await this.fetchTableData();
       } catch (e) {
         this.$message.error(e.message);
       } finally {
@@ -144,43 +135,13 @@ export default {
       }
     },
 
-    setModalVisible(visible) {
-      this.modalVisible = visible;
-      if (!visible) {
-        this.modalForm = {
-          id: "",
-          parent: undefined,
-          title: "",
-          name: "",
-          meta: "",
-        };
-        this.$refs.modalForm.resetFields();
-      }
+    closeModal() {
+      this.visible = false;
+      this.editedRecord = null;
     },
 
-    showEditModal(data) {
-      this.modalForm = _.cloneDeep(data);
-      this.setModalVisible(true);
-    },
-
-    onModalOk() {
-      this.$refs.modalForm.validate(async (valid) => {
-        if (!valid) return;
-        try {
-          const fd = _.cloneDeep(this.modalForm);
-          if (!fd.id) delete fd.id;
-          const res = await this.$http({ method: "POST", url: "/system/menu", data: fd });
-          if (res.code !== 200) {
-            this.$message.error(res.message);
-            return;
-          }
-          this.$message.success("操作成功");
-          this.setModalVisible(false);
-          await this.fetchList();
-        } catch (e) {
-          this.$message.error(e.message);
-        }
-      });
+    async onModalOk() {
+      await this.fetchTableData();
     },
   },
 };

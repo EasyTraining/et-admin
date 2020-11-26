@@ -5,20 +5,18 @@ export const tableColumns = [
   },
   {
     title: "试卷状态",
+    width: 120,
     dataIndex: "enable",
     scopedSlots: { customRender: "enable" },
   },
   {
     title: "题目数",
+    width: 100,
     dataIndex: "questions_count",
   },
   {
-    title: "创建时间",
-    dataIndex: "create_at",
-    scopedSlots: { customRender: "create_at" },
-  },
-  {
     title: "更新时间",
+    width: 180,
     dataIndex: "update_at",
     scopedSlots: { customRender: "update_at" },
   },
@@ -68,7 +66,7 @@ export const questionColumns = [
   },
   {
     title: "操作",
-    width: 190,
+    width: 180,
     scopedSlots: { customRender: "action" },
   },
 ]

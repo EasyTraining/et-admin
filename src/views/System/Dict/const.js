@@ -8,11 +8,16 @@ export const tableColumns = [
     dataIndex: "desc",
   },
   {
-    title: "更新时间",
-    dataIndex: "update_at",
-  },
-  {
     title: "状态",
     scopedSlots: { customRender: "status" },
   },
+  {
+    title: "更新时间",
+    dataIndex: "update_at",
+  },
 ];
+
+export const formRules = {
+  code: [{ required: true, message: "请填写字典编码" }],
+  name: [{ required: true, message: "请填写字典名称" }],
+};

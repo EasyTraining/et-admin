@@ -157,11 +157,9 @@
       </a-form-model-item>
     </a-form-model>
 
-    <br />
-    <p class="text-center">
-      <a-button :loading="submitting" type="default" @click="cancel">返回</a-button>
+    <footer-tool-bar>
       <a-button :loading="submitting" type="primary" icon="save" @click="submit">保存</a-button>
-    </p>
+    </footer-tool-bar>
   </div>
 </template>
 
@@ -218,10 +216,6 @@ export default {
       const type = evt.target.value;
       this.formData.real_answer = Util.getRealAnswer(type);
       this.formData.options = Util.getOptions(type);
-    },
-
-    cancel() {
-      this.$router.go(-1);
     },
 
     addOption() {

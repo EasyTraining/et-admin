@@ -1,12 +1,5 @@
 <template>
   <div>
-    <a-breadcrumb>
-      <a-breadcrumb-item>
-        <router-link to="/">控制台</router-link>
-      </a-breadcrumb-item>
-      <a-breadcrumb-item>试卷管理</a-breadcrumb-item>
-    </a-breadcrumb>
-
     <p>
       <a-button type="primary" icon="plus" @click="setModalVisible(true)">新增试卷</a-button>
     </p>
