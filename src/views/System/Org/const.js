@@ -4,10 +4,6 @@ export const tableColumns = [
     dataIndex: "name",
   },
   {
-    title: "用户数",
-    dataIndex: "user_count",
-  },
-  {
     title: "部门描述",
     dataIndex: "desc",
   },
