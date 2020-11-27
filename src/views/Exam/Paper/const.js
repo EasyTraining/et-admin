@@ -17,7 +17,7 @@ export const tableColumns = [
   {
     title: "更新时间",
     width: 180,
-    dataIndex: "update_at_format",
+    dataIndex: "update_date",
   },
   {
     title: "操作",

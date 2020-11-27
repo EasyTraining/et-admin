@@ -9,7 +9,5 @@ ssh root@101.200.215.84 "rm -rf /home/et-admin/*; exit;"
 ### 上传文件
 scp -r ./dist/* root@101.200.215.84:/home/et-admin
 
-## 开启服务
-ssh root@101.200.215.84 "nohup /home/et-admin/start.sh 2>1 &"
 echo "✅发布成功"
 exit
