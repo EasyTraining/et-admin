@@ -5,6 +5,7 @@ import { VueAxios } from "./axios";
 const request = axios.create({
   baseURL: process.env.VUE_APP_API_URL,
   timeout: 6000,
+  withCredentials: true,
 });
 
 request.interceptors.request.use(
