@@ -1,11 +1,15 @@
 export const tableColumns = [
   {
-    title: "部门名称",
-    dataIndex: "name",
+    title: "文章标题",
+    dataIndex: "title",
   },
   {
-    title: "部门描述",
-    dataIndex: "remark",
+    title: "文章描述",
+    dataIndex: "description",
+  },
+  {
+    title: "已读数",
+    dataIndex: "read_count",
   },
   {
     title: "启用状态",

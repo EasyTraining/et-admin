@@ -36,12 +36,12 @@
       <a-form-model-item label="启用状态" prop="enable">
         <a-switch v-model="formData.enable" checked-children="已启用" un-checked-children="已停用" />
       </a-form-model-item>
-      <a-form-model-item label="用户简介" prop="desc">
+      <a-form-model-item label="用户备注" prop="remark">
         <a-textarea
-          v-model="formData.desc"
+          v-model="formData.remark"
           :max-length="300"
           :auto-size="{ minRows: 3, maxRows: 5 }"
-          placeholder="请填写用户简介"
+          placeholder="请填写用户备注"
         />
       </a-form-model-item>
     </a-form-model>
@@ -74,7 +74,7 @@ export default {
         nick_name: "",
         phone: "",
         enable: true,
-        desc: "",
+        remark: "",
       },
       formRules,
     };
@@ -159,7 +159,7 @@ export default {
         nick_name: "",
         phone: "",
         enable: true,
-        desc: "",
+        remark: "",
       };
       this.$refs.form.resetFields();
     },

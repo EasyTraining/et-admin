@@ -5,7 +5,7 @@ export const tableColumns = [
   },
   {
     title: "描述",
-    dataIndex: "desc",
+    dataIndex: "remark",
   },
   {
     title: "状态",

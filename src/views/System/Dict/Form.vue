@@ -11,12 +11,12 @@
         <a-form-model-item label="启用状态" prop="enable">
           <a-switch v-model="formData.enable" checked-children="已启用" un-checked-children="已停用" />
         </a-form-model-item>
-        <a-form-model-item label="字典简介" prop="desc">
+        <a-form-model-item label="字典备注" prop="remark">
           <a-textarea
-            v-model="formData.desc"
+            v-model="formData.remark"
             :max-length="300"
             :auto-size="{ minRows: 3, maxRows: 5 }"
-            placeholder="请填写字典简介"
+            placeholder="请填写字典备注"
           />
         </a-form-model-item>
       </a-card>
@@ -50,7 +50,7 @@ export default {
         code: "",
         name: "",
         enable: true,
-        desc: "",
+        remark: "",
         options: [],
       },
       formRules,

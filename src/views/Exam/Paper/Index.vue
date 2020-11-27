@@ -52,12 +52,12 @@
         <a-form-model-item label="试卷名称" prop="name">
           <a-input v-model="modalForm.name" :max-length="100" placeholder="请填写试卷名称" />
         </a-form-model-item>
-        <a-form-model-item label="试卷简介" prop="desc">
+        <a-form-model-item label="试卷备注" prop="remark">
           <a-textarea
-            v-model="modalForm.desc"
+            v-model="modalForm.remark"
             :max-length="300"
             :auto-size="{ minRows: 3, maxRows: 5 }"
-            placeholder="请填写试卷简介"
+            placeholder="请填写试卷备注"
           />
         </a-form-model-item>
       </a-form-model>
@@ -90,7 +90,7 @@ export default {
       modalForm: {
         id: "",
         name: "",
-        desc: "",
+        remark: "",
       },
       modalRules,
     };
@@ -164,7 +164,7 @@ export default {
         this.modalForm = {
           id: "",
           name: "",
-          desc: "",
+          remark: "",
         };
         this.$refs.modalForm.resetFields();
       }

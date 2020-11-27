@@ -1,10 +1,10 @@
 export const tableColumns = [
   {
-    title: "部门名称",
+    title: "分类名称",
     dataIndex: "name",
   },
   {
-    title: "部门描述",
+    title: "分类描述",
     dataIndex: "remark",
   },
   {

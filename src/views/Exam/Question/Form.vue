@@ -1,10 +1,10 @@
 <template>
   <div class="card-container" v-if="info">
     <a-tabs type="card">
-      <a-tab-pane key="1" tab="复制导入">
-        <paste-tab :info="info" />
-      </a-tab-pane>
-      <a-tab-pane key="2" tab="单题导入">
+<!--      <a-tab-pane key="1" tab="复制导入">-->
+<!--        <paste-tab :info="info" />-->
+<!--      </a-tab-pane>-->
+      <a-tab-pane key="1" tab="单题导入">
         <manual-tab :info="info" />
       </a-tab-pane>
     </a-tabs>
