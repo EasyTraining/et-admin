@@ -46,7 +46,7 @@ export default {
     return {
       formData: {
         uuid: "",
-        _id: "",
+        id: "",
         key: "",
         value: "",
         sort: 1,
@@ -74,7 +74,7 @@ export default {
       this.$emit("cancel", null);
       this.formData = {
         uuid: "",
-        _id: "",
+        id: "",
         key: "",
         value: "",
         sort: 1,

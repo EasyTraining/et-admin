@@ -4,7 +4,7 @@
     :width="600"
     centered
     :visible="visible"
-    :title="formData._id ? '编辑部门' : '新增部门'"
+    :title="formData.id ? '编辑部门' : '新增部门'"
     @cancel="onCancel"
     @ok="onOk"
   >
@@ -13,7 +13,7 @@
         <a-tree-select
           v-model="formData.parent_id"
           :tree-data="orgTreeData"
-          :replace-fields="{ title: 'name', key: '_id', value: '_id' }"
+          :replace-fields="{ title: 'name', key: 'id', value: 'id' }"
           :dropdown-style="{ maxHeight: '400px', overflow: 'auto' }"
           allow-clear
           tree-default-expand-all
@@ -28,7 +28,7 @@
         <a-tree-select
           v-model="formData.menu_names"
           :tree-data="menuTreeData"
-          :replace-fields="{ title: 'title', key: '_id', value: 'name' }"
+          :replace-fields="{ title: 'title', key: 'id', value: 'name' }"
           :dropdown-style="{ maxHeight: '400px', overflow: 'auto' }"
           allow-clear
           tree-default-expand-all
@@ -67,7 +67,7 @@ export default {
       orgTreeData: [],
       menuTreeData: [],
       formData: {
-        _id: "",
+        id: "",
         parent_id: "",
         name: "",
         enable: true,
@@ -125,9 +125,9 @@ export default {
     async onOk() {
       this.loading = true;
       try {
-        const { _id, ...rest } = this.formData;
-        const res = _id
-          ? await this.$http({ method: "PUT", url: `/system/org/${_id}`, data: rest })
+        const { id, ...rest } = this.formData;
+        const res = id
+          ? await this.$http({ method: "PUT", url: `/system/org/${id}`, data: rest })
           : await this.$http({ method: "POST", url: "/system/org", data: rest });
         if (res.code !== 200) {
           this.$message.error(res.message);
@@ -147,7 +147,7 @@ export default {
     onCancel() {
       this.$emit("cancel", null);
       this.formData = {
-        _id: "",
+        id: "",
         parent_id: "",
         name: "",
         enable: true,

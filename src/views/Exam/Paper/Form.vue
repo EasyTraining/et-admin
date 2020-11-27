@@ -4,7 +4,7 @@
       <a-button type="primary" icon="plus" @click="modalVisible = true">新增题目</a-button>
     </div>
     <a-card>
-      <a-table :columns="tableColumns" row-key="_id" :data-source="tableData" :loading="loading" :pagination="false">
+      <a-table :columns="tableColumns" row-key="id" :data-source="tableData" :loading="loading" :pagination="false">
         <template slot="sort" slot-scope="text, record">
           <a-input-number v-model="record.sort" size="small" :min="1" style="width: 70px" @blur="sort(record)" />
         </template>
@@ -38,8 +38,8 @@
       <div class="library__wrap">
         <a-row :gutter="15">
           <a-tabs v-model="activeLibraryId" tab-position="left">
-            <a-tab-pane v-for="library in libraryList" :key="library._id" :tab="library.name">
-              <div class="question" v-for="question in library.questions" :key="question._id">
+            <a-tab-pane v-for="library in libraryList" :key="library.id" :tab="library.name">
+              <div class="question" v-for="question in library.questions" :key="question.id">
                 <div class="question__ckb">
                   <a-checkbox v-model="question.checked" />
                 </div>
@@ -96,10 +96,10 @@ export default {
           return;
         }
         const { name, questions } = res.data;
-        const selectedQuestionIds = questions.map((item) => item._id);
+        const selectedQuestionIds = questions.map((item) => item.id);
         this.libraryList = this.libraryList.map((library) => {
           library.questions = (library.questions || []).map((question) => {
-            question.checked = selectedQuestionIds.includes(question._id);
+            question.checked = selectedQuestionIds.includes(question.id);
             return question;
           });
           return library;
@@ -123,7 +123,7 @@ export default {
         }
         this.libraryList = res.data;
         if (this.libraryList.length) {
-          this.activeLibraryId = this.libraryList[0]._id;
+          this.activeLibraryId = this.libraryList[0].id;
         }
       } catch (e) {
         this.$message.error(e.message);
@@ -136,11 +136,11 @@ export default {
       this.tableData = this.tableData.sort((a, b) => a.sort - b.sort);
     },
 
-    remove({ _id }) {
-      this.tableData = this.tableData.filter((item) => item._id !== _id);
+    remove({ id }) {
+      this.tableData = this.tableData.filter((item) => item.id !== id);
       this.libraryList = this.libraryList.map((library) => {
         library.questions = (library.questions || []).map((question) => {
-          if (question._id === _id) {
+          if (question.id === id) {
             question.checked = false;
           }
           return question;
@@ -169,7 +169,7 @@ export default {
 
     async submit() {
       this.submitting = true;
-      const questions = _.cloneDeep(this.tableData).map((item) => _.omit(item, ["_id"]));
+      const questions = _.cloneDeep(this.tableData).map((item) => _.omit(item, ["id"]));
       try {
         const res = await this.$http({
           method: "PUT",

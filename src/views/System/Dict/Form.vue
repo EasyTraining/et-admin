@@ -103,7 +103,7 @@ export default {
           if (this.editedId) {
             await this.fetchDetail();
           } else {
-            await this.$router.replace(`/system/dict/edit/${res.data._id}`);
+            await this.$router.replace(`/system/dict/edit/${res.data.id}`);
           }
         } catch (e) {
           this.$message.error(e.message);

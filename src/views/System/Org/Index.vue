@@ -2,12 +2,13 @@
   <div>
     <p>
       <a-button type="primary" icon="plus" @click="onAdd">新增部门</a-button>
+      <a-button icon="bars" @click="showTreeModal">查看树形结构</a-button>
     </p>
 
     <a-card :loading="mounting" :body-style="{ padding: 0 }">
       <a-table
         :columns="tableColumns"
-        row-key="_id"
+        row-key="id"
         :data-source="tableData"
         :loading="loading"
         :pagination="tablePager"
@@ -31,17 +32,24 @@
       </a-table>
     </a-card>
 
-    <update-modal :visible="visible" :initial-values="editedRecord" @cancel="closeModal" @ok="onModalOk" />
+    <tree-modal :visible="treeModalVisible" @cancel="closeTreeModal" />
+    <update-modal
+      :visible="updateModalVisible"
+      :initial-values="editedRecord"
+      @cancel="closeUpdateModal"
+      @ok="onUpdateModalOk"
+    />
   </div>
 </template>
 
 <script>
 import { tableColumns } from "./const";
 import UpdateModal from "./components/UpdateModal";
+import TreeModal from "./components/TreeModal";
 
 export default {
   name: "OrgIndex",
-  components: { UpdateModal },
+  components: { TreeModal, UpdateModal },
   data() {
     return {
       mounting: false,
@@ -57,7 +65,8 @@ export default {
         total: 0,
       },
 
-      visible: false,
+      treeModalVisible: false,
+      updateModalVisible: false,
       editedRecord: null,
     };
   },
@@ -73,18 +82,18 @@ export default {
     },
 
     onAdd() {
-      this.visible = true;
+      this.updateModalVisible = true;
     },
 
     onEdit(record) {
       this.editedRecord = record;
-      this.visible = true;
+      this.updateModalVisible = true;
     },
 
-    async onRemove({ _id }) {
+    async onRemove({ id }) {
       this.loading = true;
       try {
-        const res = await this.$http({ method: "DELETE", url: `/system/org/${_id}` });
+        const res = await this.$http({ method: "DELETE", url: `/system/org/${id}` });
         if (res.code !== 200) {
           this.$message.error(res.message);
           return;
@@ -116,10 +125,10 @@ export default {
       }
     },
 
-    async switchStatus({ _id, enable }) {
+    async switchStatus({ id, enable }) {
       this.loading = true;
       try {
-        const res = await this.$http({ method: "PUT", url: `/system/org/${_id}/enable`, data: { enable } });
+        const res = await this.$http({ method: "PUT", url: `/system/org/${id}/enable`, data: { enable } });
         if (res.code !== 200) {
           this.$message.error(res.message);
           return;
@@ -132,12 +141,20 @@ export default {
       }
     },
 
-    closeModal() {
-      this.visible = false;
+    showTreeModal() {
+      this.treeModalVisible = true;
+    },
+
+    closeTreeModal() {
+      this.treeModalVisible = false;
+    },
+
+    closeUpdateModal() {
+      this.updateModalVisible = false;
       this.editedRecord = null;
     },
 
-    async onModalOk() {
+    async onUpdateModalOk() {
       await this.fetchTableData();
     },
   },

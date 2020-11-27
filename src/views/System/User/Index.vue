@@ -7,7 +7,7 @@
     <a-card :loading="mounting" :body-style="{ padding: 0 }">
       <a-table
         :columns="tableColumns"
-        row-key="_id"
+        row-key="id"
         :data-source="tableData"
         :loading="loading"
         :pagination="tablePager"
@@ -81,8 +81,8 @@ export default {
       this.editModalVisible = true;
     },
 
-    onEdit({ _id }) {
-      this.currentUserId = _id;
+    onEdit({ id }) {
+      this.currentUserId = id;
       this.editModalVisible = true;
     },
 
@@ -91,8 +91,8 @@ export default {
       this.editedRecord = null;
     },
 
-    onReset({ _id }) {
-      this.currentUserId = _id;
+    onReset({ id }) {
+      this.currentUserId = id;
       this.resetModalVisible = true;
     },
 
@@ -101,10 +101,10 @@ export default {
       this.resetModalVisible = false;
     },
 
-    async onRemove({ _id }) {
+    async onRemove({ id }) {
       this.loading = true;
       try {
-        const res = await this.$http({ method: "DELETE", url: `/system/user/${_id}` });
+        const res = await this.$http({ method: "DELETE", url: `/system/user/${id}` });
         if (res.code !== 200) {
           this.$message.error(res.message);
           return;
@@ -136,10 +136,10 @@ export default {
       }
     },
 
-    async switchStatus({ _id, enable }) {
+    async switchStatus({ id, enable }) {
       this.loading = true;
       try {
-        const res = await this.$http({ method: "PUT", url: `/system/user/${_id}/enable`, data: { enable } });
+        const res = await this.$http({ method: "PUT", url: `/system/user/${id}/enable`, data: { enable } });
         if (res.code !== 200) {
           this.$message.error(res.message);
           return;

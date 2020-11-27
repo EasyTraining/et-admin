@@ -9,7 +9,7 @@
     <a-card :loading="mounting" :body-style="{ padding: 0 }">
       <a-table
         :columns="tableColumns"
-        row-key="_id"
+        row-key="id"
         :data-source="tableData"
         :loading="loading"
         :pagination="tablePager"
@@ -24,7 +24,7 @@
           />
         </template>
         <template slot="action" slot-scope="text, record">
-          <router-link :to="'/system/dict/edit/' + record._id">编辑</router-link>
+          <router-link :to="'/system/dict/edit/' + record.id">编辑</router-link>
           <a-divider type="vertical" />
           <a-popconfirm title="删除以后无法恢复, 是否继续?" @confirm="remove(record)">
             <a href="javascript:;">删除</a>
@@ -59,7 +59,7 @@ const tableColumns = [
   {
     title: "更新时间",
     width: 180,
-    dataIndex: "update_date",
+    dataIndex: "updated_at",
   },
   {
     title: "操作",
@@ -115,10 +115,10 @@ export default {
       }
     },
 
-    async remove({ _id }) {
+    async remove({ id }) {
       this.loading = true;
       try {
-        const res = await this.$http({ method: "DELETE", url: `/system/dict/${_id}` });
+        const res = await this.$http({ method: "DELETE", url: `/system/dict/${id}` });
         if (res.code !== 200) {
           this.$message.error(res.message);
           return;
@@ -132,10 +132,10 @@ export default {
       }
     },
 
-    async switchStatus({ _id, enable }) {
+    async switchStatus({ id, enable }) {
       this.loading = true;
       try {
-        const res = await this.$http({ method: "PUT", url: `/system/dict/${_id}/enable`, data: { enable } });
+        const res = await this.$http({ method: "PUT", url: `/system/dict/${id}/enable`, data: { enable } });
         if (res.code !== 200) {
           this.$message.error(res.message);
           return;

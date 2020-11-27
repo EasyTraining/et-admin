@@ -202,7 +202,7 @@ export default {
     if (questionId) {
       // 回填表单
       this.questionId = questionId;
-      const question = this.info.questions.find((item) => item._id === questionId);
+      const question = this.info.questions.find((item) => item.id === questionId);
       this.formData = _.pick(question, Object.keys(this.formData));
     } else {
       // 设置默认值

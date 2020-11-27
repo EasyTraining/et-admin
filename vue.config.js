@@ -88,7 +88,7 @@ const vueConfig = {
   devServer: {
     port: 6001,
     proxy: {
-      "/api": {
+      "/v1": {
         target: "http://127.0.0.1:6002",
         // ws: false,
         changeOrigin: true,

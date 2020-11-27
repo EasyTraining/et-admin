@@ -13,7 +13,7 @@ export const tableColumns = [
   },
   {
     title: "更新时间",
-    dataIndex: "update_date",
+    dataIndex: "updated_at",
   },
 ];
 

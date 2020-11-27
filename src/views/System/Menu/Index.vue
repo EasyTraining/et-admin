@@ -7,7 +7,7 @@
     <a-card :loading="mounting" :body-style="{ padding: 0 }">
       <a-table
         :columns="tableColumns"
-        row-key="_id"
+        row-key="id"
         :data-source="tableData"
         :loading="loading"
         :pagination="tablePager"
@@ -81,10 +81,10 @@ export default {
       this.visible = true;
     },
 
-    async onRemove({ _id }) {
+    async onRemove({ id }) {
       this.loading = true;
       try {
-        const res = await this.$http({ method: "DELETE", url: `/system/menu/${_id}` });
+        const res = await this.$http({ method: "DELETE", url: `/system/menu/${id}` });
         if (res.code !== 200) {
           this.$message.error(res.message);
           return;
@@ -116,10 +116,10 @@ export default {
       }
     },
 
-    async switchStatus({ _id, enable }) {
+    async switchStatus({ id, enable }) {
       this.loading = true;
       try {
-        const res = await this.$http({ method: "PUT", url: `/system/menu/${_id}/enable`, data: { enable } });
+        const res = await this.$http({ method: "PUT", url: `/system/menu/${id}/enable`, data: { enable } });
         if (res.code !== 200) {
           this.$message.error(res.message);
           return;

@@ -8,7 +8,7 @@
     <a-card :body-style="{ padding: 0 }">
       <a-table
         :columns="tableColumns"
-        row-key="_id"
+        row-key="id"
         :data-source="tableData"
         :loading="loading"
         :pagination="tablePager"
@@ -23,7 +23,7 @@
           />
         </template>
         <template slot="action" slot-scope="text, record">
-          <router-link :to="'/exam/library/' + record._id + '/questions'">题目管理</router-link>
+          <router-link :to="'/exam/library/' + record.id + '/questions'">题目管理</router-link>
           <a-divider type="vertical" />
           <a href="javascript:;" @click="showEditModal(record)">编辑</a>
           <a-divider type="vertical" />
@@ -39,7 +39,7 @@
       :width="600"
       centered
       v-model="modalVisible"
-      :title="modalForm._id ? '编辑题库' : '新增题库'"
+      :title="modalForm.id ? '编辑题库' : '新增题库'"
       @cancel="setModalVisible(false)"
       @ok="onModalOk"
     >
@@ -89,7 +89,7 @@ export default {
 
       modalVisible: false,
       modalForm: {
-        _id: "",
+        id: "",
         name: "",
         desc: "",
       },
@@ -126,10 +126,10 @@ export default {
       }
     },
 
-    async remove({ _id }) {
+    async remove({ id }) {
       this.loading = true;
       try {
-        const res = await this.$http({ method: "DELETE", url: `/exam/library/${_id}` });
+        const res = await this.$http({ method: "DELETE", url: `/exam/library/${id}` });
         if (res.code !== 200) {
           this.$message.error(res.message);
           return;
@@ -143,10 +143,10 @@ export default {
       }
     },
 
-    async switchStatus({ _id, enable }) {
+    async switchStatus({ id, enable }) {
       this.loading = true;
       try {
-        const res = await this.$http({ method: "PUT", url: `/exam/library/${_id}/enable`, data: { enable } });
+        const res = await this.$http({ method: "PUT", url: `/exam/library/${id}/enable`, data: { enable } });
         if (res.code !== 200) {
           this.$message.error(res.message);
           return;
@@ -163,7 +163,7 @@ export default {
       this.modalVisible = visible;
       if (!visible) {
         this.modalForm = {
-          _id: "",
+          id: "",
           name: "",
           desc: "",
         };
@@ -180,9 +180,9 @@ export default {
       this.$refs.modalForm.validate(async (valid) => {
         if (!valid) return;
         try {
-          const { _id, ...rest } = this.modalForm;
-          const res = _id
-            ? await this.$http({ method: "PUT", url: `/exam/library/${_id}`, data: rest })
+          const { id, ...rest } = this.modalForm;
+          const res = id
+            ? await this.$http({ method: "PUT", url: `/exam/library/${id}`, data: rest })
             : await this.$http({ method: "POST", url: "/exam/library", data: rest });
           if (res.code !== 200) {
             this.$message.error(res.message);

@@ -24,7 +24,7 @@ export default {
   data() {
     return {
       formData: {
-        _id: "",
+        id: "",
         nick_name: "",
         password: "",
       },
@@ -47,7 +47,7 @@ export default {
           this.$message.error(res.message);
           return;
         }
-        this.formData = _.pick(res.data, ["_id", "nick_name"]);
+        this.formData = _.pick(res.data, ["id", "nick_name"]);
       } catch (e) {
         this.$message.error(e.message);
       } finally {
@@ -65,9 +65,9 @@ export default {
         if (!valid) return;
         const hide = this.$message.loading("正在接受数据...", 0);
         try {
-          const { _id, password } = this.formData;
+          const { id, password } = this.formData;
           const hashed_pwd = sha256(password);
-          const res = await this.$http({ method: "PUT", url: `/system/user/${_id}/reset_password`, data: { hashed_pwd } });
+          const res = await this.$http({ method: "PUT", url: `/system/user/${id}/reset_password`, data: { hashed_pwd } });
           if (res.code !== 200) {
             this.$message.error(res.message);
             return;

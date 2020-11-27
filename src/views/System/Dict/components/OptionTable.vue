@@ -116,7 +116,7 @@ export default {
 
     emitChange() {
       const options = removeUuid(_.cloneDeep(this.tableData)).map((item) => {
-        if (item._id === "") delete item._id;
+        if (item.id === "") delete item.id;
         return item;
       });
       this.$emit("change", options);

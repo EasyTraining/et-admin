@@ -4,7 +4,7 @@
     :width="600"
     centered
     :visible="visible"
-    :title="formData._id ? '编辑菜单' : '新增菜单'"
+    :title="formData.id ? '编辑菜单' : '新增菜单'"
     @cancel="onCancel"
     @ok="onOk"
   >
@@ -13,7 +13,7 @@
         <a-tree-select
           v-model="formData.parent_id"
           :tree-data="treeData"
-          :replace-fields="{ title: 'title', key: '_id', value: '_id' }"
+          :replace-fields="{ title: 'title', key: 'id', value: 'id' }"
           :dropdown-style="{ maxHeight: '400px', overflow: 'auto' }"
           allow-clear
           tree-default-expand-all
@@ -57,7 +57,7 @@ export default {
     return {
       treeData: [],
       formData: {
-        _id: "",
+        id: "",
         parent_id: "",
         name: "",
         title: "",
@@ -98,9 +98,9 @@ export default {
     async onOk() {
       this.loading = true;
       try {
-        const { _id, ...rest } = this.formData;
-        const res = _id
-          ? await this.$http({ method: "PUT", url: `/system/menu/${_id}`, data: rest })
+        const { id, ...rest } = this.formData;
+        const res = id
+          ? await this.$http({ method: "PUT", url: `/system/menu/${id}`, data: rest })
           : await this.$http({ method: "POST", url: "/system/menu", data: rest });
         if (res.code !== 200) {
           this.$message.error(res.message);
@@ -120,7 +120,7 @@ export default {
     onCancel() {
       this.$emit("cancel", null);
       this.formData = {
-        _id: "",
+        id: "",
         parent_id: "",
         name: "",
         title: "",

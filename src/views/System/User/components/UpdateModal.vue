@@ -4,7 +4,7 @@
     :width="600"
     centered
     :visible="visible"
-    :title="formData._id ? '编辑用户' : '新增用户'"
+    :title="formData.id ? '编辑用户' : '新增用户'"
     @cancel="onCancel"
     @ok="onOk"
   >
@@ -13,7 +13,7 @@
         <a-tree-select
           v-model="formData.org_id"
           :tree-data="orgTreeData"
-          :replace-fields="{ title: 'name', key: '_id', value: '_id' }"
+          :replace-fields="{ title: 'name', key: 'id', value: 'id' }"
           :dropdown-style="{ maxHeight: '400px', overflow: 'auto' }"
           allow-clear
           tree-default-expand-all
@@ -24,7 +24,7 @@
       <a-form-model-item label="登录账号" prop="account">
         <a-input v-model="formData.account" :max-length="30" placeholder="请填写登录账号" />
       </a-form-model-item>
-      <a-form-model-item v-if="formData._id === ''" label="登录密码" prop="password">
+      <a-form-model-item v-if="formData.id === ''" label="登录密码" prop="password">
         <a-input v-model="formData.password" :max-length="30" placeholder="请填写登录密码" />
       </a-form-model-item>
       <a-form-model-item label="用户昵称" prop="nick_name">
@@ -67,7 +67,7 @@ export default {
       orgTreeData: [],
       menuTreeData: [],
       formData: {
-        _id: "",
+        id: "",
         org_id: "",
         account: "",
         password: "",
@@ -126,9 +126,9 @@ export default {
     async onOk() {
       this.loading = true;
       try {
-        const { _id, password, ...rest } = this.formData;
-        const res = _id
-          ? await this.$http({ method: "PUT", url: `/system/user/${_id}`, data: rest })
+        const { id, password, ...rest } = this.formData;
+        const res = id
+          ? await this.$http({ method: "PUT", url: `/system/user/${id}`, data: rest })
           : await this.$http({
               method: "POST",
               url: "/system/user",
@@ -152,7 +152,7 @@ export default {
     onCancel() {
       this.$emit("cancel", null);
       this.formData = {
-        _id: "",
+        id: "",
         org_id: "",
         account: "",
         password: "",
