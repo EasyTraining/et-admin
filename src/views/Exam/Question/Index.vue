@@ -15,6 +15,7 @@
         :pagination="false"
       >
         <span slot="index" slot-scope="text, record, index">{{ index + 1 }}</span>
+        <span slot="type" slot-scope="text, record, index">{{ record.type | questionTypeToLabel }}</span>
         <template slot="action" slot-scope="text, record">
           <router-link :to="'/exam/library/' + _id + '/questions/edit/' + record._id">编辑</router-link>
           <a-divider type="vertical" />

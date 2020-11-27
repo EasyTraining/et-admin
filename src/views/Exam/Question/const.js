@@ -8,6 +8,7 @@ export const tableColumns = [
     title: "题型",
     width: 140,
     dataIndex: "type",
+    scopedSlots: { customRender: "type" },
   },
   {
     title: "题目",
