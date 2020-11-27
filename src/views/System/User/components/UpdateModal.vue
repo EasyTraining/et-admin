@@ -92,7 +92,7 @@ export default {
 
   methods: {
     async fetchDetail() {
-      const hide = this.$message.loading("加载中...", 0);
+      const hide = this.$message.loading("正在接受数据...", 0);
       try {
         const res = await this.$http({ method: "GET", url: `/system/user/${this.id}` });
         if (res.code !== 200) {

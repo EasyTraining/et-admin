@@ -4,7 +4,7 @@
       <a-button type="primary" icon="plus" @click="setModalVisible(true)">新增试卷</a-button>
     </p>
 
-    <a-card>
+    <a-card :body-style="{ padding: 0 }">
       <a-table
         :columns="tableColumns"
         row-key="_id"

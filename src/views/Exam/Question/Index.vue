@@ -6,7 +6,7 @@
       </router-link>
     </p>
 
-    <a-card>
+    <a-card :body-style="{ padding: 0 }">
       <a-table
         :columns="tableColumns"
         row-key="_id"

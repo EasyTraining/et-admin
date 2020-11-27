@@ -4,7 +4,7 @@
       <a-button type="primary" icon="plus" @click="onAdd">新增部门</a-button>
     </p>
 
-    <a-card :loading="mounting">
+    <a-card :loading="mounting" :body-style="{ padding: 0 }">
       <a-table
         :columns="tableColumns"
         row-key="_id"

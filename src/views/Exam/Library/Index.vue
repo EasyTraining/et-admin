@@ -5,7 +5,7 @@
       <a-button icon="import">导入题库</a-button>
     </p>
 
-    <a-card>
+    <a-card :body-style="{ padding: 0 }">
       <a-table
         :columns="tableColumns"
         row-key="_id"

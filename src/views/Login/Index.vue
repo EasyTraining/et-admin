@@ -132,8 +132,7 @@ export default {
 
   .container {
     width: 100%;
-    min-height: 100%;
-    padding: 0 200px;
+    height: 100%;
     position: relative;
     display: flex;
     justify-content: center;
