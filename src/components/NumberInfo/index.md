@@ -17,7 +17,12 @@ export default {
 ## 代码演示 [demo](https://pro.loacg.com/test/home)
 
 ```html
-<number-info :sub-title="() => { return 'Visits this week' }" :total="12321" status="up" :sub-total="17.1"></number-info>
+<number-info
+  :sub-title="() => { return 'Visits this week' }"
+  :total="12321"
+  status="up"
+  :sub-total="17.1"
+></number-info>
 ```
 
 ## API

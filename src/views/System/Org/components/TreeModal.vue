@@ -8,11 +8,7 @@
     :footer="null"
     @cancel="onCancel"
   >
-    <a-tree
-      :tree-data="treeData"
-      default-expand-all
-      :replace-fields="{ title: 'name', key: 'id', value: 'id' }"
-    />
+    <a-tree :tree-data="treeData" default-expand-all :replace-fields="{ title: 'name', key: 'id', value: 'id' }" />
   </a-modal>
 </template>
 

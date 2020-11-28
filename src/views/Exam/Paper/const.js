@@ -68,4 +68,4 @@ export const questionColumns = [
     width: 180,
     scopedSlots: { customRender: "action" },
   },
-]
+];

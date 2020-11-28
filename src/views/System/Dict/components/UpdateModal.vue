@@ -8,13 +8,7 @@
     @cancel="onCancel"
     @ok="onOk"
   >
-    <a-form-model
-      ref="form"
-      :model="formData"
-      :rules="formRules"
-      :label-col="{ span: 6 }"
-      :wrapper-col="{ span: 15 }"
-    >
+    <a-form-model ref="form" :model="formData" :rules="formRules" :label-col="{ span: 6 }" :wrapper-col="{ span: 15 }">
       <a-form-model-item label="选项名" prop="key">
         <a-input v-model="formData.key" :max-length="100" placeholder="请填写选项名" />
       </a-form-model-item>

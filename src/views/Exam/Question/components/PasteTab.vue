@@ -13,8 +13,7 @@
       </a-col>
       <a-col :span="12">
         <a-card size="small" title="检查区">
-          <div class="area">
-          </div>
+          <div class="area"></div>
         </a-card>
       </a-col>
     </a-row>

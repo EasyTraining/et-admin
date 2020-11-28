@@ -23,6 +23,6 @@ export default {
     if (process.env.NODE_ENV !== "production") {
       updateTheme(setting.primaryColor);
     }
-  }
+  },
 };
 </script>

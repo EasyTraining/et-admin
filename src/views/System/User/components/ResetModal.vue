@@ -67,7 +67,11 @@ export default {
         try {
           const { id, password } = this.formData;
           const hashed_pwd = sha256(password);
-          const res = await this.$http({ method: "PUT", url: `/system/user/${id}/reset_password`, data: { hashed_pwd } });
+          const res = await this.$http({
+            method: "PUT",
+            url: `/system/user/${id}/reset_password`,
+            data: { hashed_pwd },
+          });
           if (res.code !== 200) {
             this.$message.error(res.message);
             return;
