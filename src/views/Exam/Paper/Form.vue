@@ -64,7 +64,7 @@
             <a-tab-pane v-for="library in libraryList" :key="library.id" :tab="library.name">
               <div class="question" v-for="question in library.questions" :key="question.id">
                 <div class="question__ckb">
-                  <a-checkbox :checked="question.checked" @change="checkQuestion($event, library, question)" />
+                  <a-checkbox v-model="question.checked" />
                 </div>
                 <div class="question__level">
                   <a-tag v-if="question.level === 'EASY'" color="green">{{ question.level | levelToLabel }}</a-tag>
@@ -93,7 +93,6 @@ export default {
       submitting: false,
 
       paperId: "",
-      paperName: "",
 
       tableColumns: questionColumns,
       tableData: [],
@@ -165,7 +164,9 @@ export default {
           if (checked) {
             questions.push({
               ...rest,
-              library_name: library.name,
+              from_library_id: library.id,
+              from_library_name: library.name,
+              from_question_id: question.id,
               sort: question.sort || 1,
             });
           }
@@ -176,21 +177,6 @@ export default {
       this.modalVisible = false;
     },
 
-    checkQuestion(evt, checkedLibrary, checkedQuestion) {
-      const checked = evt.target.checked;
-      this.libraryList = this.libraryList.map((library) => {
-        if (library.id === checkedLibrary.id) {
-          library.questions = library.questions.map((question) => {
-            if (question.id === checkedQuestion.id) {
-              question.checked = checked;
-            }
-            return question;
-          });
-        }
-        return library;
-      });
-    },
-
     async fetchDetail() {
       this.loading = true;
       try {
@@ -199,8 +185,9 @@ export default {
           this.$message.error(res.message);
           return;
         }
-        const { name, questions } = res.data;
-        const selectedQuestionIds = questions.map((item) => item._id);
+        const { questions } = res.data;
+        // 填充选中的题库
+        const selectedQuestionIds = questions.map((item) => item.from_question_id);
         this.libraryList = this.libraryList.map((library) => {
           library.questions = (library.questions || []).map((question) => {
             question.checked = selectedQuestionIds.includes(question.id);
@@ -208,7 +195,6 @@ export default {
           });
           return library;
         });
-        this.paperName = name;
         this.tableData = questions;
         this.calcAnalysis();
       } catch (e) {
