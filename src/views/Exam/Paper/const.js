@@ -48,6 +48,12 @@ export const questionColumns = [
     dataIndex: "name",
   },
   {
+    title: "分数",
+    dataIndex: "grade",
+    width: 100,
+    scopedSlots: { customRender: "grade" },
+  },
+  {
     title: "难易程度",
     dataIndex: "level",
     width: 100,

@@ -158,6 +158,7 @@
     </a-form-model>
 
     <footer-tool-bar>
+      <a-button :loading="submitting" @click="goBack">返回</a-button>
       <a-button :loading="submitting" type="primary" icon="save" @click="submit">保存</a-button>
     </footer-tool-bar>
   </div>
@@ -226,6 +227,10 @@ export default {
     removeOption(index) {
       const newOptions = this.formData.options.filter((item, i) => i !== index);
       this.formData.options = Util.regenerateCodes(newOptions);
+    },
+
+    goBack() {
+      this.$router.go(-1);
     },
 
     async submit() {
