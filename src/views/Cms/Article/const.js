@@ -4,12 +4,13 @@ export const tableColumns = [
     dataIndex: "title",
   },
   {
-    title: "文章描述",
-    dataIndex: "description",
+    title: "已读数",
+    width: 100,
+    dataIndex: "read_count",
   },
   {
-    title: "已读数",
-    dataIndex: "read_count",
+    title: "文章备注",
+    dataIndex: "desc",
   },
   {
     title: "启用状态",
@@ -27,3 +28,13 @@ export const tableColumns = [
     scopedSlots: { customRender: "action" },
   },
 ];
+
+export const formRules = {
+  category_id: [{ required: true, message: "请选择所属分类" }],
+  title: [{ required: true, message: "请填写文章标题" }],
+  sub_title: [{ required: true, message: "请填写文章副标题" }],
+  enable: [{ required: true, message: "请填写启用状态" }],
+  sort: [{ required: true, message: "请填写文章排序" }],
+  author: [{ required: true, message: "请填写文章作者" }],
+  content: [{ required: true, message: "请填写文章正文" }],
+};

@@ -24,9 +24,9 @@
           />
         </template>
         <template slot="action" slot-scope="text, record">
-          <router-link :to="'/cms/article/detail' + record.id">查看</router-link>
+          <router-link :to="'/cms/article/detail/' + record.id">查看</router-link>
           <a-divider type="vertical" />
-          <router-link :to="'/cms/article/edit' + record.id">编辑</router-link>
+          <router-link :to="'/cms/article/edit/' + record.id">编辑</router-link>
           <a-divider type="vertical" />
           <a-popconfirm title="删除以后无法恢复, 是否继续?" @confirm="onRemove(record)">
             <a href="javascript:;">删除</a>
