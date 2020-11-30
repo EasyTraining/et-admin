@@ -146,9 +146,7 @@ export default {
       this.tableData = this.tableData.filter((item) => item.id !== id);
       this.libraryList = this.libraryList.map((library) => {
         library.questions = (library.questions || []).map((question) => {
-          if (question.id === id) {
-            question.checked = false;
-          }
+          if (question.id === id) question.checked = false;
           return question;
         });
         return library;

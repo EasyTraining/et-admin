@@ -24,3 +24,22 @@ export const removeUuid = (arr = []) => {
     return item;
   });
 };
+
+export const findOneAndUpdate = (source, conditions, fields) => {
+  source = source || [];
+  conditions = conditions || {};
+  fields = fields || {};
+  return source.map((item) => {
+    let matched = true;
+    Object.keys(conditions).forEach((key) => {
+      const val = conditions[key];
+      if (item[key] !== val) {
+        matched = false;
+      }
+    });
+    if (matched) {
+      item = { ...item, ...fields };
+    }
+    return item;
+  });
+};
