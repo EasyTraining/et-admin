@@ -4,6 +4,10 @@ export const tableColumns = [
     dataIndex: "name",
   },
   {
+    title: "试卷备注",
+    dataIndex: "remark",
+  },
+  {
     title: "试卷状态",
     width: 120,
     dataIndex: "enable",

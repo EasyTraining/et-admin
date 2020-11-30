@@ -18,7 +18,7 @@
           allow-clear
           tree-default-expand-all
           style="width: 100%"
-          search-placeholder="请选择上级部门"
+          placeholder="请选择上级部门"
         />
       </a-form-model-item>
       <a-form-model-item label="部门名称" prop="name">
@@ -34,7 +34,7 @@
           tree-default-expand-all
           tree-checkable
           style="width: 100%"
-          search-placeholder="请选择可见菜单"
+          placeholder="请选择可见菜单"
         />
       </a-form-model-item>
       <a-form-model-item label="启用状态" prop="enable">

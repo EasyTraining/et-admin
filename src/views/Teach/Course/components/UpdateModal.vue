@@ -18,7 +18,7 @@
           allow-clear
           tree-default-expand-all
           style="width: 100%"
-          search-placeholder="请选择上级课程"
+          placeholder="请选择上级课程"
         />
       </a-form-model-item>
       <a-form-model-item label="课程名称" prop="name">

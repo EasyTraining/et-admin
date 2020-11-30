@@ -18,7 +18,7 @@
           allow-clear
           tree-default-expand-all
           style="width: 100%"
-          search-placeholder="请选择上级菜单"
+          placeholder="请选择上级菜单"
         />
       </a-form-model-item>
       <a-form-model-item label="菜单编码" prop="name">

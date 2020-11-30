@@ -1,10 +1,19 @@
 export const tableColumns = [
   {
-    title: "课程名称",
+    title: "序号",
+    dataIndex: "sort",
+    width: 100,
+  },
+  {
+    title: "章节名称",
     dataIndex: "name",
   },
   {
-    title: "课程备注",
+    title: "教学目标",
+    dataIndex: "target",
+  },
+  {
+    title: "章节备注",
     dataIndex: "remark",
   },
   {

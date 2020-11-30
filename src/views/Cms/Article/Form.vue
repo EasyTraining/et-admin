@@ -22,7 +22,7 @@
               :dropdown-style="{ maxHeight: '400px', overflow: 'auto' }"
               allow-clear
               tree-default-expand-all
-              search-placeholder="请选择所属分类"
+              placeholder="请选择所属分类"
             />
           </a-form-model-item>
           <a-form-model-item label="文章标题" prop="title">
