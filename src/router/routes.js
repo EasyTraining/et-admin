@@ -96,6 +96,27 @@ export default [
         ],
       },
       {
+        name: "/teach",
+        path: "/teach",
+        component: RouteView,
+        meta: { title: "授课中心", icon: "fund" },
+        redirect: "/teach/course",
+        children: [
+          {
+            name: "/teach/course",
+            path: "/teach/course",
+            component: () => import("@/views/Teach/Course/Index"),
+            meta: { title: "课程管理" },
+          },
+          {
+            name: "/teach/chapter",
+            path: "/teach/chapter",
+            component: () => import("@/views/Teach/Chapter/Index"),
+            meta: { title: "章节管理" },
+          },
+        ],
+      },
+      {
         name: "/vote",
         path: "/vote",
         component: RouteView,
