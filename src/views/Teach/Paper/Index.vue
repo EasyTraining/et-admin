@@ -22,7 +22,7 @@
           />
         </template>
         <template slot="action" slot-scope="text, record">
-          <router-link :to="'/exam/paper/' + record.id + '/questions'">题目管理</router-link>
+          <router-link :to="'/teach/paper/' + record.id + '/questions'">题目管理</router-link>
           <a-divider type="vertical" />
           <a href="javascript:;" @click="showEditModal(record)">编辑</a>
           <a-divider type="vertical" />
@@ -110,7 +110,7 @@ export default {
       this.loading = true;
       try {
         const { current, pageSize } = this.tablePager;
-        const res = await this.$http({ method: "GET", url: "/exam/paper", params: { current, pageSize } });
+        const res = await this.$http({ method: "GET", url: "/teach/paper", params: { current, pageSize } });
         if (res.code !== 200) {
           this.$message.error(res.message);
           return;
@@ -128,7 +128,7 @@ export default {
     async remove({ id }) {
       this.loading = true;
       try {
-        const res = await this.$http({ method: "DELETE", url: `/exam/paper/${id}` });
+        const res = await this.$http({ method: "DELETE", url: `/teach/paper/${id}` });
         if (res.code !== 200) {
           this.$message.error(res.message);
           return;
@@ -145,7 +145,7 @@ export default {
     async switchStatus({ id, enable }) {
       this.loading = true;
       try {
-        const res = await this.$http({ method: "PUT", url: `/exam/paper/${id}/enable`, data: { enable } });
+        const res = await this.$http({ method: "PUT", url: `/teach/paper/${id}/enable`, data: { enable } });
         if (res.code !== 200) {
           this.$message.error(res.message);
           return;
@@ -181,8 +181,8 @@ export default {
         try {
           const { id, ...rest } = this.modalForm;
           const res = id
-            ? await this.$http({ method: "PUT", url: `/exam/paper/${id}`, data: rest })
-            : await this.$http({ method: "POST", url: "/exam/paper", data: rest });
+            ? await this.$http({ method: "PUT", url: `/teach/paper/${id}`, data: rest })
+            : await this.$http({ method: "POST", url: "/teach/paper", data: rest });
           if (res.code !== 200) {
             this.$message.error(res.message);
             return;

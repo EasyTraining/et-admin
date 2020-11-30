@@ -25,7 +25,7 @@
     <a-card :body-style="{ padding: 0 }">
       <a-table :columns="tableColumns" row-key="id" :data-source="tableData" :loading="loading" :pagination="false">
         <template slot="sort" slot-scope="text, record">
-          <a-input-number v-model="record.sort" size="small" :min="1" style="width: 70px" @blur="reSort(record)" />
+          <a-input-number v-model="record.sort" size="small" :min="1" style="width: 70px" @blur="sort(record)" />
         </template>
         <template slot="type" slot-scope="text, record">
           <span>{{ record.type | questionTypeToLabel }}</span>
@@ -36,7 +36,7 @@
           <a-tag v-if="record.level === 'HARD'" color="red">{{ record.level | levelToLabel }}</a-tag>
         </template>
         <template slot="grade" slot-scope="text, record">
-          <a-input-number v-model="record.grade" size="small" :min="1" style="width: 70px" @blur="calcAnalysis" />
+          <a-input-number v-model="record.grade" size="small" :min="1" style="width: 70px" @blur="calcGrade" />
         </template>
         <div class="actions" slot="action" slot-scope="text, record">
           <a href="javascript:;" @click="remove(record)">删除</a>
@@ -64,7 +64,7 @@
             <a-tab-pane v-for="library in libraryList" :key="library.id" :tab="library.name">
               <div class="question" v-for="question in library.questions" :key="question.id">
                 <div class="question__ckb">
-                  <a-checkbox v-model="question.checked" />
+                  <a-checkbox :checked="question.checked" @change="selectQuestion($event, library, question)" />
                 </div>
                 <div class="question__level">
                   <a-tag v-if="question.level === 'EASY'" color="green">{{ question.level | levelToLabel }}</a-tag>
@@ -84,6 +84,7 @@
 <script>
 import { _ } from "@/utils";
 import { questionColumns } from "./const";
+import { calcAnalysis, initLibraryList, setQuestionCheck, uncheckQuestion, getCheckedQuestions } from "./util";
 
 export default {
   name: "PaperForm",
@@ -114,87 +115,42 @@ export default {
     await this.fetchDetail();
   },
   methods: {
-    calcAnalysis() {
-      let questionCount = 0;
-      let gradeCount = 0;
-      let hardCount = 0;
-      let hardPercent = 0;
-      this.tableData.forEach((item) => {
-        questionCount += 1;
-        gradeCount += item.grade || 0;
-        if (item.level === "HARD") {
-          hardCount += 1;
-        }
-      });
-      if (questionCount === 0) {
-        hardPercent = 0;
-      } else {
-        hardPercent = ((hardCount / questionCount) * 100).toFixed(2);
-      }
-      this.analysis = {
-        questionCount,
-        gradeCount,
-        hardPercent,
-      };
-    },
-
-    reSort() {
+    sort() {
       this.tableData = this.tableData.sort((a, b) => a.sort - b.sort);
     },
 
     remove({ id }) {
       this.tableData = this.tableData.filter((item) => item.id !== id);
-      this.libraryList = this.libraryList.map((library) => {
-        library.questions = (library.questions || []).map((question) => {
-          if (question.id === id) question.checked = false;
-          return question;
-        });
-        return library;
-      });
-      this.calcAnalysis();
+      this.libraryList = uncheckQuestion(this.libraryList, id);
+      this.analysis = calcAnalysis(this.tableData);
+    },
+
+    calcGrade() {
+      this.analysis = calcAnalysis(this.tableData);
+    },
+
+    selectQuestion(evt, library, question) {
+      this.libraryList = setQuestionCheck(this.libraryList, library.id, question.id, evt.target.checked);
     },
 
     setQuestions() {
-      const questions = [];
-      this.libraryList.forEach((library) => {
-        (library.questions || []).forEach((question) => {
-          const { checked, ...rest } = question;
-          if (checked) {
-            questions.push({
-              ...rest,
-              from_library_id: library.id,
-              from_library_name: library.name,
-              from_question_id: question.id,
-              sort: question.sort || 1,
-            });
-          }
-        });
-      });
-      this.tableData = questions;
-      this.calcAnalysis();
+      this.tableData = getCheckedQuestions(this.libraryList);
+      this.analysis = calcAnalysis(this.tableData);
       this.modalVisible = false;
     },
 
     async fetchDetail() {
       this.loading = true;
       try {
-        const res = await this.$http({ method: "GET", url: `/exam/paper/${this.paperId}` });
+        const res = await this.$http({ method: "GET", url: `/teach/paper/${this.paperId}` });
         if (res.code !== 200) {
           this.$message.error(res.message);
           return;
         }
         const { questions } = res.data;
-        // 填充选中的题库
-        const selectedQuestionIds = questions.map((item) => item.from_question_id);
-        this.libraryList = this.libraryList.map((library) => {
-          library.questions = (library.questions || []).map((question) => {
-            question.checked = selectedQuestionIds.includes(question.id);
-            return question;
-          });
-          return library;
-        });
+        this.libraryList = initLibraryList(this.libraryList, questions);
         this.tableData = questions;
-        this.calcAnalysis();
+        this.analysis = calcAnalysis(this.tableData);
       } catch (e) {
         this.$message.error(e.message);
       } finally {
@@ -211,6 +167,7 @@ export default {
           return;
         }
         this.libraryList = res.data;
+        // 默认选择第一个试卷库
         if (this.libraryList.length) {
           this.activeLibraryId = this.libraryList[0].id;
         }
@@ -227,11 +184,12 @@ export default {
 
     async submit() {
       this.submitting = true;
-      const questions = _.cloneDeep(this.tableData).map((item) => _.omit(item, ["id"]));
+      // 丢弃 id 字段, 由数据库自动生成
+      const questions = _.cloneDeep(this.tableData).map(({ id, ...rest }) => rest);
       try {
         const res = await this.$http({
           method: "PUT",
-          url: `/exam/paper/${this.paperId}/questions`,
+          url: `/teach/paper/${this.paperId}/questions`,
           data: { questions },
         });
         if (res.code !== 200) {
