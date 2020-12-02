@@ -75,6 +75,7 @@ export default {
     },
 
     startTimer() {
+      let errCount = 0;
       this.timer = setInterval(async () => {
         try {
           const res = await this.$http({
@@ -85,8 +86,10 @@ export default {
             },
           });
           if (res.code !== 200) {
-            this.$message.error(res.message);
-            this.clearTimer();
+            errCount += 1;
+            if (errCount > 10) {
+              this.clearTimer();
+            }
             return;
           }
           this.logs = res.data;
