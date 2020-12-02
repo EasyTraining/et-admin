@@ -328,8 +328,14 @@ export default [
         path: "/system",
         component: RouteView,
         meta: { title: "系统管理", icon: "setting" },
-        redirect: "/system/org",
+        redirect: "/system/deploy",
         children: [
+          {
+            name: "/system/deploy",
+            path: "/system/deploy",
+            component: () => import("@/views/System/Deploy/Index"),
+            meta: { title: "应用部署" },
+          },
           {
             name: "/system/org",
             path: "/system/org",
