@@ -71,7 +71,7 @@ export default {
     onDeploy(app) {
       this.$confirm({
         title: `是否重新启动 ${app.title} ?`,
-        content: "启动期间, 会出现短暂不可访问, 大约持续 30s",
+        content: "启动期间, 会出现短暂不可访问, 大约持续 2 分钟",
         onOk: () => {
           this.showProcessModal(app);
         },
