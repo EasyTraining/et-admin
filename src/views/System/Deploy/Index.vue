@@ -2,14 +2,14 @@
   <div>
     <a-row :gutter="15">
       <a-col :span="12" v-for="app in appList" :key="app.code">
-        <a-card style="margin-bottom: 15px;">
+        <a-card style="margin-bottom: 15px">
           <template slot="actions" class="ant-card-actions">
             <div>
               <span>状态：</span>
               <a-tag v-if="app.running" color="green">运行中</a-tag>
               <a-tag v-else color="red">未运行</a-tag>
             </div>
-            <a v-if="app.enable" href="javascript:;" style="color: #027db4">
+            <a v-if="app.enable" href="javascript:;" style="color: #027db4" @click="onDeploy(app)">
               <a-icon type="deployment-unit" />
               重新启动
             </a>
@@ -19,12 +19,17 @@
         </a-card>
       </a-col>
     </a-row>
+
+    <process-modal :visible="processModalVisible" :target="currentTarget" @cancel="closeProcessModal" />
   </div>
 </template>
 
 <script>
+import ProcessModal from "./components/ProcessModal";
+
 export default {
   name: "SystemDeploy",
+  components: { ProcessModal },
   data() {
     return {
       appList: [
@@ -50,35 +55,39 @@ export default {
           running: false,
         },
         {
-          code: "ET_MOBILE",
-          title: "【易培训】学员手机版",
-          desc: "ET_MOBILE 是 ET_WEB 为手机、Pad 适配版本",
-          enable: false,
-          running: false,
-        },
-        {
           code: "ET_WEBSITE",
           title: "【易培训】官网",
           desc: "ET_WEBSITE 是机构的官方网站, 适配PC、手机、Pad",
           enable: false,
           running: false,
         },
-        {
-          code: "ET_QUESTION",
-          title: "【易培训】问卷调查网页版",
-          desc: "ET_QUESTION 是问卷调查的网页版, 适配PC、手机、Pad",
-          enable: false,
-          running: false,
-        },
-        {
-          code: "ET_QUESTION",
-          title: "【易培训】运营活动网页版",
-          desc: "ET_QUESTION 是运营活动的网页版, 适配PC、手机、Pad",
-          enable: false,
-          running: false,
-        },
       ],
+
+      currentTarget: "",
+      processModalVisible: false,
     };
+  },
+  methods: {
+    onDeploy(app) {
+      this.$confirm({
+        title: `是否重新启动 ${app.title} ?`,
+        content: "启动期间, 会出现短暂不可访问, 大约持续 30s",
+        onOk: () => {
+          this.showProcessModal(app);
+        },
+        onCancel: () => {},
+      });
+    },
+
+    showProcessModal({ code }) {
+      this.currentTarget = code;
+      this.processModalVisible = true;
+    },
+
+    closeProcessModal() {
+      this.currentTarget = "";
+      this.processModalVisible = false;
+    },
   },
 };
 </script>
