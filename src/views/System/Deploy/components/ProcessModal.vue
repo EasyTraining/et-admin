@@ -1,5 +1,14 @@
 <template>
-  <a-modal title="部署进度" centered :width="500" :visible="visible" :footer="null" @cancel="onCancel">
+  <a-modal
+    title="部署进度"
+    :keyboard="false"
+    :maskClosable="false"
+    centered
+    :width="500"
+    :visible="visible"
+    :footer="null"
+    @cancel="onCancel"
+  >
     <a-spin :spinning="loading" tip="正在接受数据...">
       <div style="min-height: 300px">
         <div class="log" v-for="(log, index) in logs" :key="index">
@@ -52,11 +61,13 @@ export default {
           },
         });
         if (res.code !== 200) {
+          this.onCancel();
           this.$message.error(res.message);
           return;
         }
         this.startTimer();
       } catch (e) {
+        this.onCancel();
         this.$message.error(e.message);
       } finally {
         this.loading = false;
@@ -75,6 +86,7 @@ export default {
           });
           if (res.code !== 200) {
             this.$message.error(res.message);
+            this.clearTimer();
             return;
           }
           this.logs = res.data;
@@ -88,7 +100,7 @@ export default {
         } catch (e) {
           // ignore
         }
-      }, 1000);
+      }, 2000);
     },
 
     onCancel() {
