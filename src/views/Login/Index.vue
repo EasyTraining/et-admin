@@ -5,7 +5,7 @@
         <a-form-model ref="form" :model="formData" :rules="formRules">
           <div class="logo">
             <img src="../../assets/logo.png" alt="" />
-            <h3>登录 {{ title }}</h3>
+            <h3>登录 {{ title }}...</h3>
           </div>
           <a-form-model-item prop="account">
             <a-input v-model="formData.account" size="large" type="text" placeholder="用户名">
