@@ -8,7 +8,13 @@
     @cancel="onCancel"
     @ok="onOk"
   >
-    <a-form-model ref="form" :model="formData" :rules="formRules" :label-col="{ span: 6 }" :wrapper-col="{ span: 15 }">
+    <a-form-model
+      ref="form"
+      :model="formData"
+      :rules="formRules"
+      :label-col="{ span: 6 }"
+      :wrapper-col="{ span: 15 }"
+    >
       <a-form-model-item label="选项名" prop="key">
         <a-input v-model="formData.key" :max-length="100" placeholder="请填写选项名" />
       </a-form-model-item>
@@ -16,10 +22,20 @@
         <a-input v-model="formData.value" :max-length="100" placeholder="请填写选项值" />
       </a-form-model-item>
       <a-form-model-item label="排序" prop="sort" extra="排序值越小, 越靠前">
-        <a-input-number v-model="formData.sort" style="width: 100%" :min="1" :max="99" placeholder="请填写排序" />
+        <a-input-number
+          v-model="formData.sort"
+          style="width: 100%"
+          :min="1"
+          :max="99"
+          placeholder="请填写排序"
+        />
       </a-form-model-item>
       <a-form-model-item label="启用状态" prop="enable">
-        <a-switch v-model="formData.enable" checked-children="已启用" un-checked-children="已停用" />
+        <a-switch
+          v-model="formData.enable"
+          checked-children="已启用"
+          un-checked-children="已停用"
+        />
       </a-form-model-item>
     </a-form-model>
   </a-modal>

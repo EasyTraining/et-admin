@@ -13,7 +13,10 @@ const Item = {
   name: "AvatarListItem",
   props: AvatarListItemProps,
   created() {
-    warning(getSlotOptions(this.$parent).__ANT_AVATAR_LIST, "AvatarListItem must be a subcomponent of AvatarList");
+    warning(
+      getSlotOptions(this.$parent).__ANT_AVATAR_LIST,
+      "AvatarListItem must be a subcomponent of AvatarList"
+    );
   },
   render() {
     const AvatarDom = <Avatar size={this.$parent.size} src={this.src} />;

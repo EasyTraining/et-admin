@@ -1,6 +1,20 @@
 <template>
-  <a-modal :keyboard="false" :width="600" centered :visible="visible" title="重置密码" @cancel="onCancel" @ok="onOk">
-    <a-form-model ref="form" :model="formData" :rules="formRules" :label-col="{ span: 6 }" :wrapper-col="{ span: 14 }">
+  <a-modal
+    :keyboard="false"
+    :width="600"
+    centered
+    :visible="visible"
+    title="重置密码"
+    @cancel="onCancel"
+    @ok="onOk"
+  >
+    <a-form-model
+      ref="form"
+      :model="formData"
+      :rules="formRules"
+      :label-col="{ span: 6 }"
+      :wrapper-col="{ span: 14 }"
+    >
       <a-form-model-item label="昵称" prop="nick_name">
         {{ formData.nick_name }}
       </a-form-model-item>

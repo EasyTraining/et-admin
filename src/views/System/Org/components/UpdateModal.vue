@@ -8,7 +8,13 @@
     @cancel="onCancel"
     @ok="onOk"
   >
-    <a-form-model ref="form" :model="formData" :rules="formRules" :label-col="{ span: 6 }" :wrapper-col="{ span: 15 }">
+    <a-form-model
+      ref="form"
+      :model="formData"
+      :rules="formRules"
+      :label-col="{ span: 6 }"
+      :wrapper-col="{ span: 15 }"
+    >
       <a-form-model-item label="上级部门" prop="parent_id" extra="留空代表顶级部门">
         <a-tree-select
           v-model="formData.parent_id"
@@ -38,14 +44,23 @@
         />
       </a-form-model-item>
       <a-form-model-item label="可见班级" prop="klass_ids">
-        <a-select v-model="formData.klass_ids" mode="multiple" show-search placeholder="请选择可见班级">
+        <a-select
+          v-model="formData.klass_ids"
+          mode="multiple"
+          show-search
+          placeholder="请选择可见班级"
+        >
           <a-select-option v-for="klass in klassList" :key="klass.id" :value="klass.id">
             {{ klass.name }}
           </a-select-option>
         </a-select>
       </a-form-model-item>
       <a-form-model-item label="启用状态" prop="enable">
-        <a-switch v-model="formData.enable" checked-children="已启用" un-checked-children="已停用" />
+        <a-switch
+          v-model="formData.enable"
+          checked-children="已启用"
+          un-checked-children="已停用"
+        />
       </a-form-model-item>
       <a-form-model-item label="部门备注" prop="remark">
         <a-textarea
@@ -76,7 +91,7 @@ export default {
       klassList: [],
       orgTreeData: [],
       menuTreeData: [],
-      
+
       formData: {
         id: "",
         parent_id: "",

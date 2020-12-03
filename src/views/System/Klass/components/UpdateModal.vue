@@ -8,11 +8,21 @@
     @cancel="onCancel"
     @ok="onOk"
   >
-    <a-form-model ref="form" :model="formData" :rules="formRules" :label-col="{ span: 6 }" :wrapper-col="{ span: 15 }">
+    <a-form-model
+      ref="form"
+      :model="formData"
+      :rules="formRules"
+      :label-col="{ span: 6 }"
+      :wrapper-col="{ span: 15 }"
+    >
       <a-form-model-item label="班级名称" prop="name">
         <a-input v-model="formData.name" :max-length="100" placeholder="请填写班级名称" />
       </a-form-model-item>
-      <a-form-model-item label="学号前缀" prop="prefix" extra="此前缀会应用在所有学员, 例如: VIP001, VIP002">
+      <a-form-model-item
+        label="学号前缀"
+        prop="prefix"
+        extra="此前缀会应用在所有学员, 例如: VIP001, VIP002"
+      >
         <a-input v-model="formData.prefix" :max-length="20" placeholder="请填写学号前缀" />
       </a-form-model-item>
       <a-form-model-item label="班主任" prop="leader_id">

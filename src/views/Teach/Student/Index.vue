@@ -26,7 +26,9 @@
         </a-descriptions-item>
       </a-descriptions>
       <a-descriptions>
-        <a-descriptions-item label="班级描述">{{ currentKlassInfo.description }}</a-descriptions-item>
+        <a-descriptions-item label="班级描述">{{
+          currentKlassInfo.description
+        }}</a-descriptions-item>
         <a-descriptions-item label="班级备注">{{ currentKlassInfo.remark }}</a-descriptions-item>
         <a-descriptions-item label="邀请码">
           <span>{{ currentKlassInfo.invite_code }}</span>
@@ -150,7 +152,10 @@ export default {
     async fetchKlassInfo() {
       this.klassLoading = true;
       try {
-        const res = await this.$http({ method: "GET", url: `/system/klass/${this.currentKlassId}` });
+        const res = await this.$http({
+          method: "GET",
+          url: `/system/klass/${this.currentKlassId}`,
+        });
         if (res.code !== 200) {
           this.$message.error(res.message);
           return;
@@ -189,7 +194,11 @@ export default {
     async switchStatus({ id, enable }) {
       this.studentLoading = true;
       try {
-        const res = await this.$http({ method: "PUT", url: `/teach/course/${id}/enable`, data: { enable } });
+        const res = await this.$http({
+          method: "PUT",
+          url: `/teach/course/${id}/enable`,
+          data: { enable },
+        });
         if (res.code !== 200) {
           this.$message.error(res.message);
           return;

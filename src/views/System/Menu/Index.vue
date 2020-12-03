@@ -5,7 +5,13 @@
     </p>
 
     <a-card :loading="mounting" :body-style="{ padding: 0 }">
-      <a-table :columns="tableColumns" row-key="id" :data-source="tableData" :loading="loading" :pagination="false">
+      <a-table
+        :columns="tableColumns"
+        row-key="id"
+        :data-source="tableData"
+        :loading="loading"
+        :pagination="false"
+      >
         <template slot="enable" slot-scope="text, record">
           <a-switch
             v-model="record.enable"
@@ -24,7 +30,12 @@
       </a-table>
     </a-card>
 
-    <update-modal :visible="visible" :initial-values="editedRecord" @cancel="closeModal" @ok="onModalOk" />
+    <update-modal
+      :visible="visible"
+      :initial-values="editedRecord"
+      @cancel="closeModal"
+      @ok="onModalOk"
+    />
   </div>
 </template>
 
@@ -96,7 +107,11 @@ export default {
     async switchStatus({ id, enable }) {
       this.loading = true;
       try {
-        const res = await this.$http({ method: "PUT", url: `/system/menu/${id}/enable`, data: { enable } });
+        const res = await this.$http({
+          method: "PUT",
+          url: `/system/menu/${id}/enable`,
+          data: { enable },
+        });
         if (res.code !== 200) {
           this.$message.error(res.message);
           return;

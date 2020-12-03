@@ -5,7 +5,13 @@
     </p>
 
     <a-card :loading="mounting" :body-style="{ padding: 0 }">
-      <a-table :columns="tableColumns" row-key="id" :data-source="tableData" :loading="loading" :pagination="false">
+      <a-table
+        :columns="tableColumns"
+        row-key="id"
+        :data-source="tableData"
+        :loading="loading"
+        :pagination="false"
+      >
         <template slot="action" slot-scope="text, record">
           <a href="javascript:;" @click="onInvite(record)">生成邀请码</a>
           <a-divider type="vertical" />

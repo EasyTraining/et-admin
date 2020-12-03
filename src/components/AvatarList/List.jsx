@@ -37,7 +37,8 @@ const AvatarList = {
       [`${size}`]: true,
     };
     const items = filterEmpty(this.$slots.default);
-    const itemsDom = items && items.length ? <ul class={`${prefixCls}-items`}>{this.getItems(items)}</ul> : null;
+    const itemsDom =
+      items && items.length ? <ul class={`${prefixCls}-items`}>{this.getItems(items)}</ul> : null;
 
     return <div class={className}>{itemsDom}</div>;
   },
@@ -51,7 +52,11 @@ const AvatarList = {
 
       if (this.maxLength > 0) {
         items = items.slice(0, this.maxLength);
-        items.push(<Avatar size={this.size} style={this.excessItemsStyle}>{`+${totalSize - this.maxLength}`}</Avatar>);
+        items.push(
+          <Avatar size={this.size} style={this.excessItemsStyle}>{`+${
+            totalSize - this.maxLength
+          }`}</Avatar>
+        );
       }
       return items.map((item) => <li class={className}>{item}</li>);
     },

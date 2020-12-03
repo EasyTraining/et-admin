@@ -128,7 +128,11 @@ export default {
     async switchStatus({ id, enable }) {
       this.loading = true;
       try {
-        const res = await this.$http({ method: "PUT", url: `/cms/category/${id}/enable`, data: { enable } });
+        const res = await this.$http({
+          method: "PUT",
+          url: `/cms/category/${id}/enable`,
+          data: { enable },
+        });
         if (res.code !== 200) {
           this.$message.error(res.message);
           return;

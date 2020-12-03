@@ -23,20 +23,44 @@
       </a-row>
     </a-card>
     <a-card :body-style="{ padding: 0 }">
-      <a-table :columns="tableColumns" row-key="id" :data-source="tableData" :loading="loading" :pagination="false">
+      <a-table
+        :columns="tableColumns"
+        row-key="id"
+        :data-source="tableData"
+        :loading="loading"
+        :pagination="false"
+      >
         <template slot="sort" slot-scope="text, record">
-          <a-input-number v-model="record.sort" size="small" :min="1" style="width: 70px" @blur="sort(record)" />
+          <a-input-number
+            v-model="record.sort"
+            size="small"
+            :min="1"
+            style="width: 70px"
+            @blur="sort(record)"
+          />
         </template>
         <template slot="type" slot-scope="text, record">
           <span>{{ record.type | questionTypeToLabel }}</span>
         </template>
         <template slot="level" slot-scope="text, record">
-          <a-tag v-if="record.level === 'EASY'" color="green">{{ record.level | levelToLabel }}</a-tag>
-          <a-tag v-if="record.level === 'NORMAL'" color="blue">{{ record.level | levelToLabel }}</a-tag>
-          <a-tag v-if="record.level === 'HARD'" color="red">{{ record.level | levelToLabel }}</a-tag>
+          <a-tag v-if="record.level === 'EASY'" color="green">{{
+            record.level | levelToLabel
+          }}</a-tag>
+          <a-tag v-if="record.level === 'NORMAL'" color="blue">{{
+            record.level | levelToLabel
+          }}</a-tag>
+          <a-tag v-if="record.level === 'HARD'" color="red">{{
+            record.level | levelToLabel
+          }}</a-tag>
         </template>
         <template slot="grade" slot-scope="text, record">
-          <a-input-number v-model="record.grade" size="small" :min="1" style="width: 70px" @blur="calcGrade" />
+          <a-input-number
+            v-model="record.grade"
+            size="small"
+            :min="1"
+            style="width: 70px"
+            @blur="calcGrade"
+          />
         </template>
         <div class="actions" slot="action" slot-scope="text, record">
           <a href="javascript:;" @click="remove(record)">删除</a>
@@ -64,12 +88,21 @@
             <a-tab-pane v-for="library in libraryList" :key="library.id" :tab="library.name">
               <div class="question" v-for="question in library.questions" :key="question.id">
                 <div class="question__ckb">
-                  <a-checkbox :checked="question.checked" @change="selectQuestion($event, library, question)" />
+                  <a-checkbox
+                    :checked="question.checked"
+                    @change="selectQuestion($event, library, question)"
+                  />
                 </div>
                 <div class="question__level">
-                  <a-tag v-if="question.level === 'EASY'" color="green">{{ question.level | levelToLabel }}</a-tag>
-                  <a-tag v-if="question.level === 'NORMAL'" color="blue">{{ question.level | levelToLabel }}</a-tag>
-                  <a-tag v-if="question.level === 'HARD'" color="red">{{ question.level | levelToLabel }}</a-tag>
+                  <a-tag v-if="question.level === 'EASY'" color="green">{{
+                    question.level | levelToLabel
+                  }}</a-tag>
+                  <a-tag v-if="question.level === 'NORMAL'" color="blue">{{
+                    question.level | levelToLabel
+                  }}</a-tag>
+                  <a-tag v-if="question.level === 'HARD'" color="red">{{
+                    question.level | levelToLabel
+                  }}</a-tag>
                 </div>
                 <div class="question__name">{{ question.name }}</div>
               </div>
@@ -84,7 +117,13 @@
 <script>
 import { _ } from "@/utils";
 import { questionColumns } from "./const";
-import { calcAnalysis, initLibraryList, setQuestionCheck, uncheckQuestion, getCheckedQuestions } from "./util";
+import {
+  calcAnalysis,
+  initLibraryList,
+  setQuestionCheck,
+  uncheckQuestion,
+  getCheckedQuestions,
+} from "./util";
 
 export default {
   name: "PaperForm",
@@ -130,7 +169,12 @@ export default {
     },
 
     selectQuestion(evt, library, question) {
-      this.libraryList = setQuestionCheck(this.libraryList, library.id, question.id, evt.target.checked);
+      this.libraryList = setQuestionCheck(
+        this.libraryList,
+        library.id,
+        question.id,
+        evt.target.checked
+      );
     },
 
     setQuestions() {
@@ -161,7 +205,11 @@ export default {
     async fetchLibraryList() {
       this.loading = true;
       try {
-        const res = await this.$http({ method: "GET", url: "/exam/search/library", params: { enable: true } });
+        const res = await this.$http({
+          method: "GET",
+          url: "/exam/search/library",
+          params: { enable: true },
+        });
         if (res.code !== 200) {
           this.$message.error(res.message);
           return;

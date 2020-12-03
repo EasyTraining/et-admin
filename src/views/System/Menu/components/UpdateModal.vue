@@ -8,7 +8,13 @@
     @cancel="onCancel"
     @ok="onOk"
   >
-    <a-form-model ref="form" :model="formData" :rules="formRules" :label-col="{ span: 6 }" :wrapper-col="{ span: 15 }">
+    <a-form-model
+      ref="form"
+      :model="formData"
+      :rules="formRules"
+      :label-col="{ span: 6 }"
+      :wrapper-col="{ span: 15 }"
+    >
       <a-form-model-item label="上级菜单" prop="parent_id" extra="留空代表顶级菜单">
         <a-tree-select
           v-model="formData.parent_id"
@@ -28,7 +34,11 @@
         <a-input v-model="formData.title" :max-length="100" placeholder="请填写菜单名称" />
       </a-form-model-item>
       <a-form-model-item label="启用状态" prop="enable">
-        <a-switch v-model="formData.enable" checked-children="已启用" un-checked-children="已停用" />
+        <a-switch
+          v-model="formData.enable"
+          checked-children="已启用"
+          un-checked-children="已停用"
+        />
       </a-form-model-item>
       <a-form-model-item label="菜单附加数据" prop="meta">
         <a-textarea

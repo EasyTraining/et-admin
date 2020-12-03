@@ -50,10 +50,18 @@
             />
           </a-form-model-item>
           <a-form-model-item label="启用状态" prop="enable">
-            <a-switch v-model="formData.enable" checked-children="已启用" un-checked-children="已停用" />
+            <a-switch
+              v-model="formData.enable"
+              checked-children="已启用"
+              un-checked-children="已停用"
+            />
           </a-form-model-item>
           <a-form-model-item label="文章排序" prop="sort" extra="值越小越靠前">
-            <a-input-number v-model="formData.sort" style="width: 100%" placeholder="请填写文章排序" />
+            <a-input-number
+              v-model="formData.sort"
+              style="width: 100%"
+              placeholder="请填写文章排序"
+            />
           </a-form-model-item>
           <a-form-model-item label="文章作者" prop="author">
             <a-input v-model="formData.author" placeholder="请填写文章作者" />
@@ -93,7 +101,11 @@
             />
           </a-form-model-item>
           <a-form-model-item label="已读数" prop="read_count">
-            <a-input-number v-model="formData.read_count" style="width: 100%" placeholder="请填写已读数" />
+            <a-input-number
+              v-model="formData.read_count"
+              style="width: 100%"
+              placeholder="请填写已读数"
+            />
           </a-form-model-item>
         </template>
       </a-form-model>

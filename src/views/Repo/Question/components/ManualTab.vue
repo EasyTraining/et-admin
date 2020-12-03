@@ -1,9 +1,17 @@
 <template>
   <div>
-    <a-form-model ref="form" :model="formData" :rules="formRules" :label-col="{ span: 4 }" :wrapper-col="{ span: 16 }">
+    <a-form-model
+      ref="form"
+      :model="formData"
+      :rules="formRules"
+      :label-col="{ span: 4 }"
+      :wrapper-col="{ span: 16 }"
+    >
       <a-form-model-item label="题目类型" prop="type">
         <a-radio-group v-model="formData.type" @change="onTypeChange" button-style="solid">
-          <a-radio-button v-for="(val, key) in enums.questionMap" :key="key" :value="key">{{ val }}</a-radio-button>
+          <a-radio-button v-for="(val, key) in enums.questionMap" :key="key" :value="key">{{
+            val
+          }}</a-radio-button>
         </a-radio-group>
       </a-form-model-item>
       <a-form-model-item label="题目" prop="name">
@@ -111,7 +119,11 @@
             新增选项
           </a-button>
         </a-form-model-item>
-        <a-form-model-item label="答案" prop="real_answer" extra="格式大写，长度等于题目选项的个数，不能包含重复项">
+        <a-form-model-item
+          label="答案"
+          prop="real_answer"
+          extra="格式大写，长度等于题目选项的个数，不能包含重复项"
+        >
           <a-input v-model="formData.real_answer" placeholder="请填写答案" :max-length="100" />
         </a-form-model-item>
       </template>

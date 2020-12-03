@@ -16,7 +16,12 @@
       </template>
     </a-table>
 
-    <update-modal :visible="visible" :initial-values="editedRecord" @cancel="closeModal" @ok="onModalOk" />
+    <update-modal
+      :visible="visible"
+      :initial-values="editedRecord"
+      @cancel="closeModal"
+      @ok="onModalOk"
+    />
   </div>
 </template>
 

@@ -8,9 +8,20 @@
     @cancel="onCancel"
     @ok="onOk"
   >
-    <a-form-model ref="form" :model="formData" :rules="formRules" :label-col="{ span: 6 }" :wrapper-col="{ span: 15 }">
+    <a-form-model
+      ref="form"
+      :model="formData"
+      :rules="formRules"
+      :label-col="{ span: 6 }"
+      :wrapper-col="{ span: 15 }"
+    >
       <a-form-model-item label="章节序号" prop="sort" extra="值越小越靠前">
-        <a-input-number v-model="formData.sort" style="width: 100%" :min="1" placeholder="请填写章节序号" />
+        <a-input-number
+          v-model="formData.sort"
+          style="width: 100%"
+          :min="1"
+          placeholder="请填写章节序号"
+        />
       </a-form-model-item>
       <a-form-model-item label="章节名称" prop="name">
         <a-input v-model="formData.name" :max-length="100" placeholder="请填写章节名称" />
@@ -24,7 +35,11 @@
         />
       </a-form-model-item>
       <a-form-model-item label="启用状态" prop="enable">
-        <a-switch v-model="formData.enable" checked-children="已启用" un-checked-children="已停用" />
+        <a-switch
+          v-model="formData.enable"
+          checked-children="已启用"
+          un-checked-children="已停用"
+        />
       </a-form-model-item>
       <a-form-model-item label="章节备注" prop="remark">
         <a-textarea

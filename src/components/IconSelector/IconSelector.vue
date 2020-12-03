@@ -59,7 +59,9 @@ export default {
       this.currentTab = activeKey;
     },
     autoSwitchTab() {
-      icons.some((item) => item.icons.some((icon) => icon === this.value) && (this.currentTab = item.key));
+      icons.some(
+        (item) => item.icons.some((icon) => icon === this.value) && (this.currentTab = item.key)
+      );
     },
   },
 };

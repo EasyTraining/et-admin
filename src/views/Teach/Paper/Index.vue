@@ -110,7 +110,11 @@ export default {
       this.loading = true;
       try {
         const { current, pageSize } = this.tablePager;
-        const res = await this.$http({ method: "GET", url: "/teach/paper", params: { current, pageSize } });
+        const res = await this.$http({
+          method: "GET",
+          url: "/teach/paper",
+          params: { current, pageSize },
+        });
         if (res.code !== 200) {
           this.$message.error(res.message);
           return;
@@ -145,7 +149,11 @@ export default {
     async switchStatus({ id, enable }) {
       this.loading = true;
       try {
-        const res = await this.$http({ method: "PUT", url: `/teach/paper/${id}/enable`, data: { enable } });
+        const res = await this.$http({
+          method: "PUT",
+          url: `/teach/paper/${id}/enable`,
+          data: { enable },
+        });
         if (res.code !== 200) {
           this.$message.error(res.message);
           return;

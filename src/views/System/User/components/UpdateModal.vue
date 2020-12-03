@@ -8,7 +8,13 @@
     @cancel="onCancel"
     @ok="onOk"
   >
-    <a-form-model ref="form" :model="formData" :rules="formRules" :label-col="{ span: 6 }" :wrapper-col="{ span: 15 }">
+    <a-form-model
+      ref="form"
+      :model="formData"
+      :rules="formRules"
+      :label-col="{ span: 6 }"
+      :wrapper-col="{ span: 15 }"
+    >
       <a-form-model-item label="所属部门" prop="org_id">
         <a-tree-select
           v-model="formData.org_id"
@@ -34,7 +40,11 @@
         <a-input v-model="formData.phone" :max-length="11" placeholder="请填写手机号码" />
       </a-form-model-item>
       <a-form-model-item label="启用状态" prop="enable">
-        <a-switch v-model="formData.enable" checked-children="已启用" un-checked-children="已停用" />
+        <a-switch
+          v-model="formData.enable"
+          checked-children="已启用"
+          un-checked-children="已停用"
+        />
       </a-form-model-item>
       <a-form-model-item label="用户备注" prop="remark">
         <a-textarea

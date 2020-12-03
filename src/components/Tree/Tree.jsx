@@ -46,14 +46,20 @@ export default {
         <Item key={item.key}>
           {this.renderIcon(item.icon)}
           {item.title}
-          <a class="btn" style="width: 20px;z-index:1300" {...{ on: { click: () => this.handlePlus(item) } }}>
+          <a
+            class="btn"
+            style="width: 20px;z-index:1300"
+            {...{ on: { click: () => this.handlePlus(item) } }}
+          >
             <a-icon type="plus" />
           </a>
         </Item>
       );
     },
     renderItem(item) {
-      return item.children ? this.renderSubItem(item, item.key) : this.renderMenuItem(item, item.key);
+      return item.children
+        ? this.renderSubItem(item, item.key)
+        : this.renderMenuItem(item, item.key);
     },
     renderItemGroup(item) {
       const childrenItems = item.children.map((o) => {

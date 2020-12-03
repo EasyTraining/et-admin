@@ -20,7 +20,11 @@
       </a-col>
     </a-row>
 
-    <process-modal :visible="processModalVisible" :target="currentTarget" @cancel="closeProcessModal" />
+    <process-modal
+      :visible="processModalVisible"
+      :target="currentTarget"
+      @cancel="closeProcessModal"
+    />
   </div>
 </template>
 

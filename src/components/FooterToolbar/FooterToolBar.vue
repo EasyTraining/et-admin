@@ -37,7 +37,9 @@ export default {
       collapsed: (state) => state.app.sideCollapsed,
     }),
     barWidth() {
-      return this.isMobile ? undefined : `calc(100% - ${this.collapsed ? 80 : this.siderWidth || 200}px)`;
+      return this.isMobile
+        ? undefined
+        : `calc(100% - ${this.collapsed ? 80 : this.siderWidth || 200}px)`;
     },
   },
 };

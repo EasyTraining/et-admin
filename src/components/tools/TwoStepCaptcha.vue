@@ -5,7 +5,9 @@
     <template slot="footer">
       <div :style="{ textAlign: 'center' }">
         <a-button key="back" @click="handleCancel">返回</a-button>
-        <a-button key="submit" type="primary" :loading="stepLoading" @click="handleStepOk"> 继续 </a-button>
+        <a-button key="submit" type="primary" :loading="stepLoading" @click="handleStepOk">
+          继续
+        </a-button>
       </div>
     </template>
 
@@ -28,10 +30,16 @@
             hasFeedback
             fieldDecoratorId="stepCode"
             :fieldDecoratorOptions="{
-              rules: [{ required: true, message: '请输入 6 位动态码!', pattern: /^\d{6}$/, len: 6 }],
+              rules: [
+                { required: true, message: '请输入 6 位动态码!', pattern: /^\d{6}$/, len: 6 },
+              ],
             }"
           >
-            <a-input :style="{ textAlign: 'center' }" @keyup.enter.native="handleStepOk" placeholder="000000" />
+            <a-input
+              :style="{ textAlign: 'center' }"
+              @keyup.enter.native="handleStepOk"
+              placeholder="000000"
+            />
           </a-form-item>
           <p style="text-align: center">
             <a @click="onForgeStepCode">遗失手机?</a>

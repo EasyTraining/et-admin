@@ -14,7 +14,11 @@
         <h1>{{ title }}</h1>
       </template>
       <template v-slot:rightContentRender>
-        <right-content :top-menu="settings.layout === 'topmenu'" :is-mobile="false" :theme="settings.theme" />
+        <right-content
+          :top-menu="settings.layout === 'topmenu'"
+          :is-mobile="false"
+          :theme="settings.theme"
+        />
       </template>
       <template v-slot:footerRender>
         <span>Copyright © EasyTraining</span>

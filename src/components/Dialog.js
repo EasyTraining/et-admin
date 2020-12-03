@@ -96,21 +96,25 @@ export default (Vue) => {
         if (componentModel) {
           delete componentProps.model;
         }
-        const ComponentProps = Object.assign({}, (componentModel && { model: componentModel }) || {}, {
-          ref: "_component",
-          attrs: Object.assign(
-            {},
-            {
-              ...((componentProps && componentProps.attrs) || componentProps),
-            }
-          ),
-          on: Object.assign(
-            {},
-            {
-              ...((componentProps && componentProps.on) || componentProps),
-            }
-          ),
-        });
+        const ComponentProps = Object.assign(
+          {},
+          (componentModel && { model: componentModel }) || {},
+          {
+            ref: "_component",
+            attrs: Object.assign(
+              {},
+              {
+                ...((componentProps && componentProps.attrs) || componentProps),
+              }
+            ),
+            on: Object.assign(
+              {},
+              {
+                ...((componentProps && componentProps.on) || componentProps),
+              }
+            ),
+          }
+        );
 
         return h(Modal, ModalProps, [h(component, ComponentProps)]);
       },

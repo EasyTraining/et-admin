@@ -33,8 +33,18 @@
       </a-table>
     </a-card>
 
-    <update-modal :visible="editModalVisible" :id="currentUserId" @refresh="fetchTableData" @cancel="closeEditModal" />
-    <reset-modal :visible="resetModalVisible" :id="currentUserId" @refresh="fetchTableData" @cancel="closeResetModal" />
+    <update-modal
+      :visible="editModalVisible"
+      :id="currentUserId"
+      @refresh="fetchTableData"
+      @cancel="closeEditModal"
+    />
+    <reset-modal
+      :visible="resetModalVisible"
+      :id="currentUserId"
+      @refresh="fetchTableData"
+      @cancel="closeResetModal"
+    />
   </div>
 </template>
 
@@ -139,7 +149,11 @@ export default {
     async switchStatus({ id, enable }) {
       this.loading = true;
       try {
-        const res = await this.$http({ method: "PUT", url: `/system/user/${id}/enable`, data: { enable } });
+        const res = await this.$http({
+          method: "PUT",
+          url: `/system/user/${id}/enable`,
+          data: { enable },
+        });
         if (res.code !== 200) {
           this.$message.error(res.message);
           return;
