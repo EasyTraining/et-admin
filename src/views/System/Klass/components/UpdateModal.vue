@@ -12,6 +12,9 @@
       <a-form-model-item label="班级名称" prop="name">
         <a-input v-model="formData.name" :max-length="100" placeholder="请填写班级名称" />
       </a-form-model-item>
+      <a-form-model-item label="学号前缀" prop="prefix" extra="此前缀会应用在所有学员, 例如: VIP001, VIP002">
+        <a-input v-model="formData.prefix" :max-length="20" placeholder="请填写学号前缀" />
+      </a-form-model-item>
       <a-form-model-item label="班主任" prop="leader_id">
         <a-select v-model="formData.leader_id" placeholder="请选择班主任">
           <a-select-option v-for="user in userList" :key="user.id" :value="user.id">
@@ -44,6 +47,7 @@ import { _ } from "@/utils";
 
 const formRules = {
   name: [{ required: true, message: "请填写班级名称" }],
+  prefix: [{ required: true, message: "请填写学号前缀" }],
   leader_id: [{ required: true, message: "请选择班主任" }],
   description: [{ required: true, message: "请填写班级描述" }],
 };

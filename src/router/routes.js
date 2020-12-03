@@ -78,6 +78,12 @@ export default [
         redirect: "/teach/course",
         children: [
           {
+            name: "/teach/student",
+            path: "/teach/student",
+            component: () => import("@/views/Teach/Student/Index"),
+            meta: { title: "学员管理" },
+          },
+          {
             name: "/teach/course",
             path: "/teach/course",
             component: () => import("@/views/Teach/Course/Index"),
