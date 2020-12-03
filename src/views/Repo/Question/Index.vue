@@ -1,7 +1,7 @@
 <template>
   <div>
     <p>
-      <router-link :to="'/exam/library/' + info.id + '/questions/add'">
+      <router-link :to="'/repo/library/' + info.id + '/questions/add'">
         <a-button type="primary" icon="plus">新增题目</a-button>
       </router-link>
     </p>
@@ -17,7 +17,7 @@
         <span slot="index" slot-scope="text, record, index">{{ index + 1 }}</span>
         <span slot="type" slot-scope="text, record, index">{{ record.type | questionTypeToLabel }}</span>
         <template slot="action" slot-scope="text, record">
-          <router-link :to="'/exam/library/' + id + '/questions/edit/' + record.id">编辑</router-link>
+          <router-link :to="'/repo/library/' + id + '/questions/edit/' + record.id">编辑</router-link>
           <a-divider type="vertical" />
           <a-popconfirm title="删除以后无法恢复, 是否继续?" @confirm="remove(record)">
             <a href="javascript:;">删除</a>
@@ -52,7 +52,7 @@ export default {
     async fetchDetail() {
       this.loading = true;
       try {
-        const res = await this.$http({ method: "GET", url: `/exam/library/${this.id}` });
+        const res = await this.$http({ method: "GET", url: `/repo/library/${this.id}` });
         if (res.code !== 200) {
           this.$message.error(res.message);
           return;
@@ -68,7 +68,7 @@ export default {
     async remove({ id }) {
       this.loading = true;
       try {
-        const res = await this.$http({ method: "DELETE", url: `/exam/library/${this.id}/question/${id}` });
+        const res = await this.$http({ method: "DELETE", url: `/repo/library/${this.id}/question/${id}` });
         if (res.code !== 200) {
           this.$message.error(res.message);
           return;

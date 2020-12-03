@@ -246,13 +246,13 @@ export default {
           if (this.questionId) {
             promise = this.$http({
               method: "PUT",
-              url: `/exam/library/${this.libraryId}/question/${this.questionId}`,
+              url: `/repo/library/${this.libraryId}/question/${this.questionId}`,
               data: fd,
             });
           } else {
             promise = this.$http({
               method: "POST",
-              url: `/exam/library/${this.libraryId}/question`,
+              url: `/repo/library/${this.libraryId}/question`,
               data: fd,
             });
           }
@@ -262,7 +262,7 @@ export default {
             return;
           }
           this.$message.success(res.message);
-          await this.$router.push(`/exam/library/${this.libraryId}/questions`);
+          await this.$router.push(`/repo/library/${this.libraryId}/questions`);
         } catch (e) {
           this.$message.error(e.message);
         } finally {

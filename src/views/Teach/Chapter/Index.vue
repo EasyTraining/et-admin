@@ -11,9 +11,9 @@
         style="width: 200px"
         placeholder="请选择所属课程"
       />
-      <a-input v-model="query.name" style="width: 200px; margin-left: 15px;" placeholder="名称关键字" />
-      <a-input v-model="query.target" style="width: 200px; margin-left: 15px;" placeholder="教学目标关键字" />
-      <a-input v-model="query.remark" style="width: 200px; margin-left: 15px;" placeholder="备注关键字" />
+      <a-input v-model="query.name" style="width: 200px; margin-left: 15px" placeholder="名称关键字" />
+      <a-input v-model="query.target" style="width: 200px; margin-left: 15px" placeholder="教学目标关键字" />
+      <a-input v-model="query.remark" style="width: 200px; margin-left: 15px" placeholder="备注关键字" />
       <a-button style="margin-left: 15px" type="primary" icon="search" @click="search">搜索章节</a-button>
       <a-button @click="reset">重置</a-button>
     </a-card>
@@ -99,13 +99,9 @@ export default {
     await this.fetchTableData();
   },
   methods: {
-    search() {
+    search() {},
 
-    },
-
-    reset() {
-
-    },
+    reset() {},
 
     onTableChange(pagination, filters, sorter) {
       const { current, pageSize } = pagination;

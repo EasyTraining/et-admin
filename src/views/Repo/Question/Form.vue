@@ -36,7 +36,7 @@ export default {
     async fetchDetail() {
       this.loading = true;
       try {
-        const res = await this.$http({ method: "GET", url: `/exam/library/${this.libraryId}` });
+        const res = await this.$http({ method: "GET", url: `/repo/library/${this.libraryId}` });
         if (res.code !== 200) {
           this.$message.error(res.message);
           return;

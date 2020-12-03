@@ -5,14 +5,7 @@
     </p>
 
     <a-card :loading="mounting" :body-style="{ padding: 0 }">
-      <a-table
-        :columns="tableColumns"
-        row-key="id"
-        :data-source="tableData"
-        :loading="loading"
-        :pagination="tablePager"
-        @change="onTableChange"
-      >
+      <a-table :columns="tableColumns" row-key="id" :data-source="tableData" :loading="loading" :pagination="false">
         <template slot="enable" slot-scope="text, record">
           <a-switch
             v-model="record.enable"
@@ -49,13 +42,6 @@ export default {
 
       tableColumns,
       tableData: [],
-      tablePager: {
-        current: 1,
-        pageSize: 30,
-        showSizeChanger: true,
-        showQuickJumper: true,
-        total: 0,
-      },
 
       visible: false,
       editedRecord: null,
@@ -65,13 +51,6 @@ export default {
     await this.fetchTableData();
   },
   methods: {
-    onTableChange(pagination, filters, sorter) {
-      const { current, pageSize } = pagination;
-      this.tablePager.current = current;
-      this.tablePager.pageSize = pageSize;
-      this.fetchTableData();
-    },
-
     onAdd() {
       this.visible = true;
     },
@@ -106,9 +85,7 @@ export default {
           this.$message.error(res.message);
           return;
         }
-        const { total, data } = res.data;
-        this.tableData = data;
-        this.tablePager.total = total;
+        this.tableData = res.data;
       } catch (e) {
         this.$message.error(e.message);
       } finally {

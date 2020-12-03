@@ -6,14 +6,7 @@
     </p>
 
     <a-card :body-style="{ padding: 0 }">
-      <a-table
-        :columns="tableColumns"
-        row-key="id"
-        :data-source="tableData"
-        :loading="loading"
-        :pagination="tablePager"
-        @change="onTableChange"
-      >
+      <a-table :columns="tableColumns" row-key="id" :data-source="tableData" :loading="loading" :pagination="false">
         <template slot="enable" slot-scope="text, record">
           <a-switch
             v-model="record.enable"
@@ -23,7 +16,7 @@
           />
         </template>
         <template slot="action" slot-scope="text, record">
-          <router-link :to="'/exam/library/' + record.id + '/questions'">题目管理</router-link>
+          <router-link :to="'/repo/library/' + record.id + '/questions'">题目管理</router-link>
           <a-divider type="vertical" />
           <a href="javascript:;" @click="showEditModal(record)">编辑</a>
           <a-divider type="vertical" />
@@ -79,13 +72,6 @@ export default {
 
       tableColumns,
       tableData: [],
-      tablePager: {
-        current: 1,
-        pageSize: 30,
-        showSizeChanger: true,
-        showQuickJumper: true,
-        total: 0,
-      },
 
       modalVisible: false,
       modalForm: {
@@ -100,25 +86,16 @@ export default {
     this.fetchTableData();
   },
   methods: {
-    onTableChange(pagination, filters, sorter) {
-      const { current, pageSize } = pagination;
-      this.tablePager.current = current;
-      this.tablePager.pageSize = pageSize;
-      this.fetchTableData();
-    },
-
     async fetchTableData() {
       this.loading = true;
       try {
-        const { current, pageSize } = this.tablePager;
-        const res = await this.$http({ method: "GET", url: "/exam/library", params: { current, pageSize } });
+        const res = await this.$http({ method: "GET", url: "/repo/library" });
         if (res.code !== 200) {
           this.$message.error(res.message);
           return;
         }
         const { total, data } = res.data;
-        this.tableData = data;
-        this.tablePager.total = total;
+        this.tableData = res.data;
       } catch (e) {
         this.$message.error(e.message);
       } finally {
@@ -129,7 +106,7 @@ export default {
     async remove({ id }) {
       this.loading = true;
       try {
-        const res = await this.$http({ method: "DELETE", url: `/exam/library/${id}` });
+        const res = await this.$http({ method: "DELETE", url: `/repo/library/${id}` });
         if (res.code !== 200) {
           this.$message.error(res.message);
           return;
@@ -146,7 +123,7 @@ export default {
     async switchStatus({ id, enable }) {
       this.loading = true;
       try {
-        const res = await this.$http({ method: "PUT", url: `/exam/library/${id}/enable`, data: { enable } });
+        const res = await this.$http({ method: "PUT", url: `/repo/library/${id}/enable`, data: { enable } });
         if (res.code !== 200) {
           this.$message.error(res.message);
           return;
@@ -182,8 +159,8 @@ export default {
         try {
           const { id, ...rest } = this.modalForm;
           const res = id
-            ? await this.$http({ method: "PUT", url: `/exam/library/${id}`, data: rest })
-            : await this.$http({ method: "POST", url: "/exam/library", data: rest });
+            ? await this.$http({ method: "PUT", url: `/repo/library/${id}`, data: rest })
+            : await this.$http({ method: "POST", url: "/repo/library", data: rest });
           if (res.code !== 200) {
             this.$message.error(res.message);
             return;
