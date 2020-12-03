@@ -7,6 +7,8 @@
     <a-card :loading="mounting" :body-style="{ padding: 0 }">
       <a-table :columns="tableColumns" row-key="id" :data-source="tableData" :loading="loading" :pagination="false">
         <template slot="action" slot-scope="text, record">
+          <a href="javascript:;" @click="onInvite(record)">生成邀请码</a>
+          <a-divider type="vertical" />
           <a href="javascript:;" @click="onEdit(record)">编辑</a>
         </template>
       </a-table>
@@ -51,6 +53,33 @@ export default {
     onEdit(record) {
       this.editedRecord = record;
       this.updateModalVisible = true;
+    },
+
+    onInvite(record) {
+      this.$confirm({
+        title: "是否继续?",
+        content: "激活码一天内有效",
+        onOk: async () => {
+          try {
+            const res = await this.$http({
+              method: "POST",
+              url: "/system/klass_util/gen_invite_code",
+              data: {
+                klass_id: record.id,
+              },
+            });
+            if (res.code !== 200) {
+              this.$message.error(res.message);
+              return;
+            }
+            this.$message.success("操作成功");
+            await this.fetchTableData();
+          } catch (e) {
+            this.$message.error(e.message);
+          }
+        },
+        onCancel: () => {},
+      });
     },
 
     async fetchTableData() {

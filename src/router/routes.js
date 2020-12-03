@@ -84,12 +84,6 @@ export default [
             meta: { title: "课程管理" },
           },
           {
-            name: "/teach/chapter",
-            path: "/teach/chapter",
-            component: () => import("@/views/Teach/Chapter/Index"),
-            meta: { title: "章节管理" },
-          },
-          {
             name: "/teach/paper",
             path: "/teach/paper",
             component: () => import("@/views/Teach/Paper/Index"),
@@ -290,18 +284,6 @@ export default [
             component: () => import("@/views/Tool/UEditor/Index"),
             meta: { title: "富文本编辑器" },
           },
-          {
-            name: "/tool/mathlive",
-            path: "/tool/mathlive",
-            component: () => import("@/views/Tool/MathLive/Index"),
-            meta: { title: "公式编辑器" },
-          },
-          // {
-          //   name: "/tool/ckeditor",
-          //   path: "/tool/ckeditor",
-          //   component: () => import("@/views/Tool/CKEditor/Index"),
-          //   meta: { title: "CKEditor" },
-          // },
           {
             name: "/tool/t1",
             path: "/tool/t1",

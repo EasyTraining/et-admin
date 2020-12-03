@@ -2,18 +2,19 @@
   <div>
     <p>
       <a-button type="primary" icon="plus" @click="onAdd">新增部门</a-button>
-      <a-button icon="bars" @click="showTreeModal">查看树形结构</a-button>
+      <!-- <a-button icon="bars" @click="showTreeModal">查看树形结构</a-button> -->
     </p>
 
     <a-card :loading="mounting" :body-style="{ padding: 0 }">
-      <a-table
-        :columns="tableColumns"
-        row-key="id"
-        :data-source="tableData"
-        :loading="loading"
-        :pagination="tablePager"
-        @change="onTableChange"
-      >
+      <a-table :columns="tableColumns" row-key="id" :data-source="tableData" :loading="loading" :pagination="false">
+        <template slot="enable" slot-scope="text, record">
+          <a-switch
+            v-model="record.enable"
+            checked-children="已启用"
+            un-checked-children="已停用"
+            @change="switchStatus(record)"
+          />
+        </template>
         <template slot="enable" slot-scope="text, record">
           <a-switch
             v-model="record.enable"
@@ -57,13 +58,6 @@ export default {
 
       tableColumns,
       tableData: [],
-      tablePager: {
-        current: 1,
-        pageSize: 30,
-        showSizeChanger: true,
-        showQuickJumper: true,
-        total: 0,
-      },
 
       treeModalVisible: false,
       updateModalVisible: false,
@@ -74,20 +68,25 @@ export default {
     await this.fetchTableData();
   },
   methods: {
-    onTableChange(pagination, filters, sorter) {
-      const { current, pageSize } = pagination;
-      this.tablePager.current = current;
-      this.tablePager.pageSize = pageSize;
-      this.fetchTableData();
-    },
-
     onAdd() {
       this.updateModalVisible = true;
     },
 
-    onEdit(record) {
-      this.editedRecord = record;
-      this.updateModalVisible = true;
+    async onEdit({ id }) {
+      this.loading = true;
+      try {
+        const res = await this.$http({ method: "GET", url: `/system/org/${id}` });
+        if (res.code !== 200) {
+          this.$message.error(res.message);
+          return;
+        }
+        this.editedRecord = res.data;
+        this.updateModalVisible = true;
+      } catch (e) {
+        this.$message.error(e.message);
+      } finally {
+        this.loading = false;
+      }
     },
 
     async onRemove({ id }) {
@@ -115,9 +114,7 @@ export default {
           this.$message.error(res.message);
           return;
         }
-        const { total, data } = res.data;
-        this.tableData = data;
-        this.tablePager.total = total;
+        this.tableData = res.data;
       } catch (e) {
         this.$message.error(e.message);
       } finally {

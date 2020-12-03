@@ -77,7 +77,7 @@ export default {
   methods: {
     async fetchUsers() {
       try {
-        const res = await this.$http({ method: "GET", url: "/system/search/user" });
+        const res = await this.$http({ method: "GET", url: "/system/user_util/simple_list" });
         if (res.code !== 200) {
           this.$message.error(res.message);
           return;

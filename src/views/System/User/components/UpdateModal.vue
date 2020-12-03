@@ -110,7 +110,7 @@ export default {
     async fetchOrgTreeData() {
       this.loading = true;
       try {
-        const res = await this.$http({ method: "GET", url: `/system/search/org/tree` });
+        const res = await this.$http({ method: "GET", url: `/system/org_util/tree` });
         if (res.code !== 200) {
           this.$message.error(res.message);
           return;

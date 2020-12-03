@@ -4,35 +4,34 @@
     :width="600"
     centered
     :visible="visible"
-    :title="formData.id ? '编辑课程' : '新增课程'"
+    :title="formData.id ? '编辑章节' : '新增章节'"
     @cancel="onCancel"
     @ok="onOk"
   >
     <a-form-model ref="form" :model="formData" :rules="formRules" :label-col="{ span: 6 }" :wrapper-col="{ span: 15 }">
-      <a-form-model-item label="上级课程" prop="parent_id" extra="留空代表顶级课程">
-        <a-tree-select
-          v-model="formData.parent_id"
-          :tree-data="treeData"
-          :replace-fields="{ title: 'name', key: 'id', value: 'id' }"
-          :dropdown-style="{ maxHeight: '400px', overflow: 'auto' }"
-          allow-clear
-          tree-default-expand-all
-          style="width: 100%"
-          placeholder="请选择上级课程"
-        />
+      <a-form-model-item label="章节序号" prop="sort" extra="值越小越靠前">
+        <a-input-number v-model="formData.sort" style="width: 100%" :min="1" placeholder="请填写章节序号" />
       </a-form-model-item>
-      <a-form-model-item label="课程名称" prop="name">
-        <a-input v-model="formData.name" :max-length="100" placeholder="请填写课程名称" />
+      <a-form-model-item label="章节名称" prop="name">
+        <a-input v-model="formData.name" :max-length="100" placeholder="请填写章节名称" />
+      </a-form-model-item>
+      <a-form-model-item label="教学目标" prop="target">
+        <a-textarea
+          v-model="formData.target"
+          :max-length="300"
+          :auto-size="{ minRows: 3, maxRows: 5 }"
+          placeholder="请填写章节备注"
+        />
       </a-form-model-item>
       <a-form-model-item label="启用状态" prop="enable">
         <a-switch v-model="formData.enable" checked-children="已启用" un-checked-children="已停用" />
       </a-form-model-item>
-      <a-form-model-item label="课程备注" prop="remark">
+      <a-form-model-item label="章节备注" prop="remark">
         <a-textarea
           v-model="formData.remark"
           :max-length="300"
           :auto-size="{ minRows: 3, maxRows: 5 }"
-          placeholder="请填写课程备注"
+          placeholder="请填写章节备注"
         />
       </a-form-model-item>
     </a-form-model>
@@ -43,21 +42,22 @@
 import { _ } from "@/utils";
 
 const formRules = {
-  name: [{ required: true, message: "请填写课程名称" }],
+  sort: [{ required: true, message: "请填写章节序号" }],
+  name: [{ required: true, message: "请填写章节名称" }],
+  target: [{ required: true, message: "请填写教学目标" }],
 };
 
 export default {
   name: "UpdateModal",
-  props: ["initialValues", "visible"],
+  props: ["visible", "initialValues", "klassId"],
   data() {
     return {
-      treeData: [],
-      menuTreeData: [],
       formData: {
         id: "",
-        parent_id: "",
         name: "",
+        target: "",
         enable: true,
+        attachments: [],
         remark: "",
       },
       formRules,
@@ -70,34 +70,22 @@ export default {
       }
     },
   },
-  async mounted() {
-    await this.fetchTreeData();
-  },
-
   methods: {
-    async fetchTreeData() {
-      this.loading = true;
-      try {
-        const res = await this.$http({ method: "GET", url: "/teach/search/course/tree" });
-        if (res.code !== 200) {
-          this.$message.error(res.message);
-          return;
-        }
-        this.treeData = res.data || [];
-      } catch (e) {
-        this.$message.error(e.message);
-      } finally {
-        this.loading = false;
-      }
-    },
-
     async onOk() {
       this.loading = true;
       try {
         const { id, ...rest } = this.formData;
         const res = id
-          ? await this.$http({ method: "PUT", url: `/teach/course/${id}`, data: rest })
-          : await this.$http({ method: "POST", url: "/teach/course", data: rest });
+          ? await this.$http({
+              method: "PUT",
+              url: `/teach/course/${id}`,
+              data: rest,
+            })
+          : await this.$http({
+              method: "POST",
+              url: "/teach/course",
+              data: { klass_id: this.klassId, ...rest },
+            });
         if (res.code !== 200) {
           this.$message.error(res.message);
           return;
@@ -105,7 +93,6 @@ export default {
         this.$message.success("操作成功");
         this.$emit("ok", _.cloneDeep(this.formData));
         this.onCancel();
-        await this.fetchTreeData();
       } catch (e) {
         this.$message.error(e.message);
       } finally {
@@ -117,7 +104,7 @@ export default {
       this.$emit("cancel", null);
       this.formData = {
         id: "",
-        parent_id: "",
+        course_id: "",
         name: "",
         enable: true,
         remark: "",

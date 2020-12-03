@@ -4,7 +4,15 @@ export const tableColumns = [
     dataIndex: "name",
   },
   {
-    title: "部门描述",
+    title: "可见菜单数",
+    dataIndex: "menu_names_count",
+  },
+  {
+    title: "可见班级数",
+    dataIndex: "klass_ids_count",
+  },
+  {
+    title: "部门备注",
     dataIndex: "remark",
   },
   {

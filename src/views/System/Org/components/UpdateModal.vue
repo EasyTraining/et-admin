@@ -1,7 +1,7 @@
 <template>
   <a-modal
     :keyboard="false"
-    :width="600"
+    :width="800"
     centered
     :visible="visible"
     :title="formData.id ? '编辑部门' : '新增部门'"
@@ -37,6 +37,13 @@
           placeholder="请选择可见菜单"
         />
       </a-form-model-item>
+      <a-form-model-item label="可见班级" prop="klass_ids">
+        <a-select v-model="formData.klass_ids" mode="multiple" show-search placeholder="请选择可见班级">
+          <a-select-option v-for="klass in klassList" :key="klass.id" :value="klass.id">
+            {{ klass.name }}
+          </a-select-option>
+        </a-select>
+      </a-form-model-item>
       <a-form-model-item label="启用状态" prop="enable">
         <a-switch v-model="formData.enable" checked-children="已启用" un-checked-children="已停用" />
       </a-form-model-item>
@@ -57,6 +64,8 @@ import { _ } from "@/utils";
 
 const formRules = {
   name: [{ required: true, message: "请填写部门名称" }],
+  menu_names: [{ required: true, message: "请选择可见菜单" }],
+  klass_ids: [{ required: true, message: "请选择可见班级" }],
 };
 
 export default {
@@ -64,14 +73,17 @@ export default {
   props: ["initialValues", "visible"],
   data() {
     return {
+      klassList: [],
       orgTreeData: [],
       menuTreeData: [],
+      
       formData: {
         id: "",
         parent_id: "",
         name: "",
         enable: true,
         menu_names: [],
+        klass_ids: [],
         remark: "",
       },
       formRules,
@@ -84,16 +96,16 @@ export default {
       }
     },
   },
-  async mounted() {
-    await this.fetchOrgTreeData();
-    await this.fetchMenuTreeData();
+  mounted() {
+    this.fetchKlassList();
+    this.fetchOrgTreeData();
+    this.fetchMenuTreeData();
   },
 
   methods: {
     async fetchOrgTreeData() {
-      this.loading = true;
       try {
-        const res = await this.$http({ method: "GET", url: `/system/search/org/tree` });
+        const res = await this.$http({ method: "GET", url: `/system/org_util/tree` });
         if (res.code !== 200) {
           this.$message.error(res.message);
           return;
@@ -101,15 +113,12 @@ export default {
         this.orgTreeData = res.data || [];
       } catch (e) {
         this.$message.error(e.message);
-      } finally {
-        this.loading = false;
       }
     },
 
     async fetchMenuTreeData() {
-      this.loading = true;
       try {
-        const res = await this.$http({ method: "GET", url: `/system/search/menu/tree` });
+        const res = await this.$http({ method: "GET", url: `/system/menu_util/tree` });
         if (res.code !== 200) {
           this.$message.error(res.message);
           return;
@@ -117,31 +126,45 @@ export default {
         this.menuTreeData = res.data || [];
       } catch (e) {
         this.$message.error(e.message);
-      } finally {
-        this.loading = false;
       }
     },
 
-    async onOk() {
-      this.loading = true;
+    async fetchKlassList() {
       try {
-        const { id, ...rest } = this.formData;
-        const res = id
-          ? await this.$http({ method: "PUT", url: `/system/org/${id}`, data: rest })
-          : await this.$http({ method: "POST", url: "/system/org", data: rest });
+        const res = await this.$http({ method: "GET", url: `/system/klass_util/simple_list` });
         if (res.code !== 200) {
           this.$message.error(res.message);
           return;
         }
-        this.$message.success("操作成功");
-        this.$emit("ok", _.cloneDeep(this.formData));
-        this.onCancel();
-        await this.fetchOrgTreeData();
+        this.klassList = res.data || [];
       } catch (e) {
         this.$message.error(e.message);
-      } finally {
-        this.loading = false;
       }
+    },
+
+    async onOk() {
+      this.$refs.form.validate(async (valid) => {
+        if (!valid) return;
+        this.loading = true;
+        try {
+          const { id, ...rest } = this.formData;
+          const res = id
+            ? await this.$http({ method: "PUT", url: `/system/org/${id}`, data: rest })
+            : await this.$http({ method: "POST", url: "/system/org", data: rest });
+          if (res.code !== 200) {
+            this.$message.error(res.message);
+            return;
+          }
+          this.$message.success("操作成功");
+          this.$emit("ok", _.cloneDeep(this.formData));
+          this.onCancel();
+          await this.fetchOrgTreeData();
+        } catch (e) {
+          this.$message.error(e.message);
+        } finally {
+          this.loading = false;
+        }
+      });
     },
 
     onCancel() {
@@ -151,6 +174,8 @@ export default {
         parent_id: "",
         name: "",
         enable: true,
+        menu_names: [],
+        klass_ids: [],
         remark: "",
       };
       this.$refs.form.resetFields();
