@@ -134,7 +134,21 @@ export default [
             component: () => import("@/views/School/Student/Index"),
             meta: { title: "学员管理" },
           },
-        ]
+          {
+            hidden: true,
+            name: "/school/student/add",
+            path: "/school/student/add",
+            component: () => import("@/views/School/Student/Form"),
+            meta: { title: "创建学员" },
+          },
+          {
+            hidden: true,
+            name: "/school/student/edit/:id",
+            path: "/school/student/edit/:id",
+            component: () => import("@/views/School/Student/Form"),
+            meta: { title: "编辑学员" },
+          },
+        ],
       },
       {
         name: "/vote",

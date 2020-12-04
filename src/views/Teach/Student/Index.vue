@@ -142,7 +142,7 @@ export default {
       try {
         const res = await this.$http({
           method: "GET",
-          url: `/system/klass/${this.curKlassId}`,
+          url: `/school/klass/${this.curKlassId}`,
         });
         if (res.code !== 200) {
           this.$message.error(res.message);

@@ -67,12 +67,12 @@ export default {
           const res = id
             ? await this.$http({
                 method: "PUT",
-                url: `/system/klass/${this.klassId}/broadcast/${id}`,
+                url: `/school/klass/${this.klassId}/broadcast/${id}`,
                 data: rest,
               })
             : await this.$http({
                 method: "POST",
-                url: `/system/klass/${this.klassId}/broadcast`,
+                url: `/school/klass/${this.klassId}/broadcast`,
                 data: rest,
               });
           if (res.code !== 200) {

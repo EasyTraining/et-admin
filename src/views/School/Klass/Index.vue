@@ -13,7 +13,7 @@
         :pagination="false"
       >
         <template slot="action" slot-scope="text, record">
-          <a href="javascript:;" @click="onInvite(record)">生成邀请码</a>
+          <a href="javascript:;">学员管理</a>
           <a-divider type="vertical" />
           <a href="javascript:;" @click="onEdit(record)">编辑</a>
         </template>
