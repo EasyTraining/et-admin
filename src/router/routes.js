@@ -81,7 +81,7 @@ export default [
             name: "/teach/student",
             path: "/teach/student",
             component: () => import("@/views/Teach/Student/Index"),
-            meta: { title: "学员管理" },
+            meta: { title: "班级学员" },
           },
           {
             name: "/teach/course",
@@ -115,6 +115,26 @@ export default [
             meta: { title: "统计分析" },
           },
         ],
+      },
+      {
+        name: "/school",
+        path: "/school",
+        component: RouteView,
+        meta: { title: "班级中心", icon: "apartment" },
+        children: [
+          {
+            name: "/school/klass",
+            path: "/school/klass",
+            component: () => import("@/views/School/Klass/Index"),
+            meta: { title: "班级管理" },
+          },
+          {
+            name: "/school/student",
+            path: "/school/student",
+            component: () => import("@/views/School/Student/Index"),
+            meta: { title: "学员管理" },
+          },
+        ]
       },
       {
         name: "/vote",
@@ -331,16 +351,10 @@ export default [
             meta: { title: "部门管理" },
           },
           {
-            name: "/system/user",
-            path: "/system/user",
-            component: () => import("@/views/System/User/Index"),
+            name: "/system/employee",
+            path: "/system/employee",
+            component: () => import("@/views/System/Employee/Index"),
             meta: { title: "员工管理" },
-          },
-          {
-            name: "/system/klass",
-            path: "/system/klass",
-            component: () => import("@/views/System/Klass/Index"),
-            meta: { title: "班级管理" },
           },
           {
             name: "/system/menu",

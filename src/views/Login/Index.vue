@@ -102,7 +102,7 @@ export default {
           const hashed_pwd = sha256(password);
           const res = await this.$http({
             method: "POST",
-            url: "/login",
+            url: "/system/employee_login",
             data: { account, hashed_pwd, captcha },
           });
           if (res.code !== 200) {

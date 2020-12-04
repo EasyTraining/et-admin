@@ -43,18 +43,6 @@
           placeholder="请选择可见菜单"
         />
       </a-form-model-item>
-      <a-form-model-item label="可见班级" prop="klass_ids">
-        <a-select
-          v-model="formData.klass_ids"
-          mode="multiple"
-          show-search
-          placeholder="请选择可见班级"
-        >
-          <a-select-option v-for="klass in klassList" :key="klass.id" :value="klass.id">
-            {{ klass.name }}
-          </a-select-option>
-        </a-select>
-      </a-form-model-item>
       <a-form-model-item label="启用状态" prop="enable">
         <a-switch
           v-model="formData.enable"
@@ -80,7 +68,6 @@ import { _ } from "@/utils";
 const formRules = {
   name: [{ required: true, message: "请填写部门名称" }],
   menu_names: [{ required: true, message: "请选择可见菜单" }],
-  klass_ids: [{ required: true, message: "请选择可见班级" }],
 };
 
 export default {
@@ -88,7 +75,6 @@ export default {
   props: ["initialValues", "visible"],
   data() {
     return {
-      klassList: [],
       orgTreeData: [],
       menuTreeData: [],
 
@@ -98,7 +84,6 @@ export default {
         name: "",
         enable: true,
         menu_names: [],
-        klass_ids: [],
         remark: "",
       },
       formRules,
@@ -112,7 +97,6 @@ export default {
     },
   },
   mounted() {
-    this.fetchKlassList();
     this.fetchOrgTreeData();
     this.fetchMenuTreeData();
   },
@@ -139,19 +123,6 @@ export default {
           return;
         }
         this.menuTreeData = res.data || [];
-      } catch (e) {
-        this.$message.error(e.message);
-      }
-    },
-
-    async fetchKlassList() {
-      try {
-        const res = await this.$http({ method: "GET", url: `/system/klass_util/simple_list` });
-        if (res.code !== 200) {
-          this.$message.error(res.message);
-          return;
-        }
-        this.klassList = res.data || [];
       } catch (e) {
         this.$message.error(e.message);
       }
@@ -190,7 +161,6 @@ export default {
         name: "",
         enable: true,
         menu_names: [],
-        klass_ids: [],
         remark: "",
       };
       this.$refs.form.resetFields();

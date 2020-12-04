@@ -96,7 +96,7 @@ export default {
     async getUserInfo() {
       this.loading = true;
       try {
-        const res = await this.$http({ method: "GET", url: "/user/info" });
+        const res = await this.$http({ method: "GET", url: "/system/employee_info" });
         if (res.code !== 200) {
           await this.$router.push("/login");
           return;

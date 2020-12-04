@@ -69,7 +69,7 @@ export default {
           try {
             const res = await this.$http({
               method: "POST",
-              url: "/system/klass_util/gen_invite_code",
+              url: "/school/klass_util/gen_invite_code",
               data: {
                 klass_id: record.id,
               },
@@ -91,7 +91,7 @@ export default {
     async fetchTableData() {
       this.loading = true;
       try {
-        const res = await this.$http({ method: "GET", url: "/system/klass" });
+        const res = await this.$http({ method: "GET", url: "/school/klass" });
         if (res.code !== 200) {
           this.$message.error(res.message);
           return;

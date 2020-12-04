@@ -114,7 +114,7 @@ export default {
     async onRemove({ id }) {
       this.loading = true;
       try {
-        const res = await this.$http({ method: "DELETE", url: `/system/user/${id}` });
+        const res = await this.$http({ method: "DELETE", url: `/system/employee/${id}` });
         if (res.code !== 200) {
           this.$message.error(res.message);
           return;
@@ -131,7 +131,7 @@ export default {
     async fetchTableData() {
       this.loading = true;
       try {
-        const res = await this.$http({ method: "GET", url: "/system/user" });
+        const res = await this.$http({ method: "GET", url: "/system/employee" });
         if (res.code !== 200) {
           this.$message.error(res.message);
           return;
@@ -151,7 +151,7 @@ export default {
       try {
         const res = await this.$http({
           method: "PUT",
-          url: `/system/user/${id}/enable`,
+          url: `/system/employee/${id}/enable`,
           data: { enable },
         });
         if (res.code !== 200) {

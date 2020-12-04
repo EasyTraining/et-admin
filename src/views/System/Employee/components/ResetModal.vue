@@ -56,7 +56,7 @@ export default {
     async fetchDetail() {
       const hide = this.$message.loading("正在接受数据...", 0);
       try {
-        const res = await this.$http({ method: "GET", url: `/system/user/${this.id}` });
+        const res = await this.$http({ method: "GET", url: `/system/employee/${this.id}` });
         if (res.code !== 200) {
           this.$message.error(res.message);
           return;
@@ -83,7 +83,7 @@ export default {
           const hashed_pwd = sha256(password);
           const res = await this.$http({
             method: "PUT",
-            url: `/system/user/${id}/reset_password`,
+            url: `/system/employee/${id}/reset_password`,
             data: { hashed_pwd },
           });
           if (res.code !== 200) {

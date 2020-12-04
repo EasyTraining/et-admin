@@ -104,7 +104,7 @@ export default {
     async fetchDetail() {
       const hide = this.$message.loading("正在接受数据...", 0);
       try {
-        const res = await this.$http({ method: "GET", url: `/system/user/${this.id}` });
+        const res = await this.$http({ method: "GET", url: `/system/employee/${this.id}` });
         if (res.code !== 200) {
           this.$message.error(res.message);
           return;
@@ -138,10 +138,10 @@ export default {
       try {
         const { id, password, ...rest } = this.formData;
         const res = id
-          ? await this.$http({ method: "PUT", url: `/system/user/${id}`, data: rest })
+          ? await this.$http({ method: "PUT", url: `/system/employee/${id}`, data: rest })
           : await this.$http({
               method: "POST",
-              url: "/system/user",
+              url: "/system/employee",
               data: { ...rest, hashed_pwd: sha256(password) },
             });
         if (res.code !== 200) {

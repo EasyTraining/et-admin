@@ -91,7 +91,7 @@ export default {
   methods: {
     async fetchUsers() {
       try {
-        const res = await this.$http({ method: "GET", url: "/system/user_util/simple_list" });
+        const res = await this.$http({ method: "GET", url: "/system/employee_util/simple_list" });
         if (res.code !== 200) {
           this.$message.error(res.message);
           return;
@@ -107,8 +107,8 @@ export default {
       try {
         const { id, ...rest } = this.formData;
         const res = id
-          ? await this.$http({ method: "PUT", url: `/system/klass/${id}`, data: rest })
-          : await this.$http({ method: "POST", url: "/system/klass", data: rest });
+          ? await this.$http({ method: "PUT", url: `/school/klass/${id}`, data: rest })
+          : await this.$http({ method: "POST", url: "/school/klass", data: rest });
         if (res.code !== 200) {
           this.$message.error(res.message);
           return;

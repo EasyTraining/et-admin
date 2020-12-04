@@ -33,7 +33,7 @@ export default {
     async fetchTreeData() {
       this.loading = true;
       try {
-        const res = await this.$http({ method: "GET", url: "/system/org_util/org_user_tree" });
+        const res = await this.$http({ method: "GET", url: "/system/org_util/org_employee_tree" });
         if (res.code !== 200) {
           this.$message.error(res.message);
           return;

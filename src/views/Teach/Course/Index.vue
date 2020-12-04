@@ -130,7 +130,7 @@ export default {
 
     async fetchKlassList() {
       try {
-        const res = await this.$http({ method: "GET", url: `/system/klass_util/simple_list` });
+        const res = await this.$http({ method: "GET", url: `/school/klass_util/simple_list` });
         if (res.code !== 200) {
           this.$message.error(res.message);
           return;
