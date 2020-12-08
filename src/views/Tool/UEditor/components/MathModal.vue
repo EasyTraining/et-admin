@@ -41,7 +41,7 @@
             </a-popover>
           </div>
         </a-tab-pane>
-        <a-tab-pane key="TEMPLATES" tab="公式模板" force-render>
+        <a-tab-pane key="TEMPLATES" tab="公式模板">
           <div class="tools">
             <a-popover v-for="(tool, toolIdx) in templates" :key="toolIdx" placement="bottomLeft">
               <div class="tool">
@@ -71,6 +71,7 @@
             </a-popover>
           </div>
         </a-tab-pane>
+        <a-tab-pane key="HAND_WRITE" tab="手写识别"> 功能开发中... </a-tab-pane>
       </a-tabs>
       <a-divider />
       <a-row :gutter="15">
@@ -98,7 +99,7 @@ export default {
       tools: latex.TOOLS,
       templates: latex.TEMPLATES,
 
-      activeTab: "TEMPLATES",
+      activeTab: "TOOLS",
       formula: "x = {-b \\pm \\sqrt{b^2-4ac} \\over 2a}.",
     };
   },
