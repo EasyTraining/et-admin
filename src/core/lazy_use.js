@@ -124,8 +124,5 @@ import "echarts/lib/component/title";
 import "echarts/lib/component/legend";
 Vue.component("v-chart", ECharts);
 
-import VueUeditorWrap from "vue-ueditor-wrap";
-Vue.component("vue-ueditor-wrap", VueUeditorWrap);
-
 import FooterToolBar from "@/components/FooterToolbar";
 Vue.component("footer-tool-bar", FooterToolBar);
