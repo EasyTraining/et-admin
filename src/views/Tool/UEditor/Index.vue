@@ -23,7 +23,7 @@ export default {
     return {
       init: {},
 
-      mathVisible: true,
+      mathVisible: false,
     };
   },
   created() {
