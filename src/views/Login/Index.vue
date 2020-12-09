@@ -4,22 +4,22 @@
       <div class="main">
         <a-form-model ref="form" :model="formData" :rules="formRules">
           <div class="logo">
-            <img src="../../assets/logo.png" alt="" />
+            <img src="../../assets/logo.png" alt=""/>
             <h3>登录 {{ title }}</h3>
           </div>
           <a-form-model-item prop="account">
             <a-input v-model="formData.account" size="large" type="text" placeholder="用户名">
-              <a-icon slot="prefix" type="user" :style="{ color: 'rgba(0,0,0,.25)' }" />
+              <a-icon slot="prefix" type="user" :style="{ color: 'rgba(0,0,0,.25)' }"/>
             </a-input>
           </a-form-model-item>
           <a-form-model-item prop="password">
             <a-input v-model="formData.password" size="large" type="password" placeholder="密码">
-              <a-icon slot="prefix" type="lock" :style="{ color: 'rgba(0,0,0,.25)' }" />
+              <a-icon slot="prefix" type="lock" :style="{ color: 'rgba(0,0,0,.25)' }"/>
             </a-input>
           </a-form-model-item>
           <a-form-model-item prop="captcha">
             <a-input v-model="formData.captcha" size="large" placeholder="图片验证码">
-              <a-icon slot="prefix" type="smile" :style="{ color: 'rgba(0,0,0,.25)' }" />
+              <a-icon slot="prefix" type="smile" :style="{ color: 'rgba(0,0,0,.25)' }"/>
               <div
                 slot="suffix"
                 class="captcha-box"
@@ -28,9 +28,9 @@
               ></div>
             </a-input>
           </a-form-model-item>
-          <a-form-model-item>
-            <a-checkbox v-model="formData.remember">自动登录</a-checkbox>
-          </a-form-model-item>
+<!--          <a-form-model-item>-->
+<!--            <a-checkbox v-model="formData.remember">自动登录</a-checkbox>-->
+<!--          </a-form-model-item>-->
 
           <a-form-model-item style="margin-top: 24px; margin-bottom: 15px">
             <a-button
@@ -65,13 +65,13 @@ export default {
         account: "",
         password: "",
         captcha: "",
-        remember: false,
+        remember: false
       },
       formRules: {
         account: [{ required: true, message: "请输入用户名" }],
         password: [{ required: true, message: "请输入密码" }],
-        captcha: [{ required: true, message: "请输入图片验证码" }],
-      },
+        captcha: [{ required: true, message: "请输入图片验证码" }]
+      }
     };
   },
   mounted() {
@@ -103,7 +103,7 @@ export default {
           const res = await this.$http({
             method: "POST",
             url: "/system/employee_login",
-            data: { account, hashed_pwd, captcha },
+            data: { account, hashed_pwd, captcha }
           });
           if (res.code !== 200) {
             this.$message.error(res.message);
@@ -123,16 +123,16 @@ export default {
           this.loading = false;
         }
       });
-    },
-  },
+    }
+  }
 };
 </script>
 
 <style lang="less" scoped>
 #userLayout {
   height: 100%;
-  background-color: #1f2325;
-  background-image: url("../../assets/login-bg.jpg");
+  background-color: #fff;
+  background-image: url("../../assets/login-bg.png");
   background-size: cover;
 
   .container {
@@ -148,11 +148,10 @@ export default {
     }
 
     .main {
-      min-width: 260px;
-      width: 368px;
+      width: 440px;
       background: #fff;
-      padding: 20px;
-      border-radius: 3px;
+      padding: 35px 45px 45px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, .2);
 
       .logo {
         text-align: center;
