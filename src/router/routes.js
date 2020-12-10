@@ -59,7 +59,7 @@ export default [
             name: "/repo/library/:libraryId/questions/add",
             path: "/repo/library/:libraryId/questions/add",
             component: () => import("@/views/Repo/Question/Form"),
-            meta: { title: "添加题目" },
+            meta: { title: "创建题目" },
           },
           {
             hidden: true,

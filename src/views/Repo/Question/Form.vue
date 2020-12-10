@@ -1,13 +1,11 @@
 <template>
-  <div class="card-container" v-if="info">
-    <a-tabs type="card">
-      <!--      <a-tab-pane key="1" tab="复制导入">-->
-      <!--        <paste-tab :info="info" />-->
-      <!--      </a-tab-pane>-->
-      <a-tab-pane key="1" tab="单题导入">
-        <manual-tab :info="info" />
-      </a-tab-pane>
+  <div>
+    <a-tabs>
+      <a-tab-pane key="1" tab="单题导入" />
     </a-tabs>
+    <a-card v-if="info">
+      <manual-tab :info="info" />
+    </a-card>
   </div>
 </template>
 
@@ -51,31 +49,3 @@ export default {
   },
 };
 </script>
-
-<style lang="less">
-.card-container {
-  overflow: hidden;
-}
-.card-container > .ant-tabs-card > .ant-tabs-content {
-  margin-top: -16px;
-}
-
-.card-container > .ant-tabs-card > .ant-tabs-content > .ant-tabs-tabpane {
-  background: #fff;
-  padding: 16px;
-}
-
-.card-container > .ant-tabs-card > .ant-tabs-bar {
-  border-color: #fff;
-}
-
-.card-container > .ant-tabs-card > .ant-tabs-bar .ant-tabs-tab {
-  border-color: transparent;
-  background: transparent;
-}
-
-.card-container > .ant-tabs-card > .ant-tabs-bar .ant-tabs-tab-active {
-  border-color: #fff;
-  background: #fff;
-}
-</style>

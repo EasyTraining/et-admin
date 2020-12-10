@@ -9,18 +9,13 @@
     >
       <a-form-model-item label="题目类型" prop="type">
         <a-radio-group v-model="formData.type" @change="onTypeChange" button-style="solid">
-          <a-radio-button v-for="(val, key) in enums.questionMap" :key="key" :value="key">{{
-            val
-          }}</a-radio-button>
+          <a-radio-button v-for="(val, key) in enums.questionMap" :key="key" :value="key">
+            {{ val }}
+          </a-radio-button>
         </a-radio-group>
       </a-form-model-item>
       <a-form-model-item label="题目" prop="name">
-        <a-textarea
-          v-model="formData.name"
-          :auto-size="{ minRows: 2, maxRows: 5 }"
-          :max-length="300"
-          placeholder="请填写题目"
-        />
+        <rich-editor v-model="formData.name" placeholder="请填写题目" />
       </a-form-model-item>
 
       <template v-if="formData.type === 'RADIO'">
@@ -28,7 +23,7 @@
           <div class="option" v-for="(item, index) in formData.options" :key="index">
             <div class="option__code">{{ item.code }}、</div>
             <div class="option__control">
-              <a-input v-model="item.name" placeholder="请填写题目选项" />
+              <rich-editor v-model="item.name" placeholder="请填写题目选项" />
             </div>
             <div class="option__del">
               <a-button type="link" icon="delete" @click="removeOption(index)" />
@@ -58,7 +53,7 @@
           <div class="option" v-for="(item, index) in formData.options" :key="index">
             <div class="option__code">{{ item.code }}、</div>
             <div class="option__control">
-              <a-input v-model="item.name" placeholder="请填写题目选项" />
+              <rich-editor v-model="item.name" placeholder="请填写题目选项" />
             </div>
             <div class="option__del">
               <a-button type="link" icon="delete" @click="removeOption(index)" />
@@ -103,7 +98,7 @@
           <div class="option" v-for="(item, index) in formData.options" :key="index">
             <div class="option__code">{{ item.code }}、</div>
             <div class="option__control">
-              <a-input v-model="item.name" placeholder="请填写题目选项" />
+              <rich-editor v-model="item.name" placeholder="请填写题目选项" />
             </div>
             <div class="option__del">
               <a-button type="link" icon="delete" @click="removeOption(index)" />
@@ -124,43 +119,33 @@
           prop="real_answer"
           extra="格式大写，长度等于题目选项的个数，不能包含重复项"
         >
-          <a-input v-model="formData.real_answer" placeholder="请填写答案" :max-length="100" />
+          <rich-editor v-model="formData.real_answer" placeholder="请填写答案" :max-length="100" />
         </a-form-model-item>
       </template>
 
       <template v-if="formData.type === 'ANSWER'">
         <a-form-model-item label="答案" prop="real_answer">
-          <a-input v-model="formData.real_answer" placeholder="请填写答案" :max-length="100" />
+          <rich-editor v-model="formData.real_answer" placeholder="请填写答案" :max-length="100" />
         </a-form-model-item>
       </template>
 
       <template v-if="formData.type === 'ESSAY_QUESTION'">
         <a-form-model-item label="答案" prop="real_answer">
-          <a-input v-model="formData.real_answer" placeholder="请填写答案" :max-length="100" />
+          <rich-editor v-model="formData.real_answer" placeholder="请填写答案" :max-length="100" />
         </a-form-model-item>
       </template>
 
       <template v-if="formData.type === 'CALC'">
         <a-form-model-item label="答案" prop="real_answer">
-          <a-input v-model="formData.real_answer" placeholder="请填写答案" :max-length="100" />
+          <rich-editor v-model="formData.real_answer" placeholder="请填写答案" :max-length="100" />
         </a-form-model-item>
       </template>
 
       <a-form-model-item label="解析" prop="explain">
-        <a-textarea
-          v-model="formData.explain"
-          :auto-size="{ minRows: 2, maxRows: 5 }"
-          :max-length="300"
-          placeholder="请填写解析"
-        />
+        <rich-editor v-model="formData.explain" placeholder="请填写解析" :max-length="300" />
       </a-form-model-item>
       <a-form-model-item label="章节" prop="from_chapter">
-        <a-textarea
-          v-model="formData.from_chapter"
-          :auto-size="{ minRows: 2, maxRows: 5 }"
-          :max-length="300"
-          placeholder="请填写章节"
-        />
+        <rich-editor v-model="formData.from_chapter" placeholder="请填写章节" :max-length="300" />
       </a-form-model-item>
       <a-form-model-item label="难易程度" prop="level">
         <a-radio-group v-model="formData.level">
@@ -180,11 +165,13 @@
 import { _ } from "@/utils";
 import * as Util from "../util";
 import { questionMap, levelMap } from "@/utils/const";
+import RichEditor from "@/components/RichEditor/Index";
 import { formRules } from "../const";
 
 export default {
   name: "DeviceTypeForm",
   props: ["info"],
+  components: { RichEditor },
   data() {
     return {
       mounting: false,
