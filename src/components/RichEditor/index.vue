@@ -48,14 +48,21 @@ export default {
       placeholder: this.placeholder,
       plugins: ["charmap", "table"],
       toolbar:
-        "undo redo | bold italic underline strikethrough forecolor\
-         | table media | charmap | insert-math | removeformat",
+        "fontsizeselect | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify \
+         | table media | charmap | insert-math | insert-image",
+      images_upload_handler: (blobInfo, success, failure) => {
+        success("data:image/jpeg;base64," + blobInfo.base64());
+      },
       setup: (editor) => {
         editor.ui.registry.addButton("insert-math", {
           text: "数学公式",
           onAction: (_) => {
             this.mathVisible = true;
           },
+        });
+        editor.ui.registry.addButton("insert-image", {
+          text: "插入图片",
+          onAction: (_) => {},
         });
       },
     };

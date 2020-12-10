@@ -27,17 +27,17 @@
           placeholder="请选择所属部门"
         />
       </a-form-model-item>
-      <a-form-model-item label="登录账号" prop="account">
-        <a-input v-model="formData.account" :max-length="30" placeholder="请填写登录账号" />
-      </a-form-model-item>
-      <a-form-model-item v-if="formData.id === ''" label="登录密码" prop="password">
-        <a-input v-model="formData.password" :max-length="30" placeholder="请填写登录密码" />
-      </a-form-model-item>
       <a-form-model-item label="用户昵称" prop="nick_name">
         <a-input v-model="formData.nick_name" :max-length="10" placeholder="请填写用户昵称" />
       </a-form-model-item>
       <a-form-model-item label="手机号码" prop="phone">
         <a-input v-model="formData.phone" :max-length="11" placeholder="请填写手机号码" />
+      </a-form-model-item>
+      <a-form-model-item label="登录账号" prop="account">
+        <a-input v-model="formData.account" :max-length="30" placeholder="请填写登录账号" />
+      </a-form-model-item>
+      <a-form-model-item v-if="formData.id === ''" label="登录密码" prop="password">
+        <a-input v-model="formData.password" :max-length="30" placeholder="请填写登录密码" />
       </a-form-model-item>
       <a-form-model-item label="启用状态" prop="enable">
         <a-switch

@@ -4,6 +4,13 @@
       <a-card title="基本信息" :loading="mounting">
         <a-row :gutter="15">
           <a-col :span="12">
+            <a-form-model-item label="头像" prop="avatar_url" style="margin-bottom: 0">
+              <avatar-upload v-model="formData.avatar_url" />
+            </a-form-model-item>
+          </a-col>
+        </a-row>
+        <a-row :gutter="15">
+          <a-col :span="12">
             <a-form-model-item label="姓名" prop="name">
               <a-input v-model="formData.name" :max-length="4" placeholder="请填写姓名" />
             </a-form-model-item>
@@ -116,10 +123,12 @@
 
 <script>
 import { _, sha256 } from "@/utils";
+import AvatarUpload from "@/components/AvatarUpload";
 import { formRules } from "./const";
 
 export default {
   name: "StudentForm",
+  components: { AvatarUpload },
   data() {
     return {
       mounting: false,
@@ -129,6 +138,7 @@ export default {
       klassList: [],
 
       formData: {
+        avatar_url: "",
         name: "",
         klass_id: undefined,
         phone: "",

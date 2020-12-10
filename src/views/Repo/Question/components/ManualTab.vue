@@ -165,7 +165,7 @@
 import { _ } from "@/utils";
 import * as Util from "../util";
 import { questionMap, levelMap } from "@/utils/const";
-import RichEditor from "@/components/RichEditor/Index";
+import RichEditor from "@/components/RichEditor";
 import { formRules } from "../const";
 
 export default {
