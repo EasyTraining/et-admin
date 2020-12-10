@@ -75,7 +75,7 @@ export default {
                 <a-icon type="ellipsis" />
               </a>
               <a-menu slot="overlay">
-                <a-menu-item key="1">新增</a-menu-item>
+                <a-menu-item key="1">创建</a-menu-item>
                 <a-menu-item key="2">合并</a-menu-item>
                 <a-menu-item key="3">移除</a-menu-item>
               </a-menu>

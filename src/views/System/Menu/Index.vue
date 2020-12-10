@@ -1,7 +1,7 @@
 <template>
   <div>
     <p>
-      <a-button type="primary" icon="plus" @click="onAdd">新增菜单</a-button>
+      <a-button type="primary" icon="plus" @click="onAdd">创建菜单</a-button>
     </p>
 
     <a-card :loading="mounting" :body-style="{ padding: 0 }">

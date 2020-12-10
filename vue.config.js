@@ -77,7 +77,7 @@ const vueConfig = {
       less: {
         modifyVars: {
           "primary-color": "#2f90c4",
-          "border-radius-base": "2px",
+          "border-radius-base": "0px",
         },
         // DO NOT REMOVE THIS LINE
         javascriptEnabled: true,

@@ -4,7 +4,7 @@
     :width="600"
     centered
     :visible="visible"
-    :title="formData.id ? '编辑章节' : '新增章节'"
+    :title="formData.id ? '编辑章节' : '创建章节'"
     @cancel="onCancel"
     @ok="onOk"
   >

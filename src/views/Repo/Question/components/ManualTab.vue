@@ -41,7 +41,7 @@
             style="margin-left: 14px"
             @click="addOption"
           >
-            新增选项
+            创建选项
           </a-button>
         </a-form-model-item>
         <a-form-model-item label="答案" prop="real_answer">
@@ -71,7 +71,7 @@
             style="margin-left: 14px"
             @click="addOption"
           >
-            新增选项
+            创建选项
           </a-button>
         </a-form-model-item>
         <a-form-model-item label="答案" prop="real_answer">
@@ -116,7 +116,7 @@
             style="margin-left: 14px"
             @click="addOption"
           >
-            新增选项
+            创建选项
           </a-button>
         </a-form-model-item>
         <a-form-model-item

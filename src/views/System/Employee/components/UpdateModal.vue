@@ -4,7 +4,7 @@
     :width="600"
     centered
     :visible="visible"
-    :title="formData.id ? '编辑用户' : '新增用户'"
+    :title="formData.id ? '编辑用户' : '创建用户'"
     @cancel="onCancel"
     @ok="onOk"
   >

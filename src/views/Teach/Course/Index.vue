@@ -1,22 +1,11 @@
 <template>
   <div>
-    <a-card>
-      <span>班级：</span>
-      <a-select
-        v-model="currentKlassId"
-        show-search
-        placeholder="请选择可见班级"
-        style="width: 200px"
-        @change="onKlassChange"
-      >
-        <a-select-option v-for="klass in klassList" :key="klass.id" :value="klass.id">
-          {{ klass.name }}
-        </a-select-option>
-      </a-select>
-    </a-card>
+    <a-tabs v-model="curKlassId" @change="onKlassChange">
+      <a-tab-pane v-for="klass in klassList" :key="klass.id" :tab="klass.name" />
+    </a-tabs>
 
     <p style="margin-top: 15px">
-      <a-button type="primary" icon="plus" @click="onAdd">新增章节</a-button>
+      <a-button type="primary" icon="plus" @click="onAdd">创建章节</a-button>
     </p>
 
     <a-card :loading="mounting" :body-style="{ padding: 0 }">
@@ -50,7 +39,7 @@
 
     <update-modal
       :visible="updateModalVisible"
-      :klass-id="currentKlassId"
+      :klass-id="curKlassId"
       :initial-values="editedRecord"
       @cancel="closeUpdateModal"
       @ok="onUpdateModalOk"
@@ -70,7 +59,7 @@ export default {
       mounting: false,
       loading: false,
 
-      currentKlassId: "",
+      curKlassId: undefined,
       klassList: [],
 
       tableColumns,
@@ -99,7 +88,7 @@ export default {
     },
 
     onKlassChange() {
-      this.fetchKlassList();
+      this.fetchTableData();
     },
 
     onAdd() {
@@ -137,7 +126,7 @@ export default {
         }
         this.klassList = res.data || [];
         if (this.klassList.length) {
-          this.currentKlassId = this.klassList[0].id;
+          this.curKlassId = this.klassList[0].id;
           await this.fetchTableData();
         }
       } catch (e) {
@@ -152,7 +141,7 @@ export default {
         const res = await this.$http({
           method: "GET",
           url: "/teach/course",
-          params: { current, pageSize, klass_id: this.currentKlassId },
+          params: { current, pageSize, klass_id: this.curKlassId },
         });
         if (res.code !== 200) {
           this.$message.error(res.message);

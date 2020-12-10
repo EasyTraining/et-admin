@@ -2,7 +2,7 @@
   <div>
     <p>
       <router-link to="/cms/article/add">
-        <a-button type="primary" icon="plus">新增文章</a-button>
+        <a-button type="primary" icon="plus">创建文章</a-button>
       </router-link>
     </p>
 

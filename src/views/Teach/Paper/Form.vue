@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="page__actions">
-      <a-button type="primary" icon="plus" @click="modalVisible = true">新增题目</a-button>
+      <a-button type="primary" icon="plus" @click="modalVisible = true">创建题目</a-button>
     </div>
     <a-card>
       <a-row :gutter="15">
@@ -78,7 +78,7 @@
       :width="800"
       centered
       v-model="modalVisible"
-      title="新增题目"
+      title="创建题目"
       @cancel="modalVisible = false"
       @ok="setQuestions"
     >

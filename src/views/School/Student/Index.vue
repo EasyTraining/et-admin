@@ -1,8 +1,12 @@
 <template>
   <div>
+    <a-tabs v-model="curKlassId" @change="onKlassChange">
+      <a-tab-pane v-for="klass in klassList" :key="klass.id" :tab="klass.name" />
+    </a-tabs>
+
     <p>
-      <router-link to="/school/student/add">
-        <a-button type="primary" icon="plus">新增学员</a-button>
+      <router-link :to="'/school/student/add?klass_id=' + curKlassId">
+        <a-button type="primary" icon="plus">创建学员</a-button>
       </router-link>
     </p>
 
@@ -15,6 +19,12 @@
         :pagination="tablePager"
         @change="onTableChange"
       >
+        <template slot="name" slot-scope="text, record">
+          <router-link :to="'/school/student/detail/' + record.id">{{ record.name }}</router-link>
+        </template>
+        <template slot="sos_name" slot-scope="text, record">
+          {{ record.sos_name }}/{{ record.sos_phone }}
+        </template>
         <template slot="enable" slot-scope="text, record">
           <a-switch
             v-model="record.enable"
@@ -24,9 +34,9 @@
           />
         </template>
         <template slot="action" slot-scope="text, record">
-          <router-link :to="'/teach/paper/' + record.id + '/questions'">题目管理</router-link>
+          <a href="javascript:;">重置密码</a>
           <a-divider type="vertical" />
-          <a href="javascript:;" @click="showEditModal(record)">编辑</a>
+          <router-link :to="'/school/student/edit/' + record.id">编辑</router-link>
           <a-divider type="vertical" />
           <a-popconfirm title="删除以后无法恢复, 是否继续?" @confirm="remove(record)">
             <a href="javascript:;">删除</a>
@@ -41,10 +51,13 @@
 import { tableColumns } from "./const";
 
 export default {
-  name: "PaperIndex",
+  name: "StudentIndex",
   data() {
     return {
       loading: false,
+
+      curKlassId: "",
+      klassList: [],
 
       tableColumns,
       tableData: [],
@@ -57,10 +70,36 @@ export default {
       },
     };
   },
-  mounted() {
-    this.fetchTableData();
+  async mounted() {
+    await this.fetchKlassList();
+    await this.fetchTableData();
   },
   methods: {
+    async fetchKlassList() {
+      try {
+        const res = await this.$http({ method: "GET", url: `/school/klass_util/simple_list` });
+        if (res.code !== 200) {
+          this.$message.error(res.message);
+          return;
+        }
+        this.klassList = res.data || [];
+        const { klass_id } = this.$route.query;
+        if (klass_id) {
+          this.curKlassId = klass_id;
+          return;
+        }
+        if (this.klassList.length) {
+          this.curKlassId = this.klassList[0].id;
+        }
+      } catch (e) {
+        this.$message.error(e.message);
+      }
+    },
+
+    onKlassChange() {
+      this.fetchTableData();
+    },
+
     onTableChange(pagination, filters, sorter) {
       const { current, pageSize } = pagination;
       this.tablePager.current = current;
@@ -74,8 +113,8 @@ export default {
         const { current, pageSize } = this.tablePager;
         const res = await this.$http({
           method: "GET",
-          url: "/teach/paper",
-          params: { current, pageSize },
+          url: "/school/student",
+          params: { klass_id: this.curKlassId, current, pageSize },
         });
         if (res.code !== 200) {
           this.$message.error(res.message);
@@ -94,7 +133,7 @@ export default {
     async remove({ id }) {
       this.loading = true;
       try {
-        const res = await this.$http({ method: "DELETE", url: `/teach/paper/${id}` });
+        const res = await this.$http({ method: "DELETE", url: `/school/student/${id}` });
         if (res.code !== 200) {
           this.$message.error(res.message);
           return;
@@ -113,7 +152,7 @@ export default {
       try {
         const res = await this.$http({
           method: "PUT",
-          url: `/teach/paper/${id}/enable`,
+          url: `/school/student/${id}/enable`,
           data: { enable },
         });
         if (res.code !== 200) {

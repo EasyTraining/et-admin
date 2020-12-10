@@ -1,7 +1,7 @@
 <template>
   <div>
     <p>
-      <a-button type="primary" icon="plus" @click="onAdd">新增班级</a-button>
+      <a-button type="primary" icon="plus" @click="onAdd">创建班级</a-button>
     </p>
 
     <a-card :loading="mounting" :body-style="{ padding: 0 }">
@@ -13,7 +13,7 @@
         :pagination="false"
       >
         <template slot="action" slot-scope="text, record">
-          <a href="javascript:;">学员管理</a>
+          <router-link :to="'/school/student?klass_id=' + record.id">学员管理</router-link>
           <a-divider type="vertical" />
           <a href="javascript:;" @click="onEdit(record)">编辑</a>
         </template>

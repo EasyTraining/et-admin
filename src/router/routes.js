@@ -121,6 +121,7 @@ export default [
         path: "/school",
         component: RouteView,
         meta: { title: "班级中心", icon: "apartment" },
+        redirect: "/school/klass",
         children: [
           {
             name: "/school/klass",
@@ -147,6 +148,13 @@ export default [
             path: "/school/student/edit/:id",
             component: () => import("@/views/School/Student/Form"),
             meta: { title: "编辑学员" },
+          },
+          {
+            hidden: true,
+            name: "/school/student/detail/:id",
+            path: "/school/student/detail/:id",
+            component: () => import("@/views/School/Student/Detail"),
+            meta: { title: "查看学员" },
           },
         ],
       },
@@ -279,7 +287,7 @@ export default [
             name: "/cms/article/add",
             path: "/cms/article/add",
             component: () => import("@/views/Cms/Article/Form"),
-            meta: { title: "新增文章" },
+            meta: { title: "创建文章" },
           },
           {
             hidden: true,
@@ -387,7 +395,7 @@ export default [
             name: "/system/dict/add",
             path: "/system/dict/add",
             component: () => import("@/views/System/Dict/Form"),
-            meta: { title: "新增字典" },
+            meta: { title: "创建字典" },
           },
           {
             hidden: true,

@@ -4,7 +4,7 @@
     :width="600"
     centered
     :visible="visible"
-    :title="formData.id ? '编辑班级' : '新增班级'"
+    :title="formData.id ? '编辑班级' : '创建班级'"
     @cancel="onCancel"
     @ok="onOk"
   >

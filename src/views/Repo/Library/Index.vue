@@ -1,7 +1,7 @@
 <template>
   <div>
     <p>
-      <a-button type="primary" icon="plus" @click="setModalVisible(true)">新增题库</a-button>
+      <a-button type="primary" icon="plus" @click="setModalVisible(true)">创建题库</a-button>
       <a-button icon="import">导入题库</a-button>
     </p>
 
@@ -38,7 +38,7 @@
       :width="600"
       centered
       v-model="modalVisible"
-      :title="modalForm.id ? '编辑题库' : '新增题库'"
+      :title="modalForm.id ? '编辑题库' : '创建题库'"
       @cancel="setModalVisible(false)"
       @ok="onModalOk"
     >

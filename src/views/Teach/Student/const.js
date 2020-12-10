@@ -1,29 +1,32 @@
 export const tableColumns = [
   {
-    title: "学号",
-    dataIndex: "code",
+    title: "姓名",
     width: 100,
-  },
-  {
-    title: "学员姓名",
     dataIndex: "name",
+    scopedSlots: { customRender: "name" },
   },
   {
     title: "手机号码",
     dataIndex: "phone",
   },
   {
-    title: "最近登录",
-    dataIndex: "last_login",
+    title: "所属班级",
+    dataIndex: "klass_name",
+  },
+  {
+    title: "紧急联系人",
+    dataIndex: "sos_name",
+    scopedSlots: { customRender: "sos_name" },
   },
   {
     title: "启用状态",
     width: 120,
+    dataIndex: "enable",
     scopedSlots: { customRender: "enable" },
   },
   {
-    title: "操作",
+    title: "上次登录",
     width: 180,
-    scopedSlots: { customRender: "action" },
+    dataIndex: "updated_at",
   },
 ];

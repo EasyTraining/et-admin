@@ -4,7 +4,7 @@
     :width="800"
     centered
     :visible="visible"
-    :title="formData.id ? '编辑部门' : '新增部门'"
+    :title="formData.id ? '编辑部门' : '创建部门'"
     @cancel="onCancel"
     @ok="onOk"
   >

@@ -1,7 +1,7 @@
 <template>
   <div>
     <p>
-      <a-button type="primary" icon="plus" @click="setModalVisible(true)">新增试卷</a-button>
+      <a-button type="primary" icon="plus" @click="setModalVisible(true)">创建试卷</a-button>
     </p>
 
     <a-card :body-style="{ padding: 0 }">
@@ -38,7 +38,7 @@
       :width="600"
       centered
       v-model="modalVisible"
-      :title="modalForm.id ? '编辑试卷' : '新增试卷'"
+      :title="modalForm.id ? '编辑试卷' : '创建试卷'"
       @cancel="setModalVisible(false)"
       @ok="onModalOk"
     >

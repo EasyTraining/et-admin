@@ -42,16 +42,15 @@
         :pagination="tablePager"
         @change="onTableChange"
       >
-        <template slot="enable" slot-scope="text, record">
-          <a-switch
-            v-model="record.enable"
-            checked-children="已启用"
-            un-checked-children="已停用"
-            @change="switchStatus(record)"
-          />
+        <template slot="name" slot-scope="text, record">
+          <router-link :to="'/school/student/detail/' + record.id">{{ record.name }}</router-link>
         </template>
-        <template slot="action" slot-scope="text, record">
-          <a href="javascript:;">学员档案</a>
+        <template slot="enable" slot-scope="text, record">
+          <a-tag v-if="record.enable" color="green">启用中</a-tag>
+          <a-tag v-else>已停用</a-tag>
+        </template>
+        <template slot="sos_name" slot-scope="text, record">
+          {{ record.sos_name }}/{{ record.sos_phone }}
         </template>
       </a-table>
     </a-card>
@@ -162,7 +161,7 @@ export default {
         const { current, pageSize } = this.tablePager;
         const res = await this.$http({
           method: "GET",
-          url: "/teach/course",
+          url: "/school/student",
           params: { current, pageSize, klass_id: this.curKlassId },
         });
         if (res.code !== 200) {

@@ -1,7 +1,7 @@
 <template>
   <div>
     <p>
-      <a-button type="primary" icon="plus" @click="onAdd">新增选项</a-button>
+      <a-button type="primary" icon="plus" @click="onAdd">创建选项</a-button>
     </p>
 
     <a-table row-key="uuid" :columns="tableColumns" :data-source="tableData" :pagination="false">
