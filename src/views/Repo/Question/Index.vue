@@ -15,13 +15,19 @@
         :pagination="false"
       >
         <span slot="index" slot-scope="text, record, index">{{ index + 1 }}</span>
-        <span slot="type" slot-scope="text, record, index">{{
-          record.type | questionTypeToLabel
-        }}</span>
+        <span slot="type" slot-scope="text, record, index">
+          {{ record.type | questionTypeToLabel }}
+        </span>
+        <span slot="name" slot-scope="text, record, index">
+          <div v-html="record.name"></div>
+        </span>
+        <span slot="level" slot-scope="text, record, index">
+          {{ record.level | levelToLabel }}
+        </span>
         <template slot="action" slot-scope="text, record">
-          <router-link :to="'/repo/library/' + id + '/questions/edit/' + record.id"
-            >编辑</router-link
-          >
+          <router-link :to="'/repo/library/' + id + '/questions/edit/' + record.id">
+            编辑
+          </router-link>
           <a-divider type="vertical" />
           <a-popconfirm title="删除以后无法恢复, 是否继续?" @confirm="remove(record)">
             <a href="javascript:;">删除</a>

@@ -1,24 +1,28 @@
 export const calcAnalysis = (questions) => {
   let questionCount = 0;
   let gradeCount = 0;
+  let easyCount = 0;
+  let normalCount = 0;
   let hardCount = 0;
-  let hardPercent = 0;
   questions.forEach((item) => {
     questionCount += 1;
     gradeCount += item.grade || 0;
+    if (item.level === "EASY") {
+      easyCount += 1;
+    }
+    if (item.level === "NORMAL") {
+      normalCount += 1;
+    }
     if (item.level === "HARD") {
       hardCount += 1;
     }
   });
-  if (questionCount === 0) {
-    hardPercent = 0;
-  } else {
-    hardPercent = ((hardCount / questionCount) * 100).toFixed(2);
-  }
   return {
     questionCount,
     gradeCount,
-    hardPercent,
+    easyCount,
+    normalCount,
+    hardCount,
   };
 };
 

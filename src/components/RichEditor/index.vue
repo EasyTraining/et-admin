@@ -32,6 +32,7 @@ export default {
     },
   },
   created() {
+    this.content = this.value;
     this.init = {
       language: "zh_CN",
       language_url: "/tinymce/langs/zh_CN.js",
@@ -48,8 +49,8 @@ export default {
       placeholder: this.placeholder,
       plugins: ["charmap", "table"],
       toolbar:
-        "fontsizeselect | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify \
-         | table media | charmap | insert-math | insert-image",
+        "bold italic underline strikethrough | alignleft aligncenter alignright alignjustify \
+         | table media | charmap | insert-math | insert-image | removeformat",
       images_upload_handler: (blobInfo, success, failure) => {
         success("data:image/jpeg;base64," + blobInfo.base64());
       },

@@ -6,22 +6,33 @@
     <a-card>
       <a-row :gutter="15">
         <a-col :span="4">
-          <a-statistic title="试卷题数" :value="analysis.questionCount">
-            <template #suffix>道</template>
-          </a-statistic>
-        </a-col>
-        <a-col :span="4">
           <a-statistic title="试卷总分数" :value="analysis.gradeCount">
             <template #suffix>分</template>
           </a-statistic>
         </a-col>
         <a-col :span="4">
-          <a-statistic title="困难题目占比" :value="analysis.hardPercent">
-            <template #suffix>%</template>
+          <a-statistic title="试卷题数" :value="analysis.questionCount">
+            <template #suffix>道</template>
+          </a-statistic>
+        </a-col>
+        <a-col :span="4">
+          <a-statistic title="简单题目" :value="analysis.easyCount">
+            <template #suffix>道</template>
+          </a-statistic>
+        </a-col>
+        <a-col :span="4">
+          <a-statistic title="普通题目" :value="analysis.normalCount">
+            <template #suffix>道</template>
+          </a-statistic>
+        </a-col>
+        <a-col :span="4">
+          <a-statistic title="困难题目" :value="analysis.hardCount">
+            <template #suffix>道</template>
           </a-statistic>
         </a-col>
       </a-row>
     </a-card>
+
     <a-card :body-style="{ padding: 0 }">
       <a-table
         :columns="tableColumns"
@@ -42,16 +53,11 @@
         <template slot="type" slot-scope="text, record">
           <span>{{ record.type | questionTypeToLabel }}</span>
         </template>
+        <template slot="name" slot-scope="text, record">
+          <div v-html="record.name"></div>
+        </template>
         <template slot="level" slot-scope="text, record">
-          <a-tag v-if="record.level === 'EASY'" color="green">{{
-            record.level | levelToLabel
-          }}</a-tag>
-          <a-tag v-if="record.level === 'NORMAL'" color="blue">{{
-            record.level | levelToLabel
-          }}</a-tag>
-          <a-tag v-if="record.level === 'HARD'" color="red">{{
-            record.level | levelToLabel
-          }}</a-tag>
+          {{ record.level | levelToLabel }}
         </template>
         <template slot="grade" slot-scope="text, record">
           <a-input-number
@@ -93,18 +99,8 @@
                     @change="selectQuestion($event, library, question)"
                   />
                 </div>
-                <div class="question__level">
-                  <a-tag v-if="question.level === 'EASY'" color="green">{{
-                    question.level | levelToLabel
-                  }}</a-tag>
-                  <a-tag v-if="question.level === 'NORMAL'" color="blue">{{
-                    question.level | levelToLabel
-                  }}</a-tag>
-                  <a-tag v-if="question.level === 'HARD'" color="red">{{
-                    question.level | levelToLabel
-                  }}</a-tag>
-                </div>
-                <div class="question__name">{{ question.name }}</div>
+                <div class="question__level">{{ question.level | levelToLabel }}</div>
+                <div class="question__name" v-html="question.name"></div>
               </div>
             </a-tab-pane>
           </a-tabs>
@@ -144,6 +140,10 @@ export default {
       analysis: {
         questionCount: 0,
         gradeCount: 0,
+
+        easyCount: 0,
+        normalCount: 0,
+        hardCount: 0,
       },
     };
   },
@@ -207,7 +207,7 @@ export default {
       try {
         const res = await this.$http({
           method: "GET",
-          url: "/exam/search/library",
+          url: "/repo/search/library",
           params: { enable: true },
         });
         if (res.code !== 200) {
@@ -264,7 +264,6 @@ export default {
 
 .question {
   position: relative;
-  height: 32px;
   display: flex;
   align-items: center;
   padding-left: 80px;
@@ -284,9 +283,6 @@ export default {
   }
 
   &__name {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
 }
 

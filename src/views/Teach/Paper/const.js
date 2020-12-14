@@ -4,6 +4,12 @@ export const tableColumns = [
     dataIndex: "name",
   },
   {
+    title: "题目数",
+    width: 200,
+    dataIndex: "count",
+    scopedSlots: { customRender: "count" },
+  },
+  {
     title: "试卷备注",
     dataIndex: "remark",
   },
@@ -12,11 +18,6 @@ export const tableColumns = [
     width: 120,
     dataIndex: "enable",
     scopedSlots: { customRender: "enable" },
-  },
-  {
-    title: "题目数",
-    width: 100,
-    dataIndex: "questions_count",
   },
   {
     title: "更新时间",
@@ -50,6 +51,7 @@ export const questionColumns = [
   {
     title: "题目",
     dataIndex: "name",
+    scopedSlots: { customRender: "name" },
   },
   {
     title: "分数",
@@ -69,13 +71,8 @@ export const questionColumns = [
     dataIndex: "from_chapter",
   },
   {
-    title: "所属题库",
-    width: 150,
-    dataIndex: "library_name",
-  },
-  {
     title: "操作",
-    width: 180,
+    width: 100,
     scopedSlots: { customRender: "action" },
   },
 ];

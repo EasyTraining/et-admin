@@ -6,22 +6,24 @@ export const tableColumns = [
   },
   {
     title: "题型",
-    width: 140,
+    width: 100,
     dataIndex: "type",
     scopedSlots: { customRender: "type" },
   },
   {
-    title: "题目",
-    dataIndex: "name",
+    title: "难度",
+    width: 100,
+    dataIndex: "level",
+    scopedSlots: { customRender: "level" },
   },
   {
-    title: "答案",
-    width: 140,
-    dataIndex: "real_answer",
+    title: "题目",
+    dataIndex: "name",
+    scopedSlots: { customRender: "name" },
   },
   {
     title: "操作",
-    width: 200,
+    width: 150,
     scopedSlots: { customRender: "action" },
   },
 ];

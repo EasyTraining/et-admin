@@ -13,6 +13,21 @@
         :pagination="tablePager"
         @change="onTableChange"
       >
+        <template slot="count" slot-scope="text, record">
+          <div>共计: {{ record.count.TOTAL }}道</div>
+          <div>
+            简单: {{ record.count.EASY }}道, 占比:
+            {{ (record.count.EASY / record.count.TOTAL) | percent }}%
+          </div>
+          <div>
+            中等: {{ record.count.NORMAL }}道, 占比:
+            {{ (record.count.NORMAL / record.count.TOTAL) | percent }}%
+          </div>
+          <div>
+            困难: {{ record.count.HARD }}道, 占比:
+            {{ (record.count.HARD / record.count.TOTAL) | percent }}%
+          </div>
+        </template>
         <template slot="enable" slot-scope="text, record">
           <a-switch
             v-model="record.enable"
@@ -94,6 +109,15 @@ export default {
       },
       modalRules,
     };
+  },
+  filters: {
+    percent(val) {
+      if (val) {
+        return (val * 100).toFixed(2);
+      } else {
+        return "0";
+      }
+    },
   },
   mounted() {
     this.fetchTableData();
