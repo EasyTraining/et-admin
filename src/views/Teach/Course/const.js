@@ -1,10 +1,5 @@
 export const tableColumns = [
   {
-    title: "序号",
-    dataIndex: "sort",
-    width: 100,
-  },
-  {
     title: "章节名称",
     dataIndex: "name",
   },
@@ -15,11 +10,6 @@ export const tableColumns = [
   {
     title: "章节备注",
     dataIndex: "remark",
-  },
-  {
-    title: "启用状态",
-    width: 120,
-    scopedSlots: { customRender: "enable" },
   },
   {
     title: "更新时间",

@@ -102,18 +102,18 @@ export default [
             component: () => import("@/views/Teach/Paper/Form"),
             meta: { title: "题目管理" },
           },
-          {
-            name: "/teach/homework",
-            path: "/teach/homework",
-            component: () => import("@/views/Teach/Homework/Index"),
-            meta: { title: "家庭作业" },
-          },
-          {
-            name: "/teach/analysis",
-            path: "/teach/analysis",
-            component: () => import("@/views/Teach/Analysis/Index"),
-            meta: { title: "统计分析" },
-          },
+          // {
+          //   name: "/teach/homework",
+          //   path: "/teach/homework",
+          //   component: () => import("@/views/Teach/Homework/Index"),
+          //   meta: { title: "家庭作业" },
+          // },
+          // {
+          //   name: "/teach/analysis",
+          //   path: "/teach/analysis",
+          //   component: () => import("@/views/Teach/Analysis/Index"),
+          //   meta: { title: "统计分析" },
+          // },
         ],
       },
       {

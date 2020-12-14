@@ -75,7 +75,7 @@
         </a-row>
       </a-card>
 
-      <a-card title="登录信息" :loading="mounting" v-if="editedId === ''">
+      <a-card title="登录信息" :loading="mounting" v-if="!editedId">
         <a-row :gutter="15">
           <a-col :span="12">
             <a-form-model-item label="账号" prop="account">

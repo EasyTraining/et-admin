@@ -15,12 +15,16 @@
       :label-col="{ span: 6 }"
       :wrapper-col="{ span: 15 }"
     >
-      <a-form-model-item label="章节序号" prop="sort" extra="值越小越靠前">
-        <a-input-number
-          v-model="formData.sort"
+      <a-form-model-item label="上级章节" prop="parent_id">
+        <a-tree-select
+          v-model="formData.parent_id"
+          :tree-data="treeData"
+          :replace-fields="{ title: 'name', key: 'id', value: 'id' }"
+          :dropdown-style="{ maxHeight: '400px', overflow: 'auto' }"
+          allow-clear
+          tree-default-expand-all
           style="width: 100%"
-          :min="1"
-          placeholder="请填写章节序号"
+          placeholder="请选择上级菜单"
         />
       </a-form-model-item>
       <a-form-model-item label="章节名称" prop="name">
@@ -32,13 +36,6 @@
           :max-length="300"
           :auto-size="{ minRows: 3, maxRows: 5 }"
           placeholder="请填写章节备注"
-        />
-      </a-form-model-item>
-      <a-form-model-item label="启用状态" prop="enable">
-        <a-switch
-          v-model="formData.enable"
-          checked-children="已启用"
-          un-checked-children="已停用"
         />
       </a-form-model-item>
       <a-form-model-item label="章节备注" prop="remark">
@@ -57,7 +54,6 @@
 import { _ } from "@/utils";
 
 const formRules = {
-  sort: [{ required: true, message: "请填写章节序号" }],
   name: [{ required: true, message: "请填写章节名称" }],
   target: [{ required: true, message: "请填写教学目标" }],
 };
@@ -68,24 +64,49 @@ export default {
   data() {
     return {
       formData: {
+        parent_id: undefined,
         id: "",
         name: "",
         target: "",
-        enable: true,
         attachments: [],
         remark: "",
       },
       formRules,
+
+      treeData: [],
     };
   },
   watch: {
     visible(newVal) {
-      if (newVal && this.initialValues) {
-        this.formData = _.cloneDeep(this.initialValues);
+      if (newVal) {
+        this.fetchTreeData();
+        if (this.initialValues) {
+          this.formData = _.cloneDeep(this.initialValues);
+        }
       }
     },
   },
   methods: {
+    async fetchTreeData() {
+      this.loading = true;
+      try {
+        const res = await this.$http({
+          method: "GET",
+          url: "/teach/course_util/tree",
+          params: { klass_id: this.klassId },
+        });
+        if (res.code !== 200) {
+          this.$message.error(res.message);
+          return;
+        }
+        this.treeData = res.data || [];
+      } catch (e) {
+        this.$message.error(e.message);
+      } finally {
+        this.loading = false;
+      }
+    },
+
     async onOk() {
       this.loading = true;
       try {

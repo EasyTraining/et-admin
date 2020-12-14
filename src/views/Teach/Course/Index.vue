@@ -6,6 +6,7 @@
 
     <p style="margin-top: 15px">
       <a-button type="primary" icon="plus" @click="onAdd">创建章节</a-button>
+      <a-button icon="bars" @click="showTreeModal">查看树形结构</a-button>
     </p>
 
     <a-card :loading="mounting" :body-style="{ padding: 0 }">
@@ -14,17 +15,8 @@
         row-key="id"
         :data-source="tableData"
         :loading="loading"
-        :pagination="tablePager"
-        @change="onTableChange"
+        :pagination="false"
       >
-        <template slot="enable" slot-scope="text, record">
-          <a-switch
-            v-model="record.enable"
-            checked-children="已启用"
-            un-checked-children="已停用"
-            @change="switchStatus(record)"
-          />
-        </template>
         <template slot="action" slot-scope="text, record">
           <a href="javascript:;">课件管理</a>
           <a-divider type="vertical" />
@@ -37,7 +29,14 @@
       </a-table>
     </a-card>
 
+    <tree-modal
+      v-if="curKlassId"
+      :visible="treeModalVisible"
+      :klass-id="curKlassId"
+      @cancel="closeTreeModal"
+    />
     <update-modal
+      v-if="curKlassId"
       :visible="updateModalVisible"
       :klass-id="curKlassId"
       :initial-values="editedRecord"
@@ -50,10 +49,11 @@
 <script>
 import { tableColumns } from "./const";
 import UpdateModal from "./components/UpdateModal";
+import TreeModal from "./components/TreeModal";
 
 export default {
-  name: "OrgIndex",
-  components: { UpdateModal },
+  name: "CourseIndex",
+  components: { UpdateModal, TreeModal },
   data() {
     return {
       mounting: false,
@@ -64,29 +64,17 @@ export default {
 
       tableColumns,
       tableData: [],
-      tablePager: {
-        current: 1,
-        pageSize: 30,
-        showSizeChanger: true,
-        showQuickJumper: true,
-        total: 0,
-      },
 
       updateModalVisible: false,
       editedRecord: null,
+
+      treeModalVisible: false,
     };
   },
   async mounted() {
     await this.fetchKlassList();
   },
   methods: {
-    onTableChange(pagination, filters, sorter) {
-      const { current, pageSize } = pagination;
-      this.tablePager.current = current;
-      this.tablePager.pageSize = pageSize;
-      this.fetchTableData();
-    },
-
     onKlassChange() {
       this.fetchTableData();
     },
@@ -137,19 +125,16 @@ export default {
     async fetchTableData() {
       this.loading = true;
       try {
-        const { current, pageSize } = this.tablePager;
         const res = await this.$http({
           method: "GET",
           url: "/teach/course",
-          params: { current, pageSize, klass_id: this.curKlassId },
+          params: { klass_id: this.curKlassId },
         });
         if (res.code !== 200) {
           this.$message.error(res.message);
           return;
         }
-        const { total, data } = res.data;
-        this.tableData = data;
-        this.tablePager.total = total;
+        this.tableData = res.data;
       } catch (e) {
         this.$message.error(e.message);
       } finally {
@@ -184,6 +169,14 @@ export default {
 
     async onUpdateModalOk() {
       await this.fetchTableData();
+    },
+
+    showTreeModal() {
+      this.treeModalVisible = true;
+    },
+
+    closeTreeModal() {
+      this.treeModalVisible = false;
     },
   },
 };

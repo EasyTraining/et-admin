@@ -87,12 +87,14 @@ export default {
   async mounted() {
     await this.fetchTreeData();
   },
-
   methods: {
     async fetchTreeData() {
       this.loading = true;
       try {
-        const res = await this.$http({ method: "GET", url: `/system/menu_util/tree` });
+        const res = await this.$http({
+          method: "GET",
+          url: `/system/menu_util/tree`,
+        });
         if (res.code !== 200) {
           this.$message.error(res.message);
           return;
