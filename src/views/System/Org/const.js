@@ -8,10 +8,6 @@ export const tableColumns = [
     dataIndex: "menu_names_count",
   },
   {
-    title: "可见班级数",
-    dataIndex: "klass_ids_count",
-  },
-  {
     title: "部门备注",
     dataIndex: "remark",
   },
@@ -22,7 +18,7 @@ export const tableColumns = [
   },
   {
     title: "更新时间",
-    width: 180,
+    width: 190,
     dataIndex: "updated_at",
   },
   {

@@ -1,20 +1,18 @@
 export const tableColumns = [
   {
     title: "姓名",
-    width: 100,
+    width: 120,
     dataIndex: "name",
     scopedSlots: { customRender: "name" },
   },
   {
     title: "手机号码",
+    width: 150,
     dataIndex: "phone",
   },
   {
-    title: "所属班级",
-    dataIndex: "klass_name",
-  },
-  {
     title: "紧急联系人",
+    width: 180,
     dataIndex: "sos_name",
     scopedSlots: { customRender: "sos_name" },
   },
@@ -26,12 +24,13 @@ export const tableColumns = [
   },
   {
     title: "上次登录",
-    width: 180,
+    width: 190,
     dataIndex: "updated_at",
   },
   {
     title: "操作",
-    width: 180,
+    width: 200,
+    fixed: "right",
     scopedSlots: { customRender: "action" },
   },
 ];

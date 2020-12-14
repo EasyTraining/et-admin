@@ -2,7 +2,7 @@
   <div>
     <p>
       <a-button type="primary" icon="plus" @click="onAdd">创建部门</a-button>
-      <!-- <a-button icon="bars" @click="showTreeModal">查看树形结构</a-button> -->
+      <a-button icon="bars" @click="showTreeModal">查看树形结构</a-button>
     </p>
 
     <a-card :loading="mounting" :body-style="{ padding: 0 }">

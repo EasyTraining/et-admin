@@ -5,6 +5,7 @@
     centered
     :visible="visible"
     :title="formData.id ? '编辑班级' : '创建班级'"
+    :confirm-loading="loading"
     @cancel="onCancel"
     @ok="onOk"
   >
@@ -67,6 +68,7 @@ export default {
   props: ["initialValues", "visible"],
   data() {
     return {
+      loading: false,
       userList: [],
       formData: {
         id: "",

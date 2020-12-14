@@ -80,7 +80,7 @@
         </template>
         <template v-if="activeTab === '2'">
           <div style="padding: 0 15px 15px">
-            <vue-ueditor-wrap v-model="formData.content" :config="ueConfig" />
+            <rich-editor v-model="formData.content" :height="500" />
           </div>
         </template>
         <template v-if="activeTab === '3'">
@@ -118,11 +118,13 @@
 </template>
 
 <script>
-import { formRules } from "./const";
 import { _ } from "@/utils";
+import RichEditor from "@/components/RichEditor";
+import { formRules } from "./const";
 
 export default {
   name: "ArticleForm",
+  components: { RichEditor },
   data() {
     return {
       loading: false,
@@ -132,7 +134,7 @@ export default {
       activeTab: "1",
       treeData: [],
       formData: {
-        category_id: "",
+        category_id: undefined,
         id: "",
         title: "",
         sub_title: "",

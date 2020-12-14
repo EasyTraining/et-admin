@@ -1,26 +1,46 @@
 <template>
   <div>
-    <a-tabs v-model="curKlassId" @change="onKlassChange">
-      <a-tab-pane v-for="klass in klassList" :key="klass.id" :tab="klass.name" />
-    </a-tabs>
+    <a-card>
+      <div class="filter">
+        <div class="filter__item">
+          <a-select v-model="query.klass_id" style="width: 200px" placeholder="请选择班级">
+            <a-select-option v-for="klass in klassList" :key="klass.id" :value="klass.id">
+              {{ klass.name }}
+            </a-select-option>
+          </a-select>
+        </div>
+        <div class="filter__item">
+          <a-input v-model="query.name" style="width: 200px" placeholder="请填写姓名" />
+        </div>
+        <div class="filter__item">
+          <a-input v-model="query.phone" style="width: 200px" placeholder="请填写手机号码" />
+        </div>
+        <div class="filter__item">
+          <a-button :loading="loading" type="primary" @click="search">查询</a-button>
+          <a-button :loading="loading" @click="reset">重置</a-button>
+        </div>
+      </div>
 
-    <p>
-      <router-link :to="'/school/student/add?klass_id=' + curKlassId">
-        <a-button type="primary" icon="plus">创建学员</a-button>
-      </router-link>
-    </p>
+      <p>
+        <router-link :to="'/school/student/add?klass_id=' + curKlassId">
+          <a-button type="primary" icon="plus">创建学员</a-button>
+        </router-link>
+      </p>
 
-    <a-card :body-style="{ padding: 0 }">
       <a-table
         :columns="tableColumns"
+        :scroll="{ x: 1100 }"
         row-key="id"
         :data-source="tableData"
         :loading="loading"
-        :pagination="tablePager"
-        @change="onTableChange"
+        :pagination="false"
       >
         <template slot="name" slot-scope="text, record">
-          <router-link :to="'/school/student/detail/' + record.id">{{ record.name }}</router-link>
+          <a-avatar v-if="record.avatar_url" size="small" :src="record.avatar_url" />
+          <a-avatar v-else size="small">{{ record.name }}</a-avatar>
+          <router-link style="margin-left: 5px" :to="'/school/student/detail/' + record.id">
+            {{ record.name }}
+          </router-link>
         </template>
         <template slot="sos_name" slot-scope="text, record">
           {{ record.sos_name }}/{{ record.sos_phone }}
@@ -34,7 +54,7 @@
           />
         </template>
         <template slot="action" slot-scope="text, record">
-          <a href="javascript:;">重置密码</a>
+          <a href="javascript:;" @click="showResetModal(record)">重置密码</a>
           <a-divider type="vertical" />
           <router-link :to="'/school/student/edit/' + record.id">编辑</router-link>
           <a-divider type="vertical" />
@@ -44,14 +64,23 @@
         </template>
       </a-table>
     </a-card>
+
+    <reset-modal
+      :visible="resetVisible"
+      :initial-values="currentRow"
+      @cancel="closeResetModal"
+      @ok="onResetOk"
+    />
   </div>
 </template>
 
 <script>
+import ResetModal from "./components/ResetModal";
 import { tableColumns } from "./const";
 
 export default {
   name: "StudentIndex",
+  components: { ResetModal },
   data() {
     return {
       loading: false,
@@ -59,15 +88,17 @@ export default {
       curKlassId: "",
       klassList: [],
 
+      query: {
+        klass_id: undefined,
+        name: undefined,
+        phone: undefined,
+      },
+
       tableColumns,
       tableData: [],
-      tablePager: {
-        current: 1,
-        pageSize: 30,
-        showSizeChanger: true,
-        showQuickJumper: true,
-        total: 0,
-      },
+
+      resetVisible: false,
+      currentRow: null,
     };
   },
   async mounted() {
@@ -75,6 +106,30 @@ export default {
     await this.fetchTableData();
   },
   methods: {
+    search() {
+      this.fetchTableData();
+    },
+
+    reset() {
+      this.query.name = undefined;
+      this.query.phone = undefined;
+      this.search();
+    },
+
+    showResetModal(row) {
+      this.currentRow = row;
+      this.resetVisible = true;
+    },
+
+    closeResetModal() {
+      this.resetVisible = false;
+    },
+
+    onResetOk() {
+      this.search();
+      this.closeResetModal();
+    },
+
     async fetchKlassList() {
       try {
         const res = await this.$http({ method: "GET", url: `/school/klass_util/simple_list` });
@@ -85,44 +140,30 @@ export default {
         this.klassList = res.data || [];
         const { klass_id } = this.$route.query;
         if (klass_id) {
-          this.curKlassId = klass_id;
+          this.query.klass_id = klass_id;
           return;
         }
         if (this.klassList.length) {
-          this.curKlassId = this.klassList[0].id;
+          this.query.klass_id = this.klassList[0].id;
         }
       } catch (e) {
         this.$message.error(e.message);
       }
     },
 
-    onKlassChange() {
-      this.fetchTableData();
-    },
-
-    onTableChange(pagination, filters, sorter) {
-      const { current, pageSize } = pagination;
-      this.tablePager.current = current;
-      this.tablePager.pageSize = pageSize;
-      this.fetchTableData();
-    },
-
     async fetchTableData() {
       this.loading = true;
       try {
-        const { current, pageSize } = this.tablePager;
         const res = await this.$http({
           method: "GET",
           url: "/school/student",
-          params: { klass_id: this.curKlassId, current, pageSize },
+          params: this.query,
         });
         if (res.code !== 200) {
           this.$message.error(res.message);
           return;
         }
-        const { total, data } = res.data;
-        this.tableData = data;
-        this.tablePager.total = total;
+        this.tableData = res.data;
       } catch (e) {
         this.$message.error(e.message);
       } finally {

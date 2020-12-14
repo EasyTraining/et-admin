@@ -19,7 +19,7 @@ export const tableColumns = [
   },
   {
     title: "更新时间",
-    width: 180,
+    width: 190,
     dataIndex: "updated_at",
   },
   {
@@ -30,11 +30,11 @@ export const tableColumns = [
 ];
 
 export const formRules = {
-  category_id: [{ required: true, message: "请选择所属分类" }],
-  title: [{ required: true, message: "请填写文章标题" }],
-  sub_title: [{ required: true, message: "请填写文章副标题" }],
-  enable: [{ required: true, message: "请填写启用状态" }],
-  sort: [{ required: true, message: "请填写文章排序" }],
-  author: [{ required: true, message: "请填写文章作者" }],
-  content: [{ required: true, message: "请填写文章正文" }],
+  category_id: [{ required: true, message: "必填项" }],
+  title: [{ required: true, message: "必填项" }],
+  sub_title: [{ required: true, message: "必填项" }],
+  enable: [{ required: true, message: "必填项" }],
+  sort: [{ required: true, message: "必填项" }],
+  author: [{ required: true, message: "必填项" }],
+  content: [{ required: true, message: "必填项" }],
 };

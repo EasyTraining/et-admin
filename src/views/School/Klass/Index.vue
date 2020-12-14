@@ -4,21 +4,24 @@
       <a-button type="primary" icon="plus" @click="onAdd">创建班级</a-button>
     </p>
 
-    <a-card :loading="mounting" :body-style="{ padding: 0 }">
-      <a-table
-        :columns="tableColumns"
-        row-key="id"
-        :data-source="tableData"
-        :loading="loading"
-        :pagination="false"
-      >
-        <template slot="action" slot-scope="text, record">
-          <router-link :to="'/school/student?klass_id=' + record.id">学员管理</router-link>
-          <a-divider type="vertical" />
-          <a href="javascript:;" @click="onEdit(record)">编辑</a>
-        </template>
-      </a-table>
-    </a-card>
+    <a-row :gutter="15">
+      <a-col :span="8" v-for="klass in tableData" :key="klass.id">
+        <a-card hoverable>
+          <img
+            slot="cover"
+            alt="example"
+            src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+          />
+          <template slot="actions" class="ant-card-actions">
+            <a href="javascript:;" @click="onEdit(klass)">编辑</a>
+            <router-link :to="'/school/student?klass_id=' + klass.id">学员管理</router-link>
+          </template>
+          <a-card-meta :description="klass.description">
+            <span slot="title">{{ klass.name }} [{{ klass.leader_name }}]</span>
+          </a-card-meta>
+        </a-card>
+      </a-col>
+    </a-row>
 
     <update-modal
       :visible="updateModalVisible"

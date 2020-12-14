@@ -23,12 +23,12 @@ export const tableColumns = [
   },
   {
     title: "更新时间",
-    width: 180,
+    width: 190,
     dataIndex: "updated_at",
   },
   {
     title: "操作",
-    width: 180,
+    width: 190,
     scopedSlots: { customRender: "action" },
   },
 ];

@@ -58,7 +58,7 @@ const tableColumns = [
   },
   {
     title: "更新时间",
-    width: 180,
+    width: 190,
     dataIndex: "updated_at",
   },
   {

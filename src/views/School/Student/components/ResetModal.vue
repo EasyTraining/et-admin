@@ -14,10 +14,10 @@
       :model="formData"
       :rules="formRules"
       :label-col="{ span: 6 }"
-      :wrapper-col="{ span: 14 }"
+      :wrapper-col="{ span: 15 }"
     >
-      <a-form-model-item label="昵称" prop="nick_name">
-        {{ formData.nick_name }}
+      <a-form-model-item label="姓名" prop="name">
+        {{ formData.name }}
       </a-form-model-item>
       <a-form-model-item label="新密码" prop="new_pwd">
         <a-input v-model="formData.new_pwd" :max-length="100" placeholder="请填写新密码" />
@@ -39,13 +39,13 @@ const formRules = {
 
 export default {
   name: "ResetModal",
-  props: ["visible", "id"],
+  props: ["initialValues", "visible"],
   data() {
     return {
       submitting: false,
       formData: {
         id: "",
-        nick_name: "",
+        name: "",
         new_pwd: "",
         repeat_pwd: "",
       },
@@ -54,44 +54,26 @@ export default {
   },
   watch: {
     visible(newVal) {
-      if (newVal && this.id) {
-        this.fetchDetail();
+      if (newVal && this.initialValues) {
+        this.formData = _.pick(this.initialValues, Object.keys(this.formData));
       }
     },
   },
   methods: {
-    async fetchDetail() {
-      try {
-        const res = await this.$http({ method: "GET", url: `/system/employee/${this.id}` });
-        if (res.code !== 200) {
-          this.$message.error(res.message);
-          return;
-        }
-        this.formData = _.pick(res.data, ["id", "nick_name"]);
-      } catch (e) {
-        this.$message.error(e.message);
-      }
-    },
-
-    onCancel() {
-      this.$refs.form.resetFields();
-      this.$emit("cancel", null);
-    },
-
-    onOk() {
+    async onOk() {
       this.$refs.form.validate(async (valid) => {
         if (!valid) return;
+        const { id, new_pwd, repeat_pwd } = this.formData;
+        if (repeat_pwd !== new_pwd) {
+          this.$message.warning("两次输入的密码不一致!");
+          return;
+        }
         this.submitting = true;
         try {
-          const { id, new_pwd, repeat_pwd } = this.formData;
-          if (repeat_pwd !== new_pwd) {
-            this.$message.warning("两次输入的密码不一致!");
-            return;
-          }
           const hashed_pwd = sha256(new_pwd);
           const res = await this.$http({
             method: "PUT",
-            url: `/system/employee/${id}/reset_password`,
+            url: `/school/student/${id}/reset_password`,
             data: { hashed_pwd },
           });
           if (res.code !== 200) {
@@ -99,14 +81,24 @@ export default {
             return;
           }
           this.$message.success("操作成功");
-          this.$emit("refresh", null);
-          this.onCancel();
+          this.$emit("ok", null);
         } catch (e) {
           this.$message.error(e.message);
         } finally {
           this.submitting = false;
         }
       });
+    },
+
+    onCancel() {
+      this.$emit("cancel", null);
+      this.formData = {
+        id: "",
+        name: "",
+        new_pwd: "",
+        repeat_pwd: "",
+      };
+      this.$refs.form.resetFields();
     },
   },
 };

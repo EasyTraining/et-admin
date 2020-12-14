@@ -4,21 +4,17 @@ export const tableColumns = [
     dataIndex: "name",
   },
   {
-    title: "教学目标",
-    dataIndex: "target",
-  },
-  {
     title: "章节备注",
     dataIndex: "remark",
   },
   {
     title: "更新时间",
-    width: 180,
+    width: 190,
     dataIndex: "updated_at",
   },
   {
     title: "操作",
-    width: 180,
+    width: 200,
     scopedSlots: { customRender: "action" },
   },
 ];

@@ -1,7 +1,7 @@
 export const tableColumns = [
   {
     title: "题号",
-    width: 60,
+    width: 80,
     scopedSlots: { customRender: "index" },
   },
   {
