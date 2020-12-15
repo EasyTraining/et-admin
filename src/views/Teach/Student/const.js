@@ -1,7 +1,7 @@
 export const tableColumns = [
   {
     title: "姓名",
-    width: 100,
+    width: 120,
     dataIndex: "name",
     scopedSlots: { customRender: "name" },
   },
@@ -25,8 +25,8 @@ export const tableColumns = [
     scopedSlots: { customRender: "enable" },
   },
   {
-    title: "上次登录",
-    width: 180,
+    title: "更新时间",
+    width: 190,
     dataIndex: "updated_at",
   },
 ];

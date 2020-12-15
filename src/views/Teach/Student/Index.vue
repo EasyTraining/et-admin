@@ -38,15 +38,22 @@
         :columns="tableColumns"
         :data-source="tableData"
         :loading="studentLoading"
-        :pagination="tablePager"
-        @change="onTableChange"
+        :pagination="false"
       >
         <template slot="name" slot-scope="text, record">
-          <router-link :to="'/school/student/detail/' + record.id">{{ record.name }}</router-link>
+          <a-avatar v-if="record.avatar_url" size="small" :src="record.avatar_url" />
+          <a-avatar v-else size="small">{{ record.name }}</a-avatar>
+          <router-link style="margin-left: 5px" :to="'/school/student/detail/' + record.id">
+            {{ record.name }}
+          </router-link>
         </template>
         <template slot="enable" slot-scope="text, record">
-          <a-tag v-if="record.enable" color="green">启用中</a-tag>
-          <a-tag v-else>已停用</a-tag>
+          <a-switch
+            v-model="record.enable"
+            checked-children="启用中"
+            un-checked-children="已停用"
+            @change="switchStatus(record)"
+          />
         </template>
         <template slot="sos_name" slot-scope="text, record">
           {{ record.sos_name }}/{{ record.sos_phone }}
@@ -88,13 +95,6 @@ export default {
 
       tableColumns,
       tableData: [],
-      tablePager: {
-        current: 1,
-        pageSize: 30,
-        showSizeChanger: true,
-        showQuickJumper: true,
-        total: 0,
-      },
 
       broadcastVisible: false,
 
@@ -105,13 +105,6 @@ export default {
     await this.fetchKlassList();
   },
   methods: {
-    onTableChange(pagination, filters, sorter) {
-      const { current, pageSize } = pagination;
-      this.tablePager.current = current;
-      this.tablePager.pageSize = pageSize;
-      this.fetchTableData();
-    },
-
     onKlassChange() {
       this.fetchKlassInfo();
       this.fetchTableData();
@@ -157,19 +150,16 @@ export default {
     async fetchTableData() {
       this.studentLoading = true;
       try {
-        const { current, pageSize } = this.tablePager;
         const res = await this.$http({
           method: "GET",
           url: "/school/student",
-          params: { current, pageSize, klass_id: this.curKlassId },
+          params: { klass_id: this.curKlassId },
         });
         if (res.code !== 200) {
           this.$message.warning(res.message);
           return;
         }
-        const { total, data } = res.data;
-        this.tableData = data;
-        this.tablePager.total = total;
+        this.tableData = res.data;
       } catch (e) {
         this.$message.warning(e.message);
       } finally {
