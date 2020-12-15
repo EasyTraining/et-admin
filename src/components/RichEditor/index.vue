@@ -7,23 +7,27 @@
       :init="init"
       @onChange="onEditorChange"
     />
-    <math-modal :visible="mathVisible" @cancel="mathVisible = false" />
+
+    <math-modal :visible="mathVisible" @cancel="mathVisible = false" @ok="insertMath" />
+    <upload-modal :visible="uploadVisible" @cancel="uploadVisible = false" />
   </div>
 </template>
 
 <script>
 import Editor from "@tinymce/tinymce-vue";
 import MathModal from "./components/MathModal";
+import UploadModal from "./components/UploadModal";
 
 export default {
   name: "UEditor",
-  components: { Editor, MathModal },
+  components: { Editor, MathModal, UploadModal },
   props: ["value", "placeholder", "height"],
   data() {
     return {
       content: "",
       init: {},
       mathVisible: false,
+      uploadVisible: false,
     };
   },
   watch: {
@@ -55,22 +59,28 @@ export default {
         success("data:image/jpeg;base64," + blobInfo.base64());
       },
       setup: (editor) => {
-        editor.ui.registry.addButton("insert-math", {
-          text: "数学公式",
-          onAction: (_) => {
-            this.mathVisible = true;
-          },
-        });
-        editor.ui.registry.addButton("insert-image", {
-          text: "插入图片",
-          onAction: (_) => {},
-        });
+        // editor.ui.registry.addButton("insert-math", {
+        //   text: "数学公式",
+        //   onAction: (_) => {
+        //     this.mathVisible = true;
+        //   },
+        // });
+        // editor.ui.registry.addButton("insert-image", {
+        //   text: "插入图片",
+        //   onAction: (_) => {
+        //     this.uploadVisible = true;
+        //   },
+        // });
       },
     };
   },
   methods: {
     onEditorChange(val) {
       this.$emit("input", this.content);
+    },
+
+    insertMath(math) {
+      console.log(math);
     },
   },
 };

@@ -5,6 +5,7 @@
     centered
     :visible="visible"
     :title="formData.id ? '编辑菜单' : '创建菜单'"
+    :confirm-loading="loading"
     @cancel="onCancel"
     @ok="onOk"
   >
@@ -65,6 +66,7 @@ export default {
   props: ["initialValues", "visible"],
   data() {
     return {
+      loading: false,
       treeData: [],
       formData: {
         id: "",

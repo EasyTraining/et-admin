@@ -17,18 +17,13 @@ export const tableColumns = [
     scopedSlots: { customRender: "enable" },
   },
   {
-    title: "上次登录时间",
-    width: 180,
-    dataIndex: "last_login_date",
-  },
-  {
     title: "更新时间",
     width: 190,
     dataIndex: "updated_at",
   },
   {
     title: "操作",
-    width: 180,
+    width: 200,
     scopedSlots: { customRender: "action" },
   },
 ];

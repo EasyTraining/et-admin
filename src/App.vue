@@ -7,9 +7,7 @@
 </template>
 
 <script>
-import setting from "@/setting";
 import zhCN from "ant-design-vue/lib/locale-provider/zh_CN";
-import { updateTheme } from "@ant-design-vue/pro-layout";
 
 export default {
   name: "app",
@@ -18,11 +16,6 @@ export default {
       loading: false,
       locale: zhCN,
     };
-  },
-  async mounted() {
-    if (process.env.NODE_ENV !== "production") {
-      updateTheme(setting.primaryColor);
-    }
   },
 };
 </script>

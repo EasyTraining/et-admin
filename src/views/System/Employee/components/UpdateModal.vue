@@ -5,6 +5,7 @@
     centered
     :visible="visible"
     :title="formData.id ? '编辑用户' : '创建用户'"
+    :confirm-loading="loading"
     @cancel="onCancel"
     @ok="onOk"
   >
@@ -102,7 +103,6 @@ export default {
 
   methods: {
     async fetchDetail() {
-      const hide = this.$message.loading("正在接受数据...", 0);
       try {
         const res = await this.$http({ method: "GET", url: `/system/employee/${this.id}` });
         if (res.code !== 200) {
@@ -112,8 +112,6 @@ export default {
         this.formData = _.pick(res.data, Object.keys(this.formData));
       } catch (e) {
         this.$message.warning(e.message);
-      } finally {
-        hide();
       }
     },
 
