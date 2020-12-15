@@ -22,7 +22,7 @@
       </div>
 
       <p>
-        <router-link :to="'/school/student/add?klass_id=' + curKlassId">
+        <router-link :to="'/school/student/add?klass_id=' + query.klass_id">
           <a-button type="primary" icon="plus">创建学员</a-button>
         </router-link>
       </p>
@@ -85,7 +85,6 @@ export default {
     return {
       loading: false,
 
-      curKlassId: "",
       klassList: [],
 
       query: {
