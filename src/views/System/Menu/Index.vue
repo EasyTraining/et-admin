@@ -81,13 +81,13 @@ export default {
       try {
         const res = await this.$http({ method: "DELETE", url: `/system/menu/${id}` });
         if (res.code !== 200) {
-          this.$message.error(res.message);
+          this.$message.warning(res.message);
           return;
         }
         this.$message.success(res.message);
         await this.fetchTableData();
       } catch (e) {
-        this.$message.error(e.message);
+        this.$message.warning(e.message);
       } finally {
         this.loading = false;
       }
@@ -98,12 +98,12 @@ export default {
       try {
         const res = await this.$http({ method: "GET", url: "/system/menu" });
         if (res.code !== 200) {
-          this.$message.error(res.message);
+          this.$message.warning(res.message);
           return;
         }
         this.tableData = res.data;
       } catch (e) {
-        this.$message.error(e.message);
+        this.$message.warning(e.message);
       } finally {
         this.loading = false;
       }
@@ -118,12 +118,12 @@ export default {
           data: { enable },
         });
         if (res.code !== 200) {
-          this.$message.error(res.message);
+          this.$message.warning(res.message);
           return;
         }
         await this.fetchTableData();
       } catch (e) {
-        this.$message.error(e.message);
+        this.$message.warning(e.message);
       } finally {
         this.loading = false;
       }

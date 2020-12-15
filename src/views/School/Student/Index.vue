@@ -134,7 +134,7 @@ export default {
       try {
         const res = await this.$http({ method: "GET", url: `/school/klass_util/simple_list` });
         if (res.code !== 200) {
-          this.$message.error(res.message);
+          this.$message.warning(res.message);
           return;
         }
         this.klassList = res.data || [];
@@ -147,7 +147,7 @@ export default {
           this.query.klass_id = this.klassList[0].id;
         }
       } catch (e) {
-        this.$message.error(e.message);
+        this.$message.warning(e.message);
       }
     },
 
@@ -160,12 +160,12 @@ export default {
           params: this.query,
         });
         if (res.code !== 200) {
-          this.$message.error(res.message);
+          this.$message.warning(res.message);
           return;
         }
         this.tableData = res.data;
       } catch (e) {
-        this.$message.error(e.message);
+        this.$message.warning(e.message);
       } finally {
         this.loading = false;
       }
@@ -176,13 +176,13 @@ export default {
       try {
         const res = await this.$http({ method: "DELETE", url: `/school/student/${id}` });
         if (res.code !== 200) {
-          this.$message.error(res.message);
+          this.$message.warning(res.message);
           return;
         }
         this.$message.success(res.message);
         await this.fetchTableData();
       } catch (e) {
-        this.$message.error(e.message);
+        this.$message.warning(e.message);
       } finally {
         this.loading = false;
       }
@@ -197,12 +197,12 @@ export default {
           data: { enable },
         });
         if (res.code !== 200) {
-          this.$message.error(res.message);
+          this.$message.warning(res.message);
           return;
         }
         await this.fetchTableData();
       } catch (e) {
-        this.$message.error(e.message);
+        this.$message.warning(e.message);
       } finally {
         this.loading = false;
       }

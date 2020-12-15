@@ -188,7 +188,7 @@ export default {
       try {
         const res = await this.$http({ method: "GET", url: `/teach/paper/${this.paperId}` });
         if (res.code !== 200) {
-          this.$message.error(res.message);
+          this.$message.warning(res.message);
           return;
         }
         const { questions } = res.data;
@@ -196,7 +196,7 @@ export default {
         this.tableData = questions;
         this.analysis = calcAnalysis(this.tableData);
       } catch (e) {
-        this.$message.error(e.message);
+        this.$message.warning(e.message);
       } finally {
         this.loading = false;
       }
@@ -211,7 +211,7 @@ export default {
           params: { enable: true },
         });
         if (res.code !== 200) {
-          this.$message.error(res.message);
+          this.$message.warning(res.message);
           return;
         }
         this.libraryList = res.data;
@@ -220,7 +220,7 @@ export default {
           this.activeLibraryId = this.libraryList[0].id;
         }
       } catch (e) {
-        this.$message.error(e.message);
+        this.$message.warning(e.message);
       } finally {
         this.loading = false;
       }
@@ -241,13 +241,13 @@ export default {
           data: { questions },
         });
         if (res.code !== 200) {
-          this.$message.error(res.message);
+          this.$message.warning(res.message);
           return;
         }
         this.$message.success(res.message);
         await this.fetchDetail();
       } catch (e) {
-        this.$message.error(e.message);
+        this.$message.warning(e.message);
       } finally {
         this.submitting = false;
       }

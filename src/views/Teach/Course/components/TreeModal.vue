@@ -39,12 +39,12 @@ export default {
           params: { klass_id: this.klassId },
         });
         if (res.code !== 200) {
-          this.$message.error(res.message);
+          this.$message.warning(res.message);
           return;
         }
         this.treeData = res.data;
       } catch (e) {
-        this.$message.error(e.message);
+        this.$message.warning(e.message);
       } finally {
         this.loading = false;
       }

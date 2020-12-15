@@ -26,7 +26,7 @@ export const tableColumns = [
   },
   {
     title: "操作",
-    width: 220,
+    width: 200,
     scopedSlots: { customRender: "action" },
   },
 ];
@@ -72,7 +72,7 @@ export const questionColumns = [
   },
   {
     title: "操作",
-    width: 100,
+    width: 180,
     scopedSlots: { customRender: "action" },
   },
 ];

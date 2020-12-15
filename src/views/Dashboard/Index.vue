@@ -1,11 +1,9 @@
 <template>
-  <div>404 page</div>
+  <div>Dashboard</div>
 </template>
 
 <script>
 export default {
-  name: "404",
+  name: "DashboardIndex",
 };
 </script>
-
-<style scoped></style>

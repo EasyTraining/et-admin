@@ -28,7 +28,7 @@ export const tableColumns = [
   },
   {
     title: "操作",
-    width: 190,
+    width: 180,
     scopedSlots: { customRender: "action" },
   },
 ];

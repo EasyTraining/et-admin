@@ -140,14 +140,14 @@ export default {
           params: { current, pageSize },
         });
         if (res.code !== 200) {
-          this.$message.error(res.message);
+          this.$message.warning(res.message);
           return;
         }
         const { total, data } = res.data;
         this.tableData = data;
         this.tablePager.total = total;
       } catch (e) {
-        this.$message.error(e.message);
+        this.$message.warning(e.message);
       } finally {
         this.loading = false;
       }
@@ -158,13 +158,13 @@ export default {
       try {
         const res = await this.$http({ method: "DELETE", url: `/teach/paper/${id}` });
         if (res.code !== 200) {
-          this.$message.error(res.message);
+          this.$message.warning(res.message);
           return;
         }
         this.$message.success(res.message);
         await this.fetchTableData();
       } catch (e) {
-        this.$message.error(e.message);
+        this.$message.warning(e.message);
       } finally {
         this.loading = false;
       }
@@ -179,12 +179,12 @@ export default {
           data: { enable },
         });
         if (res.code !== 200) {
-          this.$message.error(res.message);
+          this.$message.warning(res.message);
           return;
         }
         await this.fetchTableData();
       } catch (e) {
-        this.$message.error(e.message);
+        this.$message.warning(e.message);
       } finally {
         this.loading = false;
       }
@@ -216,14 +216,14 @@ export default {
             ? await this.$http({ method: "PUT", url: `/teach/paper/${id}`, data: rest })
             : await this.$http({ method: "POST", url: "/teach/paper", data: rest });
           if (res.code !== 200) {
-            this.$message.error(res.message);
+            this.$message.warning(res.message);
             return;
           }
           this.$message.success(res.message);
           this.setModalVisible(false);
           await this.fetchTableData();
         } catch (e) {
-          this.$message.error(e.message);
+          this.$message.warning(e.message);
         }
       });
     },

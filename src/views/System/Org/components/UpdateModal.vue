@@ -106,12 +106,12 @@ export default {
       try {
         const res = await this.$http({ method: "GET", url: `/system/org_util/tree` });
         if (res.code !== 200) {
-          this.$message.error(res.message);
+          this.$message.warning(res.message);
           return;
         }
         this.orgTreeData = res.data || [];
       } catch (e) {
-        this.$message.error(e.message);
+        this.$message.warning(e.message);
       }
     },
 
@@ -119,12 +119,12 @@ export default {
       try {
         const res = await this.$http({ method: "GET", url: `/system/menu_util/tree` });
         if (res.code !== 200) {
-          this.$message.error(res.message);
+          this.$message.warning(res.message);
           return;
         }
         this.menuTreeData = res.data || [];
       } catch (e) {
-        this.$message.error(e.message);
+        this.$message.warning(e.message);
       }
     },
 
@@ -138,7 +138,7 @@ export default {
             ? await this.$http({ method: "PUT", url: `/system/org/${id}`, data: rest })
             : await this.$http({ method: "POST", url: "/system/org", data: rest });
           if (res.code !== 200) {
-            this.$message.error(res.message);
+            this.$message.warning(res.message);
             return;
           }
           this.$message.success("操作成功");
@@ -146,7 +146,7 @@ export default {
           this.onCancel();
           await this.fetchOrgTreeData();
         } catch (e) {
-          this.$message.error(e.message);
+          this.$message.warning(e.message);
         } finally {
           this.loading = false;
         }

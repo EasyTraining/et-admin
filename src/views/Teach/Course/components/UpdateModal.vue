@@ -96,12 +96,12 @@ export default {
           params: { klass_id: this.klassId },
         });
         if (res.code !== 200) {
-          this.$message.error(res.message);
+          this.$message.warning(res.message);
           return;
         }
         this.treeData = res.data || [];
       } catch (e) {
-        this.$message.error(e.message);
+        this.$message.warning(e.message);
       } finally {
         this.loading = false;
       }
@@ -123,14 +123,14 @@ export default {
               data: { klass_id: this.klassId, ...rest },
             });
         if (res.code !== 200) {
-          this.$message.error(res.message);
+          this.$message.warning(res.message);
           return;
         }
         this.$message.success("操作成功");
         this.$emit("ok", _.cloneDeep(this.formData));
         this.onCancel();
       } catch (e) {
-        this.$message.error(e.message);
+        this.$message.warning(e.message);
       } finally {
         this.loading = false;
       }

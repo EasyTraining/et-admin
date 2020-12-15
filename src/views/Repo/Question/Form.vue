@@ -36,12 +36,12 @@ export default {
       try {
         const res = await this.$http({ method: "GET", url: `/repo/library/${this.libraryId}` });
         if (res.code !== 200) {
-          this.$message.error(res.message);
+          this.$message.warning(res.message);
           return;
         }
         this.info = res.data;
       } catch (e) {
-        this.$message.error(e.message);
+        this.$message.warning(e.message);
       } finally {
         this.loading = false;
       }

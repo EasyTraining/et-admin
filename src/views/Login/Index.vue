@@ -77,12 +77,12 @@ export default {
       try {
         const res = await this.$http({ method: "GET", url: "/captcha" });
         if (res.code !== 200) {
-          this.$message.error(res.message);
+          this.$message.warning(res.message);
           return;
         }
         this.captchaImg = res.data;
       } catch (e) {
-        this.$message.error(e.message);
+        this.$message.warning(e.message);
       } finally {
         this.loading = false;
       }
@@ -108,7 +108,7 @@ export default {
             },
           });
           if (res.code !== 200) {
-            this.$message.error(res.message);
+            this.$message.warning(res.message);
             await this.fetchCaptcha();
             return;
           }
@@ -117,10 +117,10 @@ export default {
             Cookies.set("token", token);
             await this.$router.push("/dashboard");
           } else {
-            this.$message.error(res.data);
+            this.$message.warning(res.data);
           }
         } catch (e) {
-          this.$message.error(e.message);
+          this.$message.warning(e.message);
         } finally {
           this.loading = false;
         }

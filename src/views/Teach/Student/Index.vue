@@ -5,7 +5,6 @@
     </a-tabs>
 
     <a-card title="班级信息">
-      <!--      <a slot="extra" href="javascript:;">编辑</a>-->
       <a-descriptions>
         <a-descriptions-item label="班级名称">{{ curKlassInfo.name }}</a-descriptions-item>
         <a-descriptions-item label="班主任">{{ curKlassInfo.leader_id }}</a-descriptions-item>
@@ -35,8 +34,8 @@
     <a-card title="学员档案">
       <a slot="extra" href="javascript:;" @click="fetchTableData">刷新数据</a>
       <a-table
-        :columns="tableColumns"
         row-key="id"
+        :columns="tableColumns"
         :data-source="tableData"
         :loading="studentLoading"
         :pagination="tablePager"
@@ -76,7 +75,7 @@ import BroadcastModal from "./components/BroadcastModal";
 import HistoryModal from "./components/HistoryModal";
 
 export default {
-  name: "OrgIndex",
+  name: "StudentIndex",
   components: { BroadcastModal, HistoryModal },
   data() {
     return {
@@ -122,7 +121,7 @@ export default {
       try {
         const res = await this.$http({ method: "GET", url: `/school/klass_util/simple_list` });
         if (res.code !== 200) {
-          this.$message.error(res.message);
+          this.$message.warning(res.message);
           return;
         }
         this.klassList = res.data || [];
@@ -132,7 +131,7 @@ export default {
           await this.fetchTableData();
         }
       } catch (e) {
-        this.$message.error(e.message);
+        this.$message.warning(e.message);
       }
     },
 
@@ -144,12 +143,12 @@ export default {
           url: `/school/klass/${this.curKlassId}`,
         });
         if (res.code !== 200) {
-          this.$message.error(res.message);
+          this.$message.warning(res.message);
           return;
         }
         this.curKlassInfo = res.data;
       } catch (e) {
-        this.$message.error(e.message);
+        this.$message.warning(e.message);
       } finally {
         this.klassLoading = false;
       }
@@ -165,14 +164,14 @@ export default {
           params: { current, pageSize, klass_id: this.curKlassId },
         });
         if (res.code !== 200) {
-          this.$message.error(res.message);
+          this.$message.warning(res.message);
           return;
         }
         const { total, data } = res.data;
         this.tableData = data;
         this.tablePager.total = total;
       } catch (e) {
-        this.$message.error(e.message);
+        this.$message.warning(e.message);
       } finally {
         this.studentLoading = false;
       }
@@ -187,12 +186,12 @@ export default {
           data: { enable },
         });
         if (res.code !== 200) {
-          this.$message.error(res.message);
+          this.$message.warning(res.message);
           return;
         }
         await this.fetchTableData();
       } catch (e) {
-        this.$message.error(e.message);
+        this.$message.warning(e.message);
       } finally {
         this.studentLoading = false;
       }

@@ -37,7 +37,7 @@ import { tableColumns } from "./const";
 import UpdateModal from "./components/UpdateModal";
 
 export default {
-  name: "OrgIndex",
+  name: "SchoolKlassIndex",
   components: { UpdateModal },
   data() {
     return {
@@ -78,13 +78,13 @@ export default {
               },
             });
             if (res.code !== 200) {
-              this.$message.error(res.message);
+              this.$message.warning(res.message);
               return;
             }
             this.$message.success("操作成功");
             await this.fetchTableData();
           } catch (e) {
-            this.$message.error(e.message);
+            this.$message.warning(e.message);
           }
         },
         onCancel: () => {},
@@ -96,12 +96,12 @@ export default {
       try {
         const res = await this.$http({ method: "GET", url: "/school/klass" });
         if (res.code !== 200) {
-          this.$message.error(res.message);
+          this.$message.warning(res.message);
           return;
         }
         this.tableData = res.data;
       } catch (e) {
-        this.$message.error(e.message);
+        this.$message.warning(e.message);
       } finally {
         this.loading = false;
       }

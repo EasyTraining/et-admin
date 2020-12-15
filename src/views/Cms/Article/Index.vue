@@ -41,7 +41,7 @@
 import { tableColumns } from "./const";
 
 export default {
-  name: "OrgIndex",
+  name: "CmsArticleIndex",
   data() {
     return {
       mounting: false,
@@ -74,13 +74,13 @@ export default {
       try {
         const res = await this.$http({ method: "DELETE", url: `/cms/article/${id}` });
         if (res.code !== 200) {
-          this.$message.error(res.message);
+          this.$message.warning(res.message);
           return;
         }
         this.$message.success(res.message);
         await this.fetchTableData();
       } catch (e) {
-        this.$message.error(e.message);
+        this.$message.warning(e.message);
       } finally {
         this.loading = false;
       }
@@ -91,14 +91,14 @@ export default {
       try {
         const res = await this.$http({ method: "GET", url: "/cms/article" });
         if (res.code !== 200) {
-          this.$message.error(res.message);
+          this.$message.warning(res.message);
           return;
         }
         const { total, data } = res.data;
         this.tableData = data;
         this.tablePager.total = total;
       } catch (e) {
-        this.$message.error(e.message);
+        this.$message.warning(e.message);
       } finally {
         this.loading = false;
       }
@@ -113,12 +113,12 @@ export default {
           data: { enable },
         });
         if (res.code !== 200) {
-          this.$message.error(res.message);
+          this.$message.warning(res.message);
           return;
         }
         await this.fetchTableData();
       } catch (e) {
-        this.$message.error(e.message);
+        this.$message.warning(e.message);
       } finally {
         this.loading = false;
       }

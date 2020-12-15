@@ -77,13 +77,13 @@ export default {
             data: { hashed_pwd },
           });
           if (res.code !== 200) {
-            this.$message.error(res.message);
+            this.$message.warning(res.message);
             return;
           }
           this.$message.success("操作成功");
           this.$emit("ok", null);
         } catch (e) {
-          this.$message.error(e.message);
+          this.$message.warning(e.message);
         } finally {
           this.submitting = false;
         }

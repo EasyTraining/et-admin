@@ -178,12 +178,12 @@ export default {
       try {
         const res = await this.$http({ method: "GET", url: "/school/klass_util/simple_list" });
         if (res.code !== 200) {
-          this.$message.error(res.message);
+          this.$message.warning(res.message);
           return;
         }
         this.klassList = res.data || [];
       } catch (e) {
-        this.$message.error(e.message);
+        this.$message.warning(e.message);
       }
     },
 
@@ -192,12 +192,12 @@ export default {
       try {
         const res = await this.$http({ method: "GET", url: `/school/student/${this.editedId}` });
         if (res.code !== 200) {
-          this.$message.error(res.message);
+          this.$message.warning(res.message);
           return;
         }
         this.formData = _.pick(res.data, Object.keys(this.formData));
       } catch (e) {
-        this.$message.error(e.message);
+        this.$message.warning(e.message);
       } finally {
         this.mounting = false;
       }
@@ -225,13 +225,13 @@ export default {
           data: { hashed_pwd, ...rest },
         });
         if (res.code !== 200) {
-          this.$message.error(res.message);
+          this.$message.warning(res.message);
           return;
         }
         this.$message.success("操作成功");
         await this.$router.replace(`/school/student/detail/${res.data.id}`);
       } catch (e) {
-        this.$message.error(e.message);
+        this.$message.warning(e.message);
       } finally {
         this.submitting = false;
       }
@@ -247,13 +247,13 @@ export default {
           data: rest,
         });
         if (res.code !== 200) {
-          this.$message.error(res.message);
+          this.$message.warning(res.message);
           return;
         }
         this.$message.success("操作成功");
         await this.$router.replace(`/school/student/detail/${res.data.id}`);
       } catch (e) {
-        this.$message.error(e.message);
+        this.$message.warning(e.message);
       } finally {
         this.submitting = false;
       }

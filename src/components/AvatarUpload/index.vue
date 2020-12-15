@@ -38,12 +38,12 @@ export default {
     beforeUpload(file) {
       const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
       if (!isJpgOrPng) {
-        this.$message.error("只能上传 .jpg 或者 .png 类型的文件");
+        this.$message.warning("只能上传 .jpg 或者 .png 类型的文件");
         return false;
       }
       const isLt2M = file.size / 1024 / 1024 < 2;
       if (!isLt2M) {
-        this.$message.error("头像最大 2M");
+        this.$message.warning("头像最大 2M");
         return false;
       }
       return true;
@@ -56,12 +56,12 @@ export default {
         fd.append("file", file);
         const res = await this.$http({ method: "POST", url: "/upload", data: fd });
         if (res.code !== 200) {
-          this.$message.error(res.message);
+          this.$message.warning(res.message);
           return;
         }
         this.$emit("input", res.data);
       } catch (e) {
-        this.$message.error(e.message);
+        this.$message.warning(e.message);
       } finally {
         this.loading = false;
       }

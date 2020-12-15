@@ -116,7 +116,7 @@ export default {
         await this.$store.commit("SET_AUTHORIZED_ROUTE_NAMES", menu_names);
         await this.getAuthorizedRoutes(menu_names);
       } catch (e) {
-        this.$message.error(e.message);
+        this.$message.warning(e.message);
       } finally {
         this.loading = false;
       }

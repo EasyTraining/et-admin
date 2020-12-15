@@ -95,12 +95,12 @@ export default {
       try {
         const res = await this.$http({ method: "GET", url: "/system/employee_util/simple_list" });
         if (res.code !== 200) {
-          this.$message.error(res.message);
+          this.$message.warning(res.message);
           return;
         }
         this.userList = res.data;
       } catch (e) {
-        this.$message.error(e.message);
+        this.$message.warning(e.message);
       }
     },
 
@@ -112,14 +112,14 @@ export default {
           ? await this.$http({ method: "PUT", url: `/school/klass/${id}`, data: rest })
           : await this.$http({ method: "POST", url: "/school/klass", data: rest });
         if (res.code !== 200) {
-          this.$message.error(res.message);
+          this.$message.warning(res.message);
           return;
         }
         this.$message.success("操作成功");
         this.$emit("ok", _.cloneDeep(this.formData));
         this.onCancel();
       } catch (e) {
-        this.$message.error(e.message);
+        this.$message.warning(e.message);
       } finally {
         this.loading = false;
       }

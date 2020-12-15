@@ -62,13 +62,13 @@ export default {
         });
         if (res.code !== 200) {
           this.onCancel();
-          this.$message.error(res.message);
+          this.$message.warning(res.message);
           return;
         }
         this.startTimer();
       } catch (e) {
         this.onCancel();
-        this.$message.error(e.message);
+        this.$message.warning(e.message);
       } finally {
         this.loading = false;
       }

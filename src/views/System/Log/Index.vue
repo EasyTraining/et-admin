@@ -21,7 +21,7 @@
 import { tableColumns } from "./const";
 
 export default {
-  name: "OrgIndex",
+  name: "SystemLogIndex",
   data() {
     return {
       loading: false,
@@ -53,14 +53,14 @@ export default {
       try {
         const res = await this.$http({ method: "GET", url: "/log/login" });
         if (res.code !== 200) {
-          this.$message.error(res.message);
+          this.$message.warning(res.message);
           return;
         }
         const { total, data } = res.data;
         this.tableData = data;
         this.tablePager.total = total;
       } catch (e) {
-        this.$message.error(e.message);
+        this.$message.warning(e.message);
       } finally {
         this.loading = false;
       }

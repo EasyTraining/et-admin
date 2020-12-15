@@ -257,13 +257,13 @@ export default {
           }
           const res = await promise;
           if (res.code !== 200) {
-            this.$message.error(res.message);
+            this.$message.warning(res.message);
             return;
           }
           this.$message.success(res.message);
           await this.$router.push(`/repo/library/${this.libraryId}/questions`);
         } catch (e) {
-          this.$message.error(e.message);
+          this.$message.warning(e.message);
         } finally {
           this.submitting = false;
         }

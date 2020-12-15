@@ -79,12 +79,12 @@ export default {
       try {
         const res = await this.$http({ method: "GET", url: `/system/dict/${this.editedId}` });
         if (res.code !== 200) {
-          this.$message.error(res.message);
+          this.$message.warning(res.message);
           return;
         }
         this.formData = _.pick(res.data, Object.keys(this.formData));
       } catch (e) {
-        this.$message.error(e.message);
+        this.$message.warning(e.message);
       }
     },
 
@@ -106,7 +106,7 @@ export default {
             ? await this.$http({ method: "PUT", url: `/system/dict/${this.editedId}`, data: fd })
             : await this.$http({ method: "POST", url: "/system/dict", data: fd });
           if (res.code !== 200) {
-            this.$message.error(res.message);
+            this.$message.warning(res.message);
             return;
           }
           this.$message.success("操作成功");
@@ -116,7 +116,7 @@ export default {
             await this.$router.replace(`/system/dict/edit/${res.data.id}`);
           }
         } catch (e) {
-          this.$message.error(e.message);
+          this.$message.warning(e.message);
         } finally {
           this.submitting = false;
         }
