@@ -1,6 +1,5 @@
 import Vue from "vue";
 
-// base library
 import {
   ConfigProvider,
   Layout,
@@ -50,11 +49,6 @@ import {
   message,
   notification,
 } from "ant-design-vue";
-
-// ext library
-import Dialog from "@/components/Dialog";
-import MultiTab from "@/components/MultiTab";
-import PageLoading from "@/components/PageLoading";
 
 Vue.use(ConfigProvider);
 Vue.use(Layout);
@@ -109,10 +103,6 @@ Vue.prototype.$info = Modal.info;
 Vue.prototype.$success = Modal.success;
 Vue.prototype.$error = Modal.error;
 Vue.prototype.$warning = Modal.warning;
-
-Vue.use(Dialog); // this.$dialog func
-Vue.use(MultiTab);
-Vue.use(PageLoading);
 
 import ECharts from "vue-echarts";
 import "echarts/lib/chart/bar";

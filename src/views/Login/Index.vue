@@ -20,12 +20,7 @@
           <a-form-model-item prop="captcha">
             <a-input v-model="formData.captcha" size="large" placeholder="图片验证码">
               <a-icon slot="prefix" type="smile" :style="{ color: 'rgba(0,0,0,.25)' }" />
-              <div
-                slot="suffix"
-                class="captcha-box"
-                v-html="captchaImg"
-                @click="fetchCaptcha"
-              ></div>
+              <div slot="suffix" class="captcha-box" v-html="captchaImg" @click="fetchCaptcha" />
             </a-input>
           </a-form-model-item>
           <!--          <a-form-model-item>-->

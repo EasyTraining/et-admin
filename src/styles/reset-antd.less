@@ -1,5 +1,7 @@
 @import "~ant-design-vue/es/style/themes/default.less";
 
+@header-height: 50px;
+
 .ant-pro-basicLayout-content {
   margin: 15px;
 
@@ -22,8 +24,24 @@
 
 .ant-layout {
   .ant-layout-header {
-    height: 50px;
-    line-height: 50px;
+    height: @header-height;
+    line-height: @header-height;
+
+    .ant-pro-global-header {
+      position: relative;
+      z-index: 20;
+      height: @header-height;
+      color: #fff !important;
+      background: #24292e;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .ant-pro-global-header-trigger {
+        height: @header-height;
+        line-height: @header-height;
+      }
+    }
   }
 
   .ant-layout-footer {
@@ -31,22 +49,8 @@
   }
 }
 
-.ant-layout-header {
-  height: 45px;
-  line-height: 45px;
-
-  .ant-pro-global-header {
-    position: relative;
-    z-index: 20;
-    height: 50px;
-    color: #fff !important;
-    background: #24292e;
-
-    .ant-pro-global-header-trigger {
-      height: 45px;
-      line-height: 45px;
-    }
-  }
+.ant-menu-dark .ant-menu-inline.ant-menu-sub {
+  background: #161b22 !important;
 }
 
 .ant-pro-sider-menu-logo {
