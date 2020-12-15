@@ -404,6 +404,12 @@ export default [
             component: () => import("@/views/System/Dict/Form"),
             meta: { title: "编辑字典" },
           },
+          {
+            name: "/system/log",
+            path: "/system/log",
+            component: () => import("@/views/System/Log/Index"),
+            meta: { title: "登录日志" },
+          },
         ],
       },
     ],
