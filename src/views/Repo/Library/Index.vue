@@ -2,27 +2,24 @@
   <div>
     <p>
       <a-button type="primary" icon="plus" @click="setModalVisible(true)">创建题库</a-button>
-      <a-button icon="import">导入题库</a-button>
     </p>
 
-    <a-card :body-style="{ padding: 0 }">
+    <a-card :bordered="false" :body-style="{ padding: 0 }">
       <a-table
-        :columns="tableColumns"
+        size="small"
         row-key="id"
+        :columns="tableColumns"
         :data-source="tableData"
         :loading="loading"
         :pagination="false"
       >
-        <template slot="enable" slot-scope="text, record">
-          <a-switch
-            v-model="record.enable"
-            checked-children="启用中"
-            un-checked-children="已停用"
-            @change="switchStatus(record)"
-          />
+        <template slot="count" slot-scope="text, record">
+          <type-counter :count="record.count" />
         </template>
         <template slot="action" slot-scope="text, record">
-          <router-link :to="'/repo/library/' + record.id + '/questions'">题目管理</router-link>
+          <a href="javascript:;">考点</a>
+          <a-divider type="vertical" />
+          <router-link :to="'/repo/library/' + record.id + '/questions'">试题</router-link>
           <a-divider type="vertical" />
           <a href="javascript:;" @click="showEditModal(record)">编辑</a>
           <a-divider type="vertical" />
@@ -66,12 +63,14 @@
 </template>
 
 <script>
+import { _ } from "@/utils";
 import { tableColumns } from "./const";
 import { modalRules } from "./const";
-import { _ } from "@/utils";
+import TypeCounter from "./components/TypeCounter";
 
 export default {
   name: "LibraryIndex",
+  components: { TypeCounter },
   data() {
     return {
       loading: false,
@@ -100,7 +99,6 @@ export default {
           this.$message.warning(res.message);
           return;
         }
-        const { total, data } = res.data;
         this.tableData = res.data;
       } catch (e) {
         this.$message.warning(e.message);
@@ -118,26 +116,6 @@ export default {
           return;
         }
         this.$message.success(res.message);
-        await this.fetchTableData();
-      } catch (e) {
-        this.$message.warning(e.message);
-      } finally {
-        this.loading = false;
-      }
-    },
-
-    async switchStatus({ id, enable }) {
-      this.loading = true;
-      try {
-        const res = await this.$http({
-          method: "PUT",
-          url: `/repo/library/${id}/enable`,
-          data: { enable },
-        });
-        if (res.code !== 200) {
-          this.$message.warning(res.message);
-          return;
-        }
         await this.fetchTableData();
       } catch (e) {
         this.$message.warning(e.message);

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="page__actions">
-      <a-button type="primary" icon="plus" @click="modalVisible = true">创建题目</a-button>
+      <a-button type="primary" icon="plus" @click="modalVisible = true">创建试题</a-button>
     </div>
     <a-card>
       <a-row :gutter="15">
@@ -16,17 +16,17 @@
           </a-statistic>
         </a-col>
         <a-col :span="4">
-          <a-statistic title="简单题目" :value="analysis.easyCount">
+          <a-statistic title="简单试题" :value="analysis.easyCount">
             <template #suffix>道</template>
           </a-statistic>
         </a-col>
         <a-col :span="4">
-          <a-statistic title="普通题目" :value="analysis.normalCount">
+          <a-statistic title="普通试题" :value="analysis.normalCount">
             <template #suffix>道</template>
           </a-statistic>
         </a-col>
         <a-col :span="4">
-          <a-statistic title="困难题目" :value="analysis.hardCount">
+          <a-statistic title="困难试题" :value="analysis.hardCount">
             <template #suffix>道</template>
           </a-statistic>
         </a-col>
@@ -84,7 +84,7 @@
       :width="800"
       centered
       v-model="modalVisible"
-      title="创建题目"
+      title="创建试题"
       @cancel="modalVisible = false"
       @ok="setQuestions"
     >

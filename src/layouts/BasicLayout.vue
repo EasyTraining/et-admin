@@ -20,7 +20,7 @@
             <div class="et-user__avatar">
               <a-avatar v-if="user.avatar_url" :src="user.avatar_url" />
               <a-avatar v-else icon="user" />
-              <span>欢迎您, {{ user.nick_name }}</span>
+              <span>欢迎您, {{ user.name }}</span>
             </div>
             <a-menu slot="overlay">
               <a-menu-item key="logout" @click="logout">

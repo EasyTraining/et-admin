@@ -31,8 +31,8 @@
           placeholder="请选择所属部门"
         />
       </a-form-model-item>
-      <a-form-model-item label="用户昵称" prop="nick_name">
-        <a-input v-model="formData.nick_name" :max-length="10" placeholder="请填写用户昵称" />
+      <a-form-model-item label="用户昵称" prop="name">
+        <a-input v-model="formData.name" :max-length="10" placeholder="请填写用户昵称" />
       </a-form-model-item>
       <a-form-model-item label="手机号码" prop="phone">
         <a-input v-model="formData.phone" :max-length="11" placeholder="请填写手机号码" />
@@ -70,7 +70,7 @@ const formRules = {
   org_id: [{ required: true, message: "请选择所属部门" }],
   account: [{ required: true, message: "请填写登录账号" }],
   password: [{ required: true, message: "请填写登录密码" }],
-  nick_name: [{ required: true, message: "请填写用户昵称" }],
+  name: [{ required: true, message: "请填写用户昵称" }],
   phone: [{ required: true, message: "请填写手机号码" }],
 };
 
@@ -88,7 +88,7 @@ export default {
         account: "",
         password: "",
         avatar_url: "",
-        nick_name: "",
+        name: "",
         phone: "",
         enable: true,
         remark: "",
@@ -171,7 +171,7 @@ export default {
         account: "",
         password: "",
         avatar_url: "",
-        nick_name: "",
+        name: "",
         phone: "",
         enable: true,
         remark: "",

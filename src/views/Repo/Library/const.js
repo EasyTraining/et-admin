@@ -4,19 +4,14 @@ export const tableColumns = [
     dataIndex: "name",
   },
   {
-    title: "题库状态",
-    width: 120,
-    dataIndex: "enable",
-    scopedSlots: { customRender: "enable" },
+    title: "试题分布",
+    dataIndex: "count",
+    scopedSlots: { customRender: "count" },
   },
   {
-    title: "题库来源",
-    dataIndex: "from",
-  },
-  {
-    title: "题目数",
+    title: "创建人",
     width: 100,
-    dataIndex: "questions_count",
+    dataIndex: "f2",
   },
   {
     title: "更新时间",

@@ -37,7 +37,7 @@
           />
         </template>
         <template slot="action" slot-scope="text, record">
-          <router-link :to="'/teach/paper/' + record.id + '/questions'">题目管理</router-link>
+          <router-link :to="'/teach/paper/' + record.id + '/questions'">试题管理</router-link>
           <a-divider type="vertical" />
           <a href="javascript:;" @click="showEditModal(record)">编辑</a>
           <a-divider type="vertical" />

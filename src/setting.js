@@ -7,6 +7,6 @@ export default {
   fixSiderbar: true,
   siderWidth: 240,
   colorWeak: false,
-  title: "Easy Training",
+  title: "ET 管理中心",
   production: process.env.NODE_ENV === "production",
 };

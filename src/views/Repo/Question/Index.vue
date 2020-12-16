@@ -2,7 +2,7 @@
   <div>
     <p>
       <router-link :to="'/repo/library/' + info.id + '/questions/add'">
-        <a-button type="primary" icon="plus">创建题目</a-button>
+        <a-button type="primary" icon="plus">创建试题</a-button>
       </router-link>
     </p>
 

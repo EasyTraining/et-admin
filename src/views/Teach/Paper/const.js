@@ -4,7 +4,7 @@ export const tableColumns = [
     dataIndex: "name",
   },
   {
-    title: "题目数",
+    title: "试题数",
     width: 200,
     dataIndex: "count",
     scopedSlots: { customRender: "count" },
@@ -43,13 +43,13 @@ export const questionColumns = [
     scopedSlots: { customRender: "sort" },
   },
   {
-    title: "题目类型",
+    title: "试题类型",
     width: 100,
     dataIndex: "type",
     scopedSlots: { customRender: "type" },
   },
   {
-    title: "题目",
+    title: "试题",
     dataIndex: "name",
     scopedSlots: { customRender: "name" },
   },

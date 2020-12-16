@@ -17,7 +17,7 @@ export const tableColumns = [
     scopedSlots: { customRender: "level" },
   },
   {
-    title: "题目",
+    title: "试题",
     dataIndex: "name",
     scopedSlots: { customRender: "name" },
   },
@@ -29,9 +29,9 @@ export const tableColumns = [
 ];
 
 export const formRules = {
-  name: [{ required: true, message: "请填写题目" }],
-  type: [{ required: true, message: "请选择题目类型" }],
-  options: [{ required: true, message: "请填写题目选项" }],
+  name: [{ required: true, message: "请填写试题" }],
+  type: [{ required: true, message: "请选择试题类型" }],
+  options: [{ required: true, message: "请填写试题选项" }],
   real_answer: [{ required: true, message: "请选择答案" }],
 };
 

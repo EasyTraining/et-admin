@@ -7,23 +7,23 @@
       :label-col="{ span: 4 }"
       :wrapper-col="{ span: 16 }"
     >
-      <a-form-model-item label="题目类型" prop="type">
+      <a-form-model-item label="试题类型" prop="type">
         <a-radio-group v-model="formData.type" @change="onTypeChange" button-style="solid">
           <a-radio-button v-for="(val, key) in enums.questionMap" :key="key" :value="key">
             {{ val }}
           </a-radio-button>
         </a-radio-group>
       </a-form-model-item>
-      <a-form-model-item label="题目" prop="name">
-        <rich-editor v-model="formData.name" placeholder="请填写题目" />
+      <a-form-model-item label="试题" prop="name">
+        <rich-editor v-model="formData.name" placeholder="请填写试题" />
       </a-form-model-item>
 
       <template v-if="formData.type === 'RADIO'">
-        <a-form-model-item label="题目选项" prop="options">
+        <a-form-model-item label="试题选项" prop="options">
           <div class="option" v-for="(item, index) in formData.options" :key="index">
             <div class="option__code">{{ item.code }}、</div>
             <div class="option__control">
-              <rich-editor v-model="item.name" placeholder="请填写题目选项" />
+              <rich-editor v-model="item.name" placeholder="请填写试题选项" />
             </div>
             <div class="option__del">
               <a-button type="link" icon="delete" @click="removeOption(index)" />
@@ -49,11 +49,11 @@
       </template>
 
       <template v-if="formData.type === 'CHECKBOX'">
-        <a-form-model-item label="题目选项" prop="options">
+        <a-form-model-item label="试题选项" prop="options">
           <div class="option" v-for="(item, index) in formData.options" :key="index">
             <div class="option__code">{{ item.code }}、</div>
             <div class="option__control">
-              <rich-editor v-model="item.name" placeholder="请填写题目选项" />
+              <rich-editor v-model="item.name" placeholder="请填写试题选项" />
             </div>
             <div class="option__del">
               <a-button type="link" icon="delete" @click="removeOption(index)" />
@@ -94,11 +94,11 @@
       </template>
 
       <template v-if="formData.type === 'SORT'">
-        <a-form-model-item label="题目选项" prop="options">
+        <a-form-model-item label="试题选项" prop="options">
           <div class="option" v-for="(item, index) in formData.options" :key="index">
             <div class="option__code">{{ item.code }}、</div>
             <div class="option__control">
-              <rich-editor v-model="item.name" placeholder="请填写题目选项" />
+              <rich-editor v-model="item.name" placeholder="请填写试题选项" />
             </div>
             <div class="option__del">
               <a-button type="link" icon="delete" @click="removeOption(index)" />
@@ -117,7 +117,7 @@
         <a-form-model-item
           label="答案"
           prop="real_answer"
-          extra="格式大写，长度等于题目选项的个数，不能包含重复项"
+          extra="格式大写，长度等于试题选项的个数，不能包含重复项"
         >
           <rich-editor v-model="formData.real_answer" placeholder="请填写答案" :max-length="100" />
         </a-form-model-item>

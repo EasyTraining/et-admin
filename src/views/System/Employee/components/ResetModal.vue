@@ -16,8 +16,8 @@
       :label-col="{ span: 6 }"
       :wrapper-col="{ span: 14 }"
     >
-      <a-form-model-item label="昵称" prop="nick_name">
-        {{ formData.nick_name }}
+      <a-form-model-item label="昵称" prop="name">
+        {{ formData.name }}
       </a-form-model-item>
       <a-form-model-item label="新密码" prop="new_pwd">
         <a-input v-model="formData.new_pwd" :max-length="100" placeholder="请填写新密码" />
@@ -45,7 +45,7 @@ export default {
       submitting: false,
       formData: {
         id: "",
-        nick_name: "",
+        name: "",
         new_pwd: "",
         repeat_pwd: "",
       },
@@ -67,7 +67,7 @@ export default {
           this.$message.warning(res.message);
           return;
         }
-        this.formData = _.pick(res.data, ["id", "nick_name"]);
+        this.formData = _.pick(res.data, ["id", "name"]);
       } catch (e) {
         this.$message.warning(e.message);
       }

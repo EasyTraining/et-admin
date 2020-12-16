@@ -1,7 +1,7 @@
 export const tableColumns = [
   {
     title: "用户昵称",
-    dataIndex: "nick_name",
+    dataIndex: "name",
   },
   {
     title: "所属部门",

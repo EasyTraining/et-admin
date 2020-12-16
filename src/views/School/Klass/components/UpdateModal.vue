@@ -29,7 +29,7 @@
       <a-form-model-item label="班主任" prop="leader_id">
         <a-select v-model="formData.leader_id" placeholder="请选择班主任">
           <a-select-option v-for="user in userList" :key="user.id" :value="user.id">
-            {{ user.nick_name }}
+            {{ user.name }}
           </a-select-option>
         </a-select>
       </a-form-model-item>
