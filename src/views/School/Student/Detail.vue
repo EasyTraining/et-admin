@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a-card title="基本信息" :loading="mounting">
+    <a-card size="small" title="基本信息" :loading="mounting">
       <a-descriptions :column="2">
         <a-descriptions-item label="姓名">{{ info.name }}</a-descriptions-item>
         <a-descriptions-item label="所属班级">{{ info.klass_name }}</a-descriptions-item>
@@ -16,14 +16,14 @@
       </a-descriptions>
     </a-card>
 
-    <a-card title="紧急联系人" :loading="mounting">
+    <a-card size="small" title="紧急联系人" :loading="mounting">
       <a-descriptions :column="2">
         <a-descriptions-item label="姓名">{{ info.sos_name }}</a-descriptions-item>
         <a-descriptions-item label="手机号码">{{ info.sos_phone }}</a-descriptions-item>
       </a-descriptions>
     </a-card>
 
-    <a-card title="登录记录" :loading="mounting">
+    <a-card size="small" title="登录记录" :loading="mounting">
       <a-empty />
     </a-card>
 

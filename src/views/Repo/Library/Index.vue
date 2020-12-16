@@ -4,31 +4,31 @@
       <a-button type="primary" icon="plus" @click="setModalVisible(true)">创建题库</a-button>
     </p>
 
-    <a-card :bordered="false" :body-style="{ padding: 0 }">
-      <a-table
-        size="small"
-        row-key="id"
-        :columns="tableColumns"
-        :data-source="tableData"
-        :loading="loading"
-        :pagination="false"
-      >
-        <template slot="count" slot-scope="text, record">
-          <type-counter :count="record.count" />
-        </template>
-        <template slot="action" slot-scope="text, record">
-          <a href="javascript:;">考点</a>
-          <a-divider type="vertical" />
-          <router-link :to="'/repo/library/' + record.id + '/questions'">试题</router-link>
-          <a-divider type="vertical" />
-          <a href="javascript:;" @click="showEditModal(record)">编辑</a>
-          <a-divider type="vertical" />
-          <a-popconfirm title="删除以后无法恢复, 是否继续?" @confirm="remove(record)">
-            <a href="javascript:;">删除</a>
-          </a-popconfirm>
-        </template>
-      </a-table>
-    </a-card>
+    <a-table
+      size="small"
+      row-key="id"
+      :columns="tableColumns"
+      :data-source="tableData"
+      :loading="loading"
+      :pagination="tablePager"
+      :scroll="{ x: 1300 }"
+      @change="onTableChange"
+    >
+      <template slot="count" slot-scope="text, record">
+        <type-counter :count="record.count" />
+      </template>
+      <template slot="action" slot-scope="text, record">
+        <a href="javascript:;">考点</a>
+        <a-divider type="vertical" />
+        <router-link :to="'/repo/library/' + record.id + '/questions'">试题</router-link>
+        <a-divider type="vertical" />
+        <a href="javascript:;" @click="showEditModal(record)">编辑</a>
+        <a-divider type="vertical" />
+        <a-popconfirm title="删除以后无法恢复, 是否继续?" @confirm="remove(record)">
+          <a href="javascript:;">删除</a>
+        </a-popconfirm>
+      </template>
+    </a-table>
 
     <a-modal
       :keyboard="false"
@@ -77,6 +77,13 @@ export default {
 
       tableColumns,
       tableData: [],
+      tablePager: {
+        current: 1,
+        pageSize: 30,
+        showSizeChanger: true,
+        showQuickJumper: true,
+        total: 0,
+      },
 
       modalVisible: false,
       modalForm: {
@@ -91,6 +98,13 @@ export default {
     this.fetchTableData();
   },
   methods: {
+    onTableChange(pagination, filters, sorter) {
+      const { current, pageSize } = pagination;
+      this.tablePager.current = current;
+      this.tablePager.pageSize = pageSize;
+      this.fetchTableData();
+    },
+
     async fetchTableData() {
       this.loading = true;
       try {
@@ -99,7 +113,9 @@ export default {
           this.$message.warning(res.message);
           return;
         }
-        this.tableData = res.data;
+        const { total, data } = res.data;
+        this.tableData = data;
+        this.tablePager.total = total;
       } catch (e) {
         this.$message.warning(e.message);
       } finally {

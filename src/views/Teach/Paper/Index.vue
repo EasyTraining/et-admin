@@ -4,49 +4,48 @@
       <a-button type="primary" icon="plus" @click="setModalVisible(true)">创建试卷</a-button>
     </p>
 
-    <a-card :body-style="{ padding: 0 }">
-      <a-table
-        :columns="tableColumns"
-        row-key="id"
-        :data-source="tableData"
-        :loading="loading"
-        :pagination="tablePager"
-        @change="onTableChange"
-      >
-        <template slot="count" slot-scope="text, record">
-          <div>共计: {{ record.count.TOTAL }}道</div>
-          <div>
-            简单: {{ record.count.EASY }}道, 占比:
-            {{ (record.count.EASY / record.count.TOTAL) | percent }}%
-          </div>
-          <div>
-            中等: {{ record.count.NORMAL }}道, 占比:
-            {{ (record.count.NORMAL / record.count.TOTAL) | percent }}%
-          </div>
-          <div>
-            困难: {{ record.count.HARD }}道, 占比:
-            {{ (record.count.HARD / record.count.TOTAL) | percent }}%
-          </div>
-        </template>
-        <template slot="enable" slot-scope="text, record">
-          <a-switch
-            v-model="record.enable"
-            checked-children="启用中"
-            un-checked-children="已停用"
-            @change="switchStatus(record)"
-          />
-        </template>
-        <template slot="action" slot-scope="text, record">
-          <router-link :to="'/teach/paper/' + record.id + '/questions'">试题管理</router-link>
-          <a-divider type="vertical" />
-          <a href="javascript:;" @click="showEditModal(record)">编辑</a>
-          <a-divider type="vertical" />
-          <a-popconfirm title="删除以后无法恢复, 是否继续?" @confirm="remove(record)">
-            <a href="javascript:;">删除</a>
-          </a-popconfirm>
-        </template>
-      </a-table>
-    </a-card>
+    <a-table
+      size="small"
+      :columns="tableColumns"
+      row-key="id"
+      :data-source="tableData"
+      :loading="loading"
+      :pagination="tablePager"
+      @change="onTableChange"
+    >
+      <template slot="count" slot-scope="text, record">
+        <div>共计: {{ record.count.TOTAL }}道</div>
+        <div>
+          简单: {{ record.count.EASY }}道, 占比:
+          {{ (record.count.EASY / record.count.TOTAL) | percent }}%
+        </div>
+        <div>
+          中等: {{ record.count.NORMAL }}道, 占比:
+          {{ (record.count.NORMAL / record.count.TOTAL) | percent }}%
+        </div>
+        <div>
+          困难: {{ record.count.HARD }}道, 占比:
+          {{ (record.count.HARD / record.count.TOTAL) | percent }}%
+        </div>
+      </template>
+      <template slot="enable" slot-scope="text, record">
+        <a-switch
+          v-model="record.enable"
+          checked-children="启用中"
+          un-checked-children="已停用"
+          @change="switchStatus(record)"
+        />
+      </template>
+      <template slot="action" slot-scope="text, record">
+        <router-link :to="'/teach/paper/' + record.id + '/questions'">试题管理</router-link>
+        <a-divider type="vertical" />
+        <a href="javascript:;" @click="showEditModal(record)">编辑</a>
+        <a-divider type="vertical" />
+        <a-popconfirm title="删除以后无法恢复, 是否继续?" @confirm="remove(record)">
+          <a href="javascript:;">删除</a>
+        </a-popconfirm>
+      </template>
+    </a-table>
 
     <a-modal
       :keyboard="false"

@@ -2,7 +2,7 @@
   <div>
     <a-row :gutter="15">
       <a-col :span="12" v-for="app in appList" :key="app.code">
-        <a-card style="margin-bottom: 15px">
+        <a-card size="small" style="margin-bottom: 15px">
           <template slot="actions" class="ant-card-actions">
             <div>
               <span>状态：</span>

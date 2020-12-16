@@ -6,32 +6,31 @@
       </router-link>
     </p>
 
-    <a-card :loading="mounting" :body-style="{ padding: 0 }">
-      <a-table
-        :columns="tableColumns"
-        row-key="id"
-        :data-source="tableData"
-        :loading="loading"
-        :pagination="tablePager"
-        @change="onTableChange"
-      >
-        <template slot="enable" slot-scope="text, record">
-          <a-switch
-            v-model="record.enable"
-            checked-children="已启用"
-            un-checked-children="已停用"
-            @change="switchStatus(record)"
-          />
-        </template>
-        <template slot="action" slot-scope="text, record">
-          <router-link :to="'/system/dict/edit/' + record.id">编辑</router-link>
-          <a-divider type="vertical" />
-          <a-popconfirm title="删除以后无法恢复, 是否继续?" @confirm="remove(record)">
-            <a href="javascript:;">删除</a>
-          </a-popconfirm>
-        </template>
-      </a-table>
-    </a-card>
+    <a-table
+      size="small"
+      :columns="tableColumns"
+      row-key="id"
+      :data-source="tableData"
+      :loading="loading"
+      :pagination="tablePager"
+      @change="onTableChange"
+    >
+      <template slot="enable" slot-scope="text, record">
+        <a-switch
+          v-model="record.enable"
+          checked-children="已启用"
+          un-checked-children="已停用"
+          @change="switchStatus(record)"
+        />
+      </template>
+      <template slot="action" slot-scope="text, record">
+        <router-link :to="'/system/dict/edit/' + record.id">编辑</router-link>
+        <a-divider type="vertical" />
+        <a-popconfirm title="删除以后无法恢复, 是否继续?" @confirm="remove(record)">
+          <a href="javascript:;">删除</a>
+        </a-popconfirm>
+      </template>
+    </a-table>
   </div>
 </template>
 

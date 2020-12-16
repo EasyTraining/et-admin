@@ -1,69 +1,68 @@
 <template>
   <div>
-    <a-card>
-      <div class="filter">
-        <div class="filter__item">
-          <a-select v-model="query.klass_id" style="width: 200px" placeholder="请选择班级">
-            <a-select-option v-for="klass in klassList" :key="klass.id" :value="klass.id">
-              {{ klass.name }}
-            </a-select-option>
-          </a-select>
-        </div>
-        <div class="filter__item">
-          <a-input v-model="query.name" style="width: 200px" placeholder="请填写姓名" />
-        </div>
-        <div class="filter__item">
-          <a-input v-model="query.phone" style="width: 200px" placeholder="请填写手机号码" />
-        </div>
-        <div class="filter__item">
-          <a-button :loading="loading" type="primary" @click="search">查询</a-button>
-          <a-button :loading="loading" @click="reset">重置</a-button>
-        </div>
+    <div class="filter">
+      <div class="filter__item">
+        <a-select v-model="query.klass_id" style="width: 200px" placeholder="请选择班级">
+          <a-select-option v-for="klass in klassList" :key="klass.id" :value="klass.id">
+            {{ klass.name }}
+          </a-select-option>
+        </a-select>
       </div>
+      <div class="filter__item">
+        <a-input v-model="query.name" style="width: 200px" placeholder="请填写姓名" />
+      </div>
+      <div class="filter__item">
+        <a-input v-model="query.phone" style="width: 200px" placeholder="请填写手机号码" />
+      </div>
+      <div class="filter__item">
+        <a-button :loading="loading" type="primary" @click="search">查询</a-button>
+        <a-button :loading="loading" @click="reset">重置</a-button>
+      </div>
+    </div>
 
-      <p>
-        <router-link :to="'/school/student/add?klass_id=' + query.klass_id">
-          <a-button type="primary" icon="plus">创建学员</a-button>
+    <p>
+      <router-link :to="'/school/student/add?klass_id=' + query.klass_id">
+        <a-button type="primary" icon="plus">创建学员</a-button>
+      </router-link>
+    </p>
+
+    <a-table
+      size="small"
+      :columns="tableColumns"
+      :scroll="{ x: 1100 }"
+      row-key="id"
+      :data-source="tableData"
+      :loading="loading"
+      :pagination="false"
+    >
+      <template slot="name" slot-scope="text, record">
+        <a-avatar v-if="record.avatar_url" size="small" :src="record.avatar_url" />
+        <a-avatar v-else size="small">{{ record.name }}</a-avatar>
+        <router-link style="margin-left: 5px" :to="'/school/student/detail/' + record.id">
+          {{ record.name }}
         </router-link>
-      </p>
-
-      <a-table
-        :columns="tableColumns"
-        :scroll="{ x: 1100 }"
-        row-key="id"
-        :data-source="tableData"
-        :loading="loading"
-        :pagination="false"
-      >
-        <template slot="name" slot-scope="text, record">
-          <a-avatar v-if="record.avatar_url" size="small" :src="record.avatar_url" />
-          <a-avatar v-else size="small">{{ record.name }}</a-avatar>
-          <router-link style="margin-left: 5px" :to="'/school/student/detail/' + record.id">
-            {{ record.name }}
-          </router-link>
-        </template>
-        <template slot="sos_name" slot-scope="text, record">
-          {{ record.sos_name }}/{{ record.sos_phone }}
-        </template>
-        <template slot="enable" slot-scope="text, record">
-          <a-switch
-            v-model="record.enable"
-            checked-children="启用中"
-            un-checked-children="已停用"
-            @change="switchStatus(record)"
-          />
-        </template>
-        <template slot="action" slot-scope="text, record">
-          <a href="javascript:;" @click="showResetModal(record)">重置密码</a>
-          <a-divider type="vertical" />
-          <router-link :to="'/school/student/edit/' + record.id">编辑</router-link>
-          <a-divider type="vertical" />
-          <a-popconfirm title="删除以后无法恢复, 是否继续?" @confirm="remove(record)">
-            <a href="javascript:;">删除</a>
-          </a-popconfirm>
-        </template>
-      </a-table>
-    </a-card>
+      </template>
+      <template slot="sos_name" slot-scope="text, record">
+        {{ record.sos_name }}/{{ record.sos_phone }}
+      </template>
+      <template slot="enable" slot-scope="text, record">
+        <a-switch
+          v-model="record.enable"
+          checked-children="启用中"
+          un-checked-children="已停用"
+          @change="switchStatus(record)"
+        />
+      </template>
+      <template slot="action" slot-scope="text, record">
+        <a href="javascript:;" @click="showResetModal(record)">重置密码</a>
+        <a-divider type="vertical" />
+        <router-link :to="'/school/student/edit/' + record.id">编辑</router-link>
+        <a-divider type="vertical" />
+        <a-popconfirm title="删除以后无法恢复, 是否继续?" @confirm="remove(record)">
+          <a href="javascript:;">删除</a>
+        </a-popconfirm>
+      </template>
+    </a-table>
 
     <reset-modal
       :visible="resetVisible"

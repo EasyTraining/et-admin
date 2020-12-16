@@ -7,7 +7,7 @@
       :label-col="{ span: 4 }"
       :wrapper-col="{ span: 8 }"
     >
-      <a-card :loading="mounting" title="字典信息">
+      <a-card size="small" :loading="mounting" title="字典信息">
         <a-form-model-item label="字典编码" prop="code" extra="字典的唯一识别码, 不可重复">
           <a-input v-model="formData.code" placeholder="请填写字典编码" />
         </a-form-model-item>
@@ -31,7 +31,7 @@
         </a-form-model-item>
       </a-card>
 
-      <a-card :loading="mounting" title="字典选项">
+      <a-card size="small" :loading="mounting" title="字典选项">
         <option-table :data-source="formData.options" @change="onOptionTableChange" />
       </a-card>
     </a-form-model>

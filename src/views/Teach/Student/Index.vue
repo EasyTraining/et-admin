@@ -4,7 +4,7 @@
       <a-tab-pane v-for="klass in klassList" :key="klass.id" :tab="klass.name" />
     </a-tabs>
 
-    <a-card title="班级信息">
+    <a-card size="small" title="班级信息">
       <a-descriptions>
         <a-descriptions-item label="班级名称">{{ curKlassInfo.name }}</a-descriptions-item>
         <a-descriptions-item label="班主任">{{ curKlassInfo.leader_id }}</a-descriptions-item>
@@ -31,9 +31,10 @@
       </a-descriptions>
     </a-card>
 
-    <a-card title="学员档案">
+    <a-card size="small" title="学员档案">
       <a slot="extra" href="javascript:;" @click="fetchTableData">刷新数据</a>
       <a-table
+        size="small"
         row-key="id"
         :columns="tableColumns"
         :data-source="tableData"

@@ -166,7 +166,6 @@ export default {
 
   &-footer {
     font-size: 14px;
-    padding-bottom: 20px;
   }
 }
 </style>

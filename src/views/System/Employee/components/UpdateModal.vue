@@ -80,6 +80,7 @@ export default {
   props: ["id", "visible"],
   data() {
     return {
+      loading: false,
       orgTreeData: [],
       menuTreeData: [],
       formData: {

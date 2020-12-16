@@ -1,19 +1,18 @@
 <template>
   <div>
-    <a-card :body-style="{ padding: 0 }">
-      <a-table
-        :columns="tableColumns"
-        row-key="id"
-        :data-source="tableData"
-        :loading="loading"
-        :pagination="tablePager"
-        @change="onTableChange"
-      >
-        <template slot="browser" slot-scope="text, record">
-          {{ record.browser_name }} {{ record.browser_version }}
-        </template>
-      </a-table>
-    </a-card>
+    <a-table
+      size="small"
+      :columns="tableColumns"
+      row-key="id"
+      :data-source="tableData"
+      :loading="loading"
+      :pagination="tablePager"
+      @change="onTableChange"
+    >
+      <template slot="browser" slot-scope="text, record">
+        {{ record.browser_name }} {{ record.browser_version }}
+      </template>
+    </a-table>
   </div>
 </template>
 

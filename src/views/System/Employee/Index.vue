@@ -4,34 +4,33 @@
       <a-button type="primary" icon="plus" @click="onAdd">创建用户</a-button>
     </p>
 
-    <a-card :loading="mounting" :body-style="{ padding: 0 }">
-      <a-table
-        :columns="tableColumns"
-        row-key="id"
-        :data-source="tableData"
-        :loading="loading"
-        :pagination="tablePager"
-        @change="onTableChange"
-      >
-        <template slot="enable" slot-scope="text, record">
-          <a-switch
-            v-model="record.enable"
-            checked-children="已启用"
-            un-checked-children="已停用"
-            @change="switchStatus(record)"
-          />
-        </template>
-        <template slot="action" slot-scope="text, record">
-          <a href="javascript:;" @click="onReset(record)">重置密码</a>
-          <a-divider type="vertical" />
-          <a href="javascript:;" @click="onEdit(record)">编辑</a>
-          <a-divider type="vertical" />
-          <a-popconfirm title="删除以后无法恢复, 是否继续?" @confirm="onRemove(record)">
-            <a href="javascript:;">删除</a>
-          </a-popconfirm>
-        </template>
-      </a-table>
-    </a-card>
+    <a-table
+      size="small"
+      :columns="tableColumns"
+      row-key="id"
+      :data-source="tableData"
+      :loading="loading"
+      :pagination="tablePager"
+      @change="onTableChange"
+    >
+      <template slot="enable" slot-scope="text, record">
+        <a-switch
+          v-model="record.enable"
+          checked-children="已启用"
+          un-checked-children="已停用"
+          @change="switchStatus(record)"
+        />
+      </template>
+      <template slot="action" slot-scope="text, record">
+        <a href="javascript:;" @click="onReset(record)">重置密码</a>
+        <a-divider type="vertical" />
+        <a href="javascript:;" @click="onEdit(record)">编辑</a>
+        <a-divider type="vertical" />
+        <a-popconfirm title="删除以后无法恢复, 是否继续?" @confirm="onRemove(record)">
+          <a href="javascript:;">删除</a>
+        </a-popconfirm>
+      </template>
+    </a-table>
 
     <update-modal
       :visible="editModalVisible"

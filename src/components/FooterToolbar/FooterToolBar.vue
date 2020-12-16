@@ -39,7 +39,7 @@ export default {
     barWidth() {
       return this.isMobile
         ? undefined
-        : `calc(100% - ${this.collapsed ? 80 : this.siderWidth || 240}px)`;
+        : `calc(100% - ${this.collapsed ? 80 : this.siderWidth || 220}px)`;
     },
   },
 };

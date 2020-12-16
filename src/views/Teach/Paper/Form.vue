@@ -3,7 +3,7 @@
     <div class="page__actions">
       <a-button type="primary" icon="plus" @click="modalVisible = true">创建试题</a-button>
     </div>
-    <a-card>
+    <a-card size="small">
       <a-row :gutter="15">
         <a-col :span="4">
           <a-statistic title="试卷总分数" :value="analysis.gradeCount">
@@ -33,8 +33,9 @@
       </a-row>
     </a-card>
 
-    <a-card :body-style="{ padding: 0 }">
+    <a-card size="small" :body-style="{ padding: 0 }">
       <a-table
+        size="small"
         :columns="tableColumns"
         row-key="id"
         :data-source="tableData"

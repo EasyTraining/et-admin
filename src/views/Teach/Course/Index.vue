@@ -9,25 +9,24 @@
       <a-button icon="bars" @click="showTreeModal">查看树形结构</a-button>
     </p>
 
-    <a-card :loading="mounting" :body-style="{ padding: 0 }">
-      <a-table
-        :columns="tableColumns"
-        row-key="id"
-        :data-source="tableData"
-        :loading="loading"
-        :pagination="false"
-      >
-        <template slot="action" slot-scope="text, record">
-          <a href="javascript:;">课件管理</a>
-          <a-divider type="vertical" />
-          <a href="javascript:;" @click="onEdit(record)">编辑</a>
-          <a-divider type="vertical" />
-          <a-popconfirm title="删除以后无法恢复, 是否继续?" @confirm="onRemove(record)">
-            <a href="javascript:;">删除</a>
-          </a-popconfirm>
-        </template>
-      </a-table>
-    </a-card>
+    <a-table
+      size="small"
+      :columns="tableColumns"
+      row-key="id"
+      :data-source="tableData"
+      :loading="loading"
+      :pagination="false"
+    >
+      <template slot="action" slot-scope="text, record">
+        <a href="javascript:;">课件管理</a>
+        <a-divider type="vertical" />
+        <a href="javascript:;" @click="onEdit(record)">编辑</a>
+        <a-divider type="vertical" />
+        <a-popconfirm title="删除以后无法恢复, 是否继续?" @confirm="onRemove(record)">
+          <a href="javascript:;">删除</a>
+        </a-popconfirm>
+      </template>
+    </a-table>
 
     <tree-modal
       v-if="curKlassId"

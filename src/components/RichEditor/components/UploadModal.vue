@@ -17,8 +17,7 @@ export default {
   name: "UploadModal",
   props: ["visible"],
   data() {
-    return {
-    };
+    return {};
   },
   methods: {
     onOk() {

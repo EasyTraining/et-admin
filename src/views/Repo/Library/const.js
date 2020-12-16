@@ -1,12 +1,43 @@
 export const tableColumns = [
   {
     title: "题库名称",
+    width: 200,
     dataIndex: "name",
   },
   {
-    title: "试题分布",
-    dataIndex: "count",
-    scopedSlots: { customRender: "count" },
+    title: "题量",
+    width: 80,
+    dataIndex: "count.TOTAL",
+  },
+  {
+    title: "单选",
+    width: 80,
+    dataIndex: "count.RADIO",
+  },
+  {
+    title: "多选",
+    width: 80,
+    dataIndex: "count.CHECKBOX",
+  },
+  {
+    title: "判断",
+    width: 80,
+    dataIndex: "count.BOOLEAN",
+  },
+  {
+    title: "填空",
+    width: 80,
+    dataIndex: "count.BLANK",
+  },
+  {
+    title: "排序",
+    width: 80,
+    dataIndex: "count.SORT",
+  },
+  {
+    title: "简答",
+    width: 80,
+    dataIndex: "count.ANSWER",
   },
   {
     title: "创建人",
@@ -21,6 +52,7 @@ export const tableColumns = [
   {
     title: "操作",
     width: 200,
+    fixed: "right",
     scopedSlots: { customRender: "action" },
   },
 ];

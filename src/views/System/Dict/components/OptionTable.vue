@@ -4,7 +4,13 @@
       <a-button type="primary" icon="plus" @click="onAdd">创建选项</a-button>
     </p>
 
-    <a-table row-key="uuid" :columns="tableColumns" :data-source="tableData" :pagination="false">
+    <a-table
+      size="small"
+      row-key="uuid"
+      :columns="tableColumns"
+      :data-source="tableData"
+      :pagination="false"
+    >
       <template slot="enable" slot-scope="text, record">
         <a-tag v-if="record.enable" color="#87d068">已启用</a-tag>
         <a-tag v-else>已停用</a-tag>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <a-form-model ref="form" :model="formData" :rules="formRules">
-      <a-card title="基本信息" :loading="mounting">
+      <a-card size="small" title="基本信息" :loading="mounting">
         <a-row :gutter="15">
           <a-col :span="12">
             <a-form-model-item label="头像" prop="avatar_url" style="margin-bottom: 0">
@@ -75,7 +75,7 @@
         </a-row>
       </a-card>
 
-      <a-card title="登录信息" :loading="mounting" v-if="!editedId">
+      <a-card size="small" title="登录信息" :loading="mounting" v-if="!editedId">
         <a-row :gutter="15">
           <a-col :span="12">
             <a-form-model-item label="账号" prop="account">
@@ -90,7 +90,7 @@
         </a-row>
       </a-card>
 
-      <a-card title="紧急联系人" :loading="mounting">
+      <a-card size="small" title="紧急联系人" :loading="mounting">
         <a-row :gutter="15">
           <a-col :span="12">
             <a-form-model-item label="姓名" prop="sos_name">

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a-card :loading="loading" :body-style="{ padding: 0 }">
+    <a-card size="small" :loading="loading" :body-style="{ padding: 0 }">
       <a-tabs v-model="activeTab" align="center">
         <a-tab-pane key="1" tab="基本信息" />
         <a-tab-pane key="2" tab="文章正文" />

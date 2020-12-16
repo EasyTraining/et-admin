@@ -6,8 +6,9 @@
       </router-link>
     </p>
 
-    <a-card :body-style="{ padding: 0 }">
+    <a-card size="small" :body-style="{ padding: 0 }">
       <a-table
+        size="small"
         :columns="tableColumns"
         row-key="id"
         :data-source="info.questions"
