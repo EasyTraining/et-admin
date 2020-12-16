@@ -1,11 +1,6 @@
 <template>
-  <div>
-    <a-tabs>
-      <a-tab-pane key="1" tab="单题导入" />
-    </a-tabs>
-    <a-card size="small" v-if="info">
-      <manual-tab :info="info" />
-    </a-card>
+  <div v-if="info">
+    <manual-tab :info="info" />
   </div>
 </template>
 
