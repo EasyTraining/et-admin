@@ -32,7 +32,7 @@
       </template>
 
       <template v-slot:footerRender>
-        <div class="et-footer">Copyright © EasyTraining</div>
+        <div class="et-footer">Copyright © 易培训</div>
       </template>
 
       <page-header-wrapper />

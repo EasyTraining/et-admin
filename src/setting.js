@@ -5,8 +5,8 @@ export default {
   contentWidth: "Fluid",
   fixedHeader: false,
   fixSiderbar: true,
-  siderWidth: 200,
+  siderWidth: 230,
   colorWeak: false,
-  title: "ET 管理中心",
+  title: "易培训管理中心",
   production: process.env.NODE_ENV === "production",
 };
