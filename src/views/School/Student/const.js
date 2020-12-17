@@ -11,8 +11,13 @@ export const tableColumns = [
     dataIndex: "phone",
   },
   {
+    title: "所属班级",
+    width: 150,
+    dataIndex: "klass_name",
+  },
+  {
     title: "紧急联系人",
-    width: 180,
+    width: 200,
     dataIndex: "sos_name",
     scopedSlots: { customRender: "sos_name" },
   },
@@ -25,7 +30,7 @@ export const tableColumns = [
   {
     title: "上次登录",
     width: 190,
-    dataIndex: "updated_at",
+    dataIndex: "last_login_at",
   },
   {
     title: "操作",

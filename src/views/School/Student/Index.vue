@@ -2,17 +2,17 @@
   <div>
     <div class="filter">
       <div class="filter__item">
-        <a-select v-model="query.klass_id" style="width: 200px" placeholder="请选择班级">
+        <a-select v-model="tableQuery.klass_id" style="width: 200px" placeholder="请选择班级">
           <a-select-option v-for="klass in klassList" :key="klass.id" :value="klass.id">
             {{ klass.name }}
           </a-select-option>
         </a-select>
       </div>
       <div class="filter__item">
-        <a-input v-model="query.name" style="width: 200px" placeholder="请填写姓名" />
+        <a-input v-model="tableQuery.name" style="width: 200px" placeholder="姓名关键字" />
       </div>
       <div class="filter__item">
-        <a-input v-model="query.phone" style="width: 200px" placeholder="请填写手机号码" />
+        <a-input v-model="tableQuery.phone" style="width: 200px" placeholder="手机号码关键字" />
       </div>
       <div class="filter__item">
         <a-button :loading="loading" type="primary" @click="search">查询</a-button>
@@ -21,7 +21,7 @@
     </div>
 
     <p>
-      <router-link :to="'/school/student/add?klass_id=' + query.klass_id">
+      <router-link :to="'/school/student/add?klass_id=' + tableQuery.klass_id">
         <a-button type="primary" icon="plus">创建学员</a-button>
       </router-link>
     </p>
@@ -29,7 +29,7 @@
     <a-table
       size="small"
       :columns="tableColumns"
-      :scroll="{ x: 1100 }"
+      :scroll="{ x: 1300 }"
       row-key="id"
       :data-source="tableData"
       :loading="loading"
@@ -86,7 +86,7 @@ export default {
 
       klassList: [],
 
-      query: {
+      tableQuery: {
         klass_id: undefined,
         name: undefined,
         phone: undefined,
@@ -109,8 +109,8 @@ export default {
     },
 
     reset() {
-      this.query.name = undefined;
-      this.query.phone = undefined;
+      this.tableQuery.name = undefined;
+      this.tableQuery.phone = undefined;
       this.search();
     },
 
@@ -130,7 +130,7 @@ export default {
 
     async fetchKlassList() {
       try {
-        const res = await this.$http({ method: "GET", url: `/school/klass_util/simple_list` });
+        const res = await this.$http({ method: "GET", url: "/school/klass_util/simple_list" });
         if (res.code !== 200) {
           this.$message.warning(res.message);
           return;
@@ -138,11 +138,11 @@ export default {
         this.klassList = res.data || [];
         const { klass_id } = this.$route.query;
         if (klass_id) {
-          this.query.klass_id = klass_id;
+          this.tableQuery.klass_id = klass_id;
           return;
         }
         if (this.klassList.length) {
-          this.query.klass_id = this.klassList[0].id;
+          this.tableQuery.klass_id = this.klassList[0].id;
         }
       } catch (e) {
         this.$message.warning(e.message);
@@ -155,7 +155,7 @@ export default {
         const res = await this.$http({
           method: "GET",
           url: "/school/student",
-          params: this.query,
+          params: this.tableQuery,
         });
         if (res.code !== 200) {
           this.$message.warning(res.message);

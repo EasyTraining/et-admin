@@ -35,8 +35,6 @@
         <type-counter :count="record.count" />
       </template>
       <template slot="action" slot-scope="text, record">
-        <a href="javascript:;">考点</a>
-        <a-divider type="vertical" />
         <router-link :to="'/repo/library/' + record.id + '/questions'">试题</router-link>
         <a-divider type="vertical" />
         <a href="javascript:;" @click="showEditModal(record)">编辑</a>
@@ -64,7 +62,9 @@
         :wrapper-col="{ span: 15 }"
       >
         <a-form-model-item label="题库名称" prop="name">
-          <a-input v-model="modalForm.name" :max-length="100" placeholder="请填写题库名称" />
+          <a-input v-model="modalForm.name" :max-length="100" placeholder="请填写题库名称">
+            <span slot="suffix">{{ modalForm.name.length }}/100</span>
+          </a-input>
         </a-form-model-item>
         <a-form-model-item label="题库备注" prop="remark">
           <a-textarea

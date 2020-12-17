@@ -208,8 +208,7 @@ export default {
       try {
         const res = await this.$http({
           method: "GET",
-          url: "/repo/search/library",
-          params: { enable: true },
+          url: "/repo/library_util/list",
         });
         if (res.code !== 200) {
           this.$message.warning(res.message);

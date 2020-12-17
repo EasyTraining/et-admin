@@ -1,29 +1,32 @@
 export const tableColumns = [
   {
-    title: "题号",
-    width: 80,
-    scopedSlots: { customRender: "index" },
+    title: "题干",
+    width: 300,
+    dataIndex: "name",
+    scopedSlots: { customRender: "name" },
   },
   {
     title: "题型",
-    width: 100,
+    width: 50,
     dataIndex: "type",
     scopedSlots: { customRender: "type" },
   },
   {
     title: "难度",
-    width: 100,
+    width: 50,
     dataIndex: "level",
     scopedSlots: { customRender: "level" },
   },
   {
-    title: "试题",
-    dataIndex: "name",
-    scopedSlots: { customRender: "name" },
+    title: "考点",
+    width: 150,
+    dataIndex: "points",
+    scopedSlots: { customRender: "points" },
   },
   {
     title: "操作",
-    width: 150,
+    width: 120,
+    fixed: "right",
     scopedSlots: { customRender: "action" },
   },
 ];
