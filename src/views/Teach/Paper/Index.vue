@@ -1,5 +1,22 @@
 <template>
   <div>
+    <div class="filter">
+      <div class="filter__item">
+        <a-input v-model="tableQuery.name" style="width: 200px" placeholder="试卷名称关键字" />
+      </div>
+      <div class="filter__item">
+        <a-input
+          v-model="tableQuery.created_name"
+          style="width: 200px"
+          placeholder="创建人关键字"
+        />
+      </div>
+      <div class="filter__item">
+        <a-button :loading="loading" type="primary" @click="search">查询</a-button>
+        <a-button :loading="loading" @click="reset">重置</a-button>
+      </div>
+    </div>
+
     <p>
       <a-button type="primary" icon="plus" @click="setModalVisible(true)">创建试卷</a-button>
     </p>
@@ -11,23 +28,9 @@
       :data-source="tableData"
       :loading="loading"
       :pagination="tablePager"
+      :scroll="{ x: 1300 }"
       @change="onTableChange"
     >
-      <template slot="count" slot-scope="text, record">
-        <div>共计: {{ record.count.TOTAL }}道</div>
-        <div>
-          简单: {{ record.count.EASY }}道, 占比:
-          {{ (record.count.EASY / record.count.TOTAL) | percent }}%
-        </div>
-        <div>
-          中等: {{ record.count.NORMAL }}道, 占比:
-          {{ (record.count.NORMAL / record.count.TOTAL) | percent }}%
-        </div>
-        <div>
-          困难: {{ record.count.HARD }}道, 占比:
-          {{ (record.count.HARD / record.count.TOTAL) | percent }}%
-        </div>
-      </template>
       <template slot="enable" slot-scope="text, record">
         <a-switch
           v-model="record.enable"
@@ -37,7 +40,7 @@
         />
       </template>
       <template slot="action" slot-scope="text, record">
-        <router-link :to="'/teach/paper/' + record.id + '/questions'">试题管理</router-link>
+        <router-link :to="'/teach/paper/' + record.id + '/questions'">试题</router-link>
         <a-divider type="vertical" />
         <a href="javascript:;" @click="showEditModal(record)">编辑</a>
         <a-divider type="vertical" />
@@ -90,6 +93,10 @@ export default {
     return {
       loading: false,
 
+      tableQuery: {
+        name: "",
+        created_name: "",
+      },
       tableColumns,
       tableData: [],
       tablePager: {
@@ -122,6 +129,19 @@ export default {
     this.fetchTableData();
   },
   methods: {
+    search() {
+      this.tablePager.current = 1;
+      this.fetchTableData();
+    },
+
+    reset() {
+      this.tableQuery = {
+        name: "",
+        created_name: "",
+      };
+      this.search();
+    },
+
     onTableChange(pagination, filters, sorter) {
       const { current, pageSize } = pagination;
       this.tablePager.current = current;
@@ -136,7 +156,7 @@ export default {
         const res = await this.$http({
           method: "GET",
           url: "/teach/paper",
-          params: { current, pageSize },
+          params: { current, pageSize, ...this.tableQuery },
         });
         if (res.code !== 200) {
           this.$message.warning(res.message);

@@ -1,5 +1,22 @@
 <template>
   <div>
+    <div class="filter">
+      <div class="filter__item">
+        <a-input v-model="tableQuery.name" style="width: 200px" placeholder="题库名称关键字" />
+      </div>
+      <div class="filter__item">
+        <a-input
+          v-model="tableQuery.created_name"
+          style="width: 200px"
+          placeholder="创建人关键字"
+        />
+      </div>
+      <div class="filter__item">
+        <a-button :loading="loading" type="primary" @click="search">查询</a-button>
+        <a-button :loading="loading" @click="reset">重置</a-button>
+      </div>
+    </div>
+
     <p>
       <a-button type="primary" icon="plus" @click="setModalVisible(true)">创建题库</a-button>
     </p>
@@ -66,15 +83,17 @@
 import { _ } from "@/utils";
 import { tableColumns } from "./const";
 import { modalRules } from "./const";
-import TypeCounter from "./components/TypeCounter";
 
 export default {
   name: "LibraryIndex",
-  components: { TypeCounter },
   data() {
     return {
       loading: false,
 
+      tableQuery: {
+        name: "",
+        created_name: "",
+      },
       tableColumns,
       tableData: [],
       tablePager: {
@@ -98,6 +117,19 @@ export default {
     this.fetchTableData();
   },
   methods: {
+    search() {
+      this.tablePager.current = 1;
+      this.fetchTableData();
+    },
+
+    reset() {
+      this.tableQuery = {
+        name: "",
+        created_name: "",
+      };
+      this.search();
+    },
+
     onTableChange(pagination, filters, sorter) {
       const { current, pageSize } = pagination;
       this.tablePager.current = current;
@@ -108,7 +140,12 @@ export default {
     async fetchTableData() {
       this.loading = true;
       try {
-        const res = await this.$http({ method: "GET", url: "/repo/library" });
+        const { current, pageSize } = this.tablePager;
+        const res = await this.$http({
+          method: "GET",
+          url: "/repo/library",
+          params: { current, pageSize, ...this.tableQuery },
+        });
         if (res.code !== 200) {
           this.$message.warning(res.message);
           return;

@@ -1,17 +1,28 @@
 export const tableColumns = [
   {
     title: "试卷名称",
+    width: 200,
     dataIndex: "name",
   },
   {
-    title: "试题数",
-    width: 200,
-    dataIndex: "count",
-    scopedSlots: { customRender: "count" },
+    title: "题量",
+    width: 80,
+    dataIndex: "count.TOTAL",
   },
   {
-    title: "试卷备注",
-    dataIndex: "remark",
+    title: "简单",
+    width: 80,
+    dataIndex: "count.EASY",
+  },
+  {
+    title: "中等",
+    width: 80,
+    dataIndex: "count.NORMAL",
+  },
+  {
+    title: "困难",
+    width: 80,
+    dataIndex: "count.HARD",
   },
   {
     title: "试卷状态",
@@ -20,13 +31,19 @@ export const tableColumns = [
     scopedSlots: { customRender: "enable" },
   },
   {
+    title: "创建人",
+    width: 100,
+    dataIndex: "created_name",
+  },
+  {
     title: "更新时间",
-    width: 190,
+    width: 180,
     dataIndex: "updated_at",
   },
   {
     title: "操作",
-    width: 200,
+    width: 180,
+    fixed: 'right',
     scopedSlots: { customRender: "action" },
   },
 ];

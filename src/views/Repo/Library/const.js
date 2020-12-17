@@ -42,11 +42,11 @@ export const tableColumns = [
   {
     title: "创建人",
     width: 100,
-    dataIndex: "f2",
+    dataIndex: "created_name",
   },
   {
     title: "更新时间",
-    width: 190,
+    width: 180,
     dataIndex: "updated_at",
   },
   {
