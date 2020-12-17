@@ -24,7 +24,17 @@
     </a-card>
 
     <a-card size="small" title="登录记录" :loading="mounting">
-      <a-empty />
+      <a-table
+        size="small"
+        row-key="id"
+        :columns="logColumns"
+        :data-source="logData"
+        :pagination="false"
+      >
+        <template slot="browser" slot-scope="text, record">
+          {{ record.browser_name }} {{ record.browser_version }}
+        </template>
+      </a-table>
     </a-card>
 
     <footer-tool-bar>
@@ -34,6 +44,22 @@
 </template>
 
 <script>
+const logColumns = [
+  {
+    title: "登录时间",
+    dataIndex: "created_at",
+  },
+  {
+    title: "IP",
+    dataIndex: "ip",
+  },
+  {
+    title: "浏览器",
+    dataIndex: "browser",
+    scopedSlots: { customRender: "browser" },
+  },
+];
+
 export default {
   name: "StudentDetail",
   data() {
@@ -41,6 +67,8 @@ export default {
       mounting: false,
       id: "",
       info: {},
+      logColumns,
+      logData: [],
     };
   },
   async mounted() {
@@ -49,6 +77,7 @@ export default {
     if (id) {
       this.id = id;
       await this.fetchDetail();
+      await this.fetchLoginLogs();
     }
     this.mounting = false;
   },
@@ -65,6 +94,19 @@ export default {
           return;
         }
         this.info = res.data;
+      } catch (e) {
+        this.$message.warning(e.message);
+      }
+    },
+
+    async fetchLoginLogs() {
+      try {
+        const res = await this.$http({ method: "GET", url: `/log/login/${this.id}` });
+        if (res.code !== 200) {
+          this.$message.warning(res.message);
+          return;
+        }
+        this.logData = res.data;
       } catch (e) {
         this.$message.warning(e.message);
       }

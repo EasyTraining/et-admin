@@ -320,6 +320,7 @@ export default [
         ],
       },
       {
+        hidden: true,
         name: "/tool",
         path: "/tool",
         component: RouteView,

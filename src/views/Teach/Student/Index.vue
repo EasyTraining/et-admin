@@ -5,30 +5,34 @@
     </a-tabs>
 
     <a-card size="small" title="班级信息">
-      <a-descriptions>
-        <a-descriptions-item label="班级名称">{{ curKlassInfo.name }}</a-descriptions-item>
-        <a-descriptions-item label="班主任">{{ curKlassInfo.leader_id }}</a-descriptions-item>
-        <a-descriptions-item label="班级广播">
-          <a
-            href="javascript:;"
-            v-if="curKlassInfo && curKlassInfo.broadcasts"
-            @click="showHistoryModal"
-          >
-            {{ curKlassInfo.broadcasts.length }} 条
-          </a>
-          <a-button type="link" @click="createBroadcast">发布广播</a-button>
-        </a-descriptions-item>
-      </a-descriptions>
-      <a-descriptions>
-        <a-descriptions-item label="班级描述">
-          {{ curKlassInfo.description }}
-        </a-descriptions-item>
-        <a-descriptions-item label="班级备注">{{ curKlassInfo.remark }}</a-descriptions-item>
-        <a-descriptions-item label="邀请码">
-          <span>{{ curKlassInfo.invite_code }}</span>
-          <a-button type="link">生成邀请码</a-button>
-        </a-descriptions-item>
-      </a-descriptions>
+      <a-spin :spinning="klassLoading">
+        <a-descriptions>
+          <a-descriptions-item label="班级名称">{{ curKlassInfo.name }}</a-descriptions-item>
+          <a-descriptions-item label="班主任">{{ curKlassInfo.leader_id }}</a-descriptions-item>
+          <a-descriptions-item label="班级广播">
+            <a
+              href="javascript:;"
+              v-if="curKlassInfo && curKlassInfo.broadcasts"
+              @click="showHistoryModal"
+            >
+              {{ curKlassInfo.broadcasts.length }} 条
+            </a>
+            <a-button type="link" @click="createBroadcast">发布广播</a-button>
+          </a-descriptions-item>
+        </a-descriptions>
+        <a-descriptions>
+          <a-descriptions-item label="班级描述">
+            {{ curKlassInfo.description }}
+          </a-descriptions-item>
+          <a-descriptions-item label="班级备注">{{ curKlassInfo.remark }}</a-descriptions-item>
+          <a-descriptions-item label="邀请码">
+            <span>{{ curKlassInfo.invite_code }}</span>
+            <a-popconfirm title="刷新后旧邀请码将无法使用, 是否继续?" @confirm="genInviteCode">
+              <a-button type="link">刷新邀请码</a-button>
+            </a-popconfirm>
+          </a-descriptions-item>
+        </a-descriptions>
+      </a-spin>
     </a-card>
 
     <a-card size="small" title="学员档案">
@@ -185,6 +189,27 @@ export default {
         this.$message.warning(e.message);
       } finally {
         this.studentLoading = false;
+      }
+    },
+
+    async genInviteCode() {
+      this.klassLoading = true;
+      try {
+        const res = await this.$http({
+          method: "POST",
+          url: "/school/klass_util/gen_invite_code",
+          data: { klass_id: this.curKlassId },
+        });
+        if (res.code !== 200) {
+          this.$message.warning(res.message);
+          return;
+        }
+        this.$message.success(res.message);
+        await this.fetchKlassInfo();
+      } catch (e) {
+        this.$message.warning(e.message);
+      } finally {
+        this.klassLoading = false;
       }
     },
 
