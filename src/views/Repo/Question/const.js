@@ -18,14 +18,14 @@ export const tableColumns = [
     scopedSlots: { customRender: "level" },
   },
   {
-    title: "考点",
+    title: "对应考点",
     width: 150,
     dataIndex: "points",
     scopedSlots: { customRender: "points" },
   },
   {
     title: "操作",
-    width: 120,
+    width: 180,
     fixed: "right",
     scopedSlots: { customRender: "action" },
   },

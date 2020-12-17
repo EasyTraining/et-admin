@@ -49,6 +49,8 @@
         <a-tag v-for="item in record.points" :key="item">{{ item }}</a-tag>
       </div>
       <template slot="action" slot-scope="text, record">
+        <a href="javascript:;" @click="showPreviewModal(record)">预览</a>
+        <a-divider type="vertical" />
         <router-link :to="'/repo/library/' + id + '/questions/edit/' + record.id">
           编辑
         </router-link>
@@ -60,16 +62,18 @@
     </a-table>
 
     <import-modal :visible="importModalVisible" @cancel="closeImportModal" />
+    <preview-modal :visible="previewModalVisible" :question="curQuestion" @cancel="closePreviewModal" />
   </div>
 </template>
 
 <script>
 import { tableColumns } from "./const";
 import ImportModal from "./components/ImportModal";
+import PreviewModal from "./components/PreviewModal";
 
 export default {
   name: "QuestionIndex",
-  components: { ImportModal },
+  components: { ImportModal, PreviewModal },
   data() {
     return {
       loading: false,
@@ -80,7 +84,10 @@ export default {
       tableColumns,
       tableData: [],
 
+      curQuestion: null,
+
       importModalVisible: false,
+      previewModalVisible: false,
     };
   },
   async mounted() {
@@ -150,6 +157,10 @@ export default {
       }
     },
 
+    async multipleExport() {
+      this.$message.info("功能开发中...");
+    },
+
     showImportModal() {
       this.importModalVisible = true;
     },
@@ -158,8 +169,13 @@ export default {
       this.importModalVisible = false;
     },
 
-    async multipleExport() {
-      this.$message.info("功能开发中...");
+    showPreviewModal(question) {
+      this.curQuestion = question;
+      this.previewModalVisible = true;
+    },
+
+    closePreviewModal() {
+      this.previewModalVisible = false;
     },
   },
 };
