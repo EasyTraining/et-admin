@@ -9,8 +9,9 @@
     @cancel="onCancel"
   >
     <a-tree
-      :tree-data="treeData"
+      show-line
       default-expand-all
+      :tree-data="treeData"
       :replace-fields="{ title: 'name', key: 'id', value: 'id' }"
     />
   </a-modal>

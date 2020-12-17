@@ -4,6 +4,7 @@
       <router-link :to="'/repo/library/' + info.id + '/questions/add'">
         <a-button type="primary" icon="plus">创建试题</a-button>
       </router-link>
+      <a-button style="margin-left: 15px" @click="showImportModal">批量导入</a-button>
       <a-popconfirm placement="right" title="删除以后无法恢复, 是否继续?" @confirm="multipleRemove">
         <a-button style="margin-left: 15px" :disabled="selectedIds.length === 0">
           批量删除
@@ -16,9 +17,9 @@
       >
         批量导出
       </a-button>
-      <span v-if="selectedIds.length > 0" style="margin-left: 15px"
-        >已选择 {{ selectedIds.length }} 道题</span
-      >
+      <span v-if="selectedIds.length > 0" style="margin-left: 15px">
+        已选择 {{ selectedIds.length }} 道题
+      </span>
     </p>
 
     <a-table
@@ -57,14 +58,18 @@
         </a-popconfirm>
       </template>
     </a-table>
+
+    <import-modal :visible="importModalVisible" @cancel="closeImportModal" />
   </div>
 </template>
 
 <script>
 import { tableColumns } from "./const";
+import ImportModal from "./components/ImportModal";
 
 export default {
   name: "QuestionIndex",
+  components: { ImportModal },
   data() {
     return {
       loading: false,
@@ -74,6 +79,8 @@ export default {
       selectedIds: [],
       tableColumns,
       tableData: [],
+
+      importModalVisible: false,
     };
   },
   async mounted() {
@@ -141,6 +148,14 @@ export default {
       } finally {
         this.loading = false;
       }
+    },
+
+    showImportModal() {
+      this.importModalVisible = true;
+    },
+
+    closeImportModal() {
+      this.importModalVisible = false;
     },
 
     async multipleExport() {
