@@ -12,11 +12,6 @@ export const tableColumns = [
     dataIndex: "phone",
   },
   {
-    title: "启用状态",
-    width: 120,
-    scopedSlots: { customRender: "enable" },
-  },
-  {
     title: "更新时间",
     width: 180,
     dataIndex: "updated_at",

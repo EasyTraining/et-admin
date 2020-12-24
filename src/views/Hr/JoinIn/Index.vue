@@ -25,11 +25,16 @@
           </a-col>
           <a-col :span="12">
             <a-form-model-item label="所属部门" prop="org_id">
-              <a-select v-model="formData.org_id" show-search placeholder="请选择所属部门">
-                <a-select-option v-for="org in klassList" :key="org.id" :value="org.id">
-                  {{ org.name }}
-                </a-select-option>
-              </a-select>
+              <a-tree-select
+                v-model="formData.org_id"
+                :tree-data="enums.ORG_TREE"
+                :replace-fields="{ title: 'name', key: 'id', value: 'id' }"
+                :dropdown-style="{ maxHeight: '400px', overflow: 'auto' }"
+                allow-clear
+                tree-default-expand-all
+                style="width: 100%"
+                placeholder="请选择所属部门"
+              />
             </a-form-model-item>
           </a-col>
         </a-row>
@@ -53,7 +58,15 @@
           </a-col>
           <a-col :span="12">
             <a-form-model-item label="职位" prop="position">
-              <a-input v-model="formData.position" :max-length="100" placeholder="请填写职位" />
+              <a-select v-model="formData.position" show-search placeholder="请选择职位">
+                <a-select-option
+                  v-for="item in enums.EMPLOYEE_POSITION"
+                  :key="item.id"
+                  :value="item.value"
+                >
+                  {{ item.value }}
+                </a-select-option>
+              </a-select>
             </a-form-model-item>
           </a-col>
         </a-row>
@@ -75,15 +88,20 @@
         <a-row :gutter="15">
           <a-col :span="12">
             <a-form-model-item label="身份证号" prop="id_card">
-              <a-input v-model="formData.id_card_no" :max-length="100" placeholder="请填写工号" />
+              <a-input
+                v-model="formData.id_card_no"
+                :max-length="100"
+                placeholder="请填写身份证号"
+              />
             </a-form-model-item>
           </a-col>
           <a-col :span="12">
             <a-form-model-item label="身份证有效期" prop="id_card_valid_date">
-              <a-input
+              <a-date-picker
                 v-model="formData.id_card_valid_date"
-                :max-length="100"
-                placeholder="请填写职位"
+                style="width: 100%"
+                placeholder="请选择身份证有效期"
+                value-format="YYYY-MM-DD"
               />
             </a-form-model-item>
           </a-col>
@@ -94,48 +112,73 @@
               <a-input
                 v-model="formData.id_card_address"
                 :max-length="100"
-                placeholder="请填写工号"
+                placeholder="请填写身份证地址"
               />
             </a-form-model-item>
           </a-col>
           <a-col :span="12">
             <a-form-model-item label="民族" prop="nation">
-              <a-input v-model="formData.nation" :max-length="100" placeholder="请填写职位" />
+              <a-select v-model="formData.nation" show-search placeholder="请选择民族">
+                <a-select-option v-for="item in enums.NATION" :key="item.id" :value="item.value">
+                  {{ item.value }}
+                </a-select-option>
+              </a-select>
             </a-form-model-item>
           </a-col>
         </a-row>
         <a-row :gutter="15">
           <a-col :span="12">
             <a-form-model-item label="性别" prop="sex">
-              <a-input v-model="formData.sex" :max-length="100" placeholder="请填写工号" />
+              <a-select v-model="formData.sex" show-search placeholder="请选择性别">
+                <a-select-option v-for="item in enums.SEX" :key="item.id" :value="item.value">
+                  {{ item.value }}
+                </a-select-option>
+              </a-select>
             </a-form-model-item>
           </a-col>
           <a-col :span="12">
             <a-form-model-item label="出生日期" prop="birthday">
-              <a-input v-model="formData.birthday" :max-length="100" placeholder="请填写职位" />
-            </a-form-model-item>
-          </a-col>
-        </a-row>
-        <a-row :gutter="15">
-          <a-col :span="12">
-            <a-form-model-item label="婚姻状况" prop="marriage">
-              <a-input v-model="formData.marriage" :max-length="100" placeholder="请填写工号" />
-            </a-form-model-item>
-          </a-col>
-          <a-col :span="12">
-            <a-form-model-item label="政治面貌" prop="political_identity">
-              <a-input
-                v-model="formData.political_identity"
-                :max-length="100"
-                placeholder="请填写职位"
+              <a-date-picker
+                v-model="formData.birthday"
+                style="width: 100%"
+                placeholder="请选择出生日期"
+                value-format="YYYY-MM-DD"
               />
             </a-form-model-item>
           </a-col>
         </a-row>
         <a-row :gutter="15">
           <a-col :span="12">
+            <a-form-model-item label="婚姻状况" prop="marriage">
+              <a-select v-model="formData.marriage" show-search placeholder="请选择婚姻状况">
+                <a-select-option v-for="item in enums.MARRIAGE" :key="item.id" :value="item.value">
+                  {{ item.value }}
+                </a-select-option>
+              </a-select>
+            </a-form-model-item>
+          </a-col>
+          <a-col :span="12">
+            <a-form-model-item label="政治面貌" prop="political_identity">
+              <a-select
+                v-model="formData.political_identity"
+                show-search
+                placeholder="请选择政治面貌"
+              >
+                <a-select-option
+                  v-for="item in enums.POLITICAL_IDENTITY"
+                  :key="item.id"
+                  :value="item.value"
+                >
+                  {{ item.value }}
+                </a-select-option>
+              </a-select>
+            </a-form-model-item>
+          </a-col>
+        </a-row>
+        <a-row :gutter="15">
+          <a-col :span="12">
             <a-form-model-item label="居住地址" prop="address">
-              <a-input v-model="formData.address" :max-length="100" placeholder="请填写工号" />
+              <a-input v-model="formData.address" :max-length="100" placeholder="请填写居住地址" />
             </a-form-model-item>
           </a-col>
         </a-row>
@@ -165,28 +208,54 @@
         <a-row :gutter="15">
           <a-col :span="12">
             <a-form-model-item label="员工类型" prop="work_type">
-              <a-input v-model="formData.work_type" :max-length="100" placeholder="请填写工号" />
+              <a-select v-model="formData.work_type" show-search placeholder="请选择员工类型">
+                <a-select-option v-for="item in enums.WORK_TYPE" :key="item.id" :value="item.value">
+                  {{ item.value }}
+                </a-select-option>
+              </a-select>
             </a-form-model-item>
           </a-col>
           <a-col :span="12">
             <a-form-model-item label="员工状态" prop="status">
-              <a-input v-model="formData.status" :max-length="100" placeholder="请填写工号" />
+              <a-select v-model="formData.status" show-search placeholder="请选择员工状态">
+                <a-select-option v-for="item in enums.EMPLOYEE_STATUS" :key="item.id" :value="item.value">
+                  {{ item.value }}
+                </a-select-option>
+              </a-select>
             </a-form-model-item>
           </a-col>
         </a-row>
         <a-row :gutter="15">
           <a-col :span="12">
             <a-form-model-item label="入职时间" prop="join_date">
-              <a-input v-model="formData.join_date" :max-length="100" placeholder="请填写工号" />
+              <a-date-picker
+                v-model="formData.join_date"
+                style="width: 100%"
+                placeholder="请选择入职时间"
+                value-format="YYYY-MM-DD"
+              />
             </a-form-model-item>
           </a-col>
           <a-col :span="12">
-            <a-form-model-item label="试用期" prop="probation_month">
-              <a-input
+            <a-form-model-item label="试用期(月)" prop="probation_month">
+              <a-input-number
                 v-model="formData.probation_month"
-                :max-length="100"
-                placeholder="请填写工号"
+                style="width: 100%"
+                :min="1"
+                :max="999"
+                placeholder="请填写试用期"
               />
+            </a-form-model-item>
+          </a-col>
+        </a-row>
+        <a-row :gutter="15">
+          <a-col :span="12">
+            <a-form-model-item label="招聘来源" prop="invite_from">
+              <a-select v-model="formData.invite_from" show-search placeholder="请选择招聘来源">
+                <a-select-option v-for="item in enums.INVITE_FROM" :key="item.id" :value="item.value">
+                  {{ item.value }}
+                </a-select-option>
+              </a-select>
             </a-form-model-item>
           </a-col>
         </a-row>
@@ -200,11 +269,6 @@
               <avatar-upload v-model="formData.prev_leave_img" />
             </a-form-model-item>
           </a-col>
-          <a-col :span="12">
-            <a-form-model-item label="招聘来源" prop="invite_from">
-              <a-input v-model="formData.invite_from" :max-length="100" placeholder="请填写工号" />
-            </a-form-model-item>
-          </a-col>
         </a-row>
       </a-card>
 
@@ -215,16 +279,17 @@
               <a-input
                 v-model="formData.graduate_school"
                 :max-length="100"
-                placeholder="请填写工号"
+                placeholder="请填写毕业院校"
               />
             </a-form-model-item>
           </a-col>
           <a-col :span="12">
             <a-form-model-item label="毕业时间" prop="graduate_date">
-              <a-input
+              <a-date-picker
                 v-model="formData.graduate_date"
-                :max-length="100"
-                placeholder="请填写工号"
+                style="width: 100%"
+                placeholder="请选择毕业时间"
+                value-format="YYYY-MM-DD"
               />
             </a-form-model-item>
           </a-col>
@@ -232,12 +297,16 @@
         <a-row :gutter="15">
           <a-col :span="12">
             <a-form-model-item label="学历" prop="degree">
-              <a-input v-model="formData.degree" :max-length="100" placeholder="请填写工号" />
+              <a-select v-model="formData.degree" show-search placeholder="请选择学历">
+                <a-select-option v-for="item in enums.DEGREE" :key="item.id" :value="item.value">
+                  {{ item.value }}
+                </a-select-option>
+              </a-select>
             </a-form-model-item>
           </a-col>
           <a-col :span="12">
             <a-form-model-item label="所学专业" prop="major">
-              <a-input v-model="formData.major" :max-length="100" placeholder="请填写工号" />
+              <a-input v-model="formData.major" :max-length="100" placeholder="请填写所学专业" />
             </a-form-model-item>
           </a-col>
         </a-row>
@@ -247,12 +316,12 @@
         <a-row :gutter="15">
           <a-col :span="12">
             <a-form-model-item label="开户行" prop="bank_account">
-              <a-input v-model="formData.bank_account" :max-length="100" placeholder="请填写工号" />
+              <a-input v-model="formData.bank_account" :max-length="100" placeholder="请填写开户行" />
             </a-form-model-item>
           </a-col>
           <a-col :span="12">
             <a-form-model-item label="银行卡号" prop="bank_card_no">
-              <a-input v-model="formData.bank_card_no" :max-length="100" placeholder="请填写工号" />
+              <a-input v-model="formData.bank_card_no" :max-length="100" placeholder="请填写银行卡号" />
             </a-form-model-item>
           </a-col>
         </a-row>
@@ -278,27 +347,32 @@
           </a-col>
           <a-col :span="12">
             <a-form-model-item label="合同类型" prop="contact_type">
-              <a-input v-model="formData.contact_type" :max-length="100" placeholder="请填写工号" />
+              <a-select v-model="formData.contact_type" show-search placeholder="请选择合同类型">
+                <a-select-option v-for="item in enums.CONTACT_TYPE" :key="item.id" :value="item.value">
+                  {{ item.value }}
+                </a-select-option>
+              </a-select>
             </a-form-model-item>
           </a-col>
         </a-row>
         <a-row :gutter="15">
           <a-col :span="12">
             <a-form-model-item label="合同开始日期" prop="contact_start_date">
-              <a-input
+              <a-date-picker
                 v-model="formData.contact_start_date"
-                :max-length="100"
-                placeholder="请填写工号"
+                style="width: 100%"
+                placeholder="请选择合同开始日期"
+                value-format="YYYY-MM-DD"
               />
             </a-form-model-item>
           </a-col>
           <a-col :span="12">
             <a-form-model-item label="合同期限" prop="contact_period">
-              <a-input
-                v-model="formData.contact_period"
-                :max-length="100"
-                placeholder="请填写工号"
-              />
+              <a-select v-model="formData.contact_period" show-search placeholder="请选择合同期限">
+                <a-select-option v-for="item in enums.CONTACT_PERIOD" :key="item.id" :value="item.value">
+                  {{ item.value }}
+                </a-select-option>
+              </a-select>
             </a-form-model-item>
           </a-col>
         </a-row>
@@ -328,11 +402,11 @@
         <a-row :gutter="15">
           <a-col :span="12">
             <a-form-model-item label="紧急联系人关系" prop="sos_relation">
-              <a-input
-                v-model="formData.sos_relation"
-                :max-length="4"
-                placeholder="请填写紧急联系人姓名"
-              />
+              <a-select v-model="formData.sos_relation" show-search placeholder="请选择紧急联系人关系">
+                <a-select-option v-for="item in enums.SOS_RELATION" :key="item.id" :value="item.value">
+                  {{ item.value }}
+                </a-select-option>
+              </a-select>
             </a-form-model-item>
           </a-col>
         </a-row>
@@ -373,6 +447,7 @@
 import { _, sha256 } from "@/utils";
 import AvatarUpload from "@/components/AvatarUpload";
 import { formRules } from "./const";
+import { fetchMultipleDict } from "./util";
 
 export default {
   name: "JoinIn",
@@ -383,21 +458,20 @@ export default {
       submitting: false,
       editedId: "",
 
-      klassList: [],
       enums: {
-        orgList: [],
-        position: [],
-        nation: [],
-        sex: [],
-        marriage: [],
-        political_identity: [],
-        work_type: [],
-        status: [],
-        invite_from: [],
-        degree: [],
-        contact_type: [],
-        contact_period: [],
-        sos_relation: []
+        ORG_TREE: [],
+        EMPLOYEE_POSITION: [],
+        NATION: [],
+        SEX: [],
+        MARRIAGE: [],
+        POLITICAL_IDENTITY: [],
+        WORK_TYPE: [],
+        EMPLOYEE_STATUS: [],
+        INVITE_FROM: [],
+        DEGREE: [],
+        CONTACT_TYPE: [],
+        CONTACT_PERIOD: [],
+        SOS_RELATION: [],
       },
 
       formData: {
@@ -415,11 +489,11 @@ export default {
         id_card_no: "",
         id_card_valid_date: "",
         id_card_address: "",
-        nation: "",
+        nation: undefined,
         sex: undefined,
         birthday: "",
-        marriage: "",
-        political_identity: "",
+        marriage: undefined,
+        political_identity: undefined,
         address: "",
         id_card_front_img: "",
         id_card_back_img: "",
@@ -427,7 +501,7 @@ export default {
         work_type: undefined,
         status: undefined,
         join_date: "",
-        probation_month: undefined,
+        probation_month: 6,
         invite_from: undefined,
         prev_leave_img: "",
 
@@ -461,7 +535,8 @@ export default {
 
     this.mounting = true;
     this.editedId = this.$route.params.id;
-    await this.fetchKlassList();
+    await this.fetchOrgTree();
+    await this.fetchEnums();
     if (this.editedId) {
       await this.fetchDetail();
     }
@@ -472,23 +547,28 @@ export default {
       this.$router.go(-1);
     },
 
-    async fetchKlassList() {
+    async fetchOrgTree() {
       try {
-        const res = await this.$http({ method: "GET", url: "/school/klass_util/simple_list" });
+        const res = await this.$http({ method: "GET", url: "/hr/org_util/tree" });
         if (res.code !== 200) {
           this.$message.warning(res.message);
           return;
         }
-        this.klassList = res.data || [];
+        this.enums.ORG_TREE = res.data || [];
       } catch (e) {
         this.$message.warning(e.message);
       }
     },
 
+    async fetchEnums() {
+      const dictMap = await fetchMultipleDict();
+      this.enums = { ...this.enums, ...dictMap };
+    },
+
     async fetchDetail() {
       this.mounting = true;
       try {
-        const res = await this.$http({ method: "GET", url: `/school/student/${this.editedId}` });
+        const res = await this.$http({ method: "GET", url: `/hr/employee/${this.editedId}` });
         if (res.code !== 200) {
           this.$message.warning(res.message);
           return;
@@ -502,6 +582,7 @@ export default {
     },
 
     async submit() {
+      console.log(this.formData);
       this.$refs.form.validate((valid) => {
         if (!valid) return;
         if (this.editedId) {
@@ -519,7 +600,7 @@ export default {
         const hashed_pwd = sha256(password);
         const res = await this.$http({
           method: "POST",
-          url: "/school/student",
+          url: "/hr/employee",
           data: { hashed_pwd, ...rest },
         });
         if (res.code !== 200) {
@@ -527,7 +608,7 @@ export default {
           return;
         }
         this.$message.success("操作成功");
-        await this.$router.replace(`/school/student/detail/${res.data.id}`);
+        await this.$router.replace(`/hr/employee/edit/${res.data.id}`);
       } catch (e) {
         this.$message.warning(e.message);
       } finally {
@@ -541,7 +622,7 @@ export default {
         const { account, password, ...rest } = this.formData;
         const res = await this.$http({
           method: "PUT",
-          url: `/school/student/${this.editedId}`,
+          url: `/hr/employee/${this.editedId}`,
           data: rest,
         });
         if (res.code !== 200) {
@@ -549,7 +630,7 @@ export default {
           return;
         }
         this.$message.success("操作成功");
-        await this.$router.replace(`/school/student/detail/${res.data.id}`);
+        await this.$router.replace(`/hr/employee/detail/${res.data.id}`);
       } catch (e) {
         this.$message.warning(e.message);
       } finally {

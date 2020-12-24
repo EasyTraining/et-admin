@@ -1,28 +1,30 @@
 import request from "@/utils/request";
 
-export const fetchHrDict = async () => {
-  const codeMap = {
-    position: "EMPLOYEE_POSITION",
-    nation: "NATION",
-    sex: "SEX",
-    marriage: "MARRIAGE",
-    political_identity: "POLITICAL_IDENTITY",
-    work_type: "WORK_TYPE",
-    status: "EMPLOYEE_STATUS",
-    invite_from: "INVITE_FROM",
-    degree: "DEGREE",
-    contact_type: "CONTACT_TYPE",
-    contact_period: "CONTACT_PERIOD",
-    sos_relation: "SOS_RELATION",
-  };
-  const codes = Object.values(codeMap);
-  let dictMap;
+export const fetchMultipleDict = async () => {
+  const codes = [
+    "EMPLOYEE_POSITION",
+    "NATION",
+    "SEX",
+    "MARRIAGE",
+    "POLITICAL_IDENTITY",
+    "WORK_TYPE",
+    "EMPLOYEE_STATUS",
+    "INVITE_FROM",
+    "DEGREE",
+    "CONTACT_TYPE",
+    "CONTACT_PERIOD",
+    "SOS_RELATION",
+  ];
+  let dictMap = {};
   try {
     const res = await request({
-      method: "GET",
+      method: "POST",
       url: "/system/dict_util/multiple",
-      params: { codes },
+      data: { codes },
     });
+    if (res.code === 200) {
+      dictMap = res.data;
+    }
   } catch (e) {
     // pass
   }
