@@ -218,7 +218,11 @@
           <a-col :span="12">
             <a-form-model-item label="员工状态" prop="status">
               <a-select v-model="formData.status" show-search placeholder="请选择员工状态">
-                <a-select-option v-for="item in enums.EMPLOYEE_STATUS" :key="item.id" :value="item.value">
+                <a-select-option
+                  v-for="item in enums.EMPLOYEE_STATUS"
+                  :key="item.id"
+                  :value="item.value"
+                >
                   {{ item.value }}
                 </a-select-option>
               </a-select>
@@ -252,7 +256,11 @@
           <a-col :span="12">
             <a-form-model-item label="招聘来源" prop="invite_from">
               <a-select v-model="formData.invite_from" show-search placeholder="请选择招聘来源">
-                <a-select-option v-for="item in enums.INVITE_FROM" :key="item.id" :value="item.value">
+                <a-select-option
+                  v-for="item in enums.INVITE_FROM"
+                  :key="item.id"
+                  :value="item.value"
+                >
                   {{ item.value }}
                 </a-select-option>
               </a-select>
@@ -316,12 +324,20 @@
         <a-row :gutter="15">
           <a-col :span="12">
             <a-form-model-item label="开户行" prop="bank_account">
-              <a-input v-model="formData.bank_account" :max-length="100" placeholder="请填写开户行" />
+              <a-input
+                v-model="formData.bank_account"
+                :max-length="100"
+                placeholder="请填写开户行"
+              />
             </a-form-model-item>
           </a-col>
           <a-col :span="12">
             <a-form-model-item label="银行卡号" prop="bank_card_no">
-              <a-input v-model="formData.bank_card_no" :max-length="100" placeholder="请填写银行卡号" />
+              <a-input
+                v-model="formData.bank_card_no"
+                :max-length="100"
+                placeholder="请填写银行卡号"
+              />
             </a-form-model-item>
           </a-col>
         </a-row>
@@ -348,7 +364,11 @@
           <a-col :span="12">
             <a-form-model-item label="合同类型" prop="contact_type">
               <a-select v-model="formData.contact_type" show-search placeholder="请选择合同类型">
-                <a-select-option v-for="item in enums.CONTACT_TYPE" :key="item.id" :value="item.value">
+                <a-select-option
+                  v-for="item in enums.CONTACT_TYPE"
+                  :key="item.id"
+                  :value="item.value"
+                >
                   {{ item.value }}
                 </a-select-option>
               </a-select>
@@ -369,7 +389,11 @@
           <a-col :span="12">
             <a-form-model-item label="合同期限" prop="contact_period">
               <a-select v-model="formData.contact_period" show-search placeholder="请选择合同期限">
-                <a-select-option v-for="item in enums.CONTACT_PERIOD" :key="item.id" :value="item.value">
+                <a-select-option
+                  v-for="item in enums.CONTACT_PERIOD"
+                  :key="item.id"
+                  :value="item.value"
+                >
                   {{ item.value }}
                 </a-select-option>
               </a-select>
@@ -402,8 +426,16 @@
         <a-row :gutter="15">
           <a-col :span="12">
             <a-form-model-item label="紧急联系人关系" prop="sos_relation">
-              <a-select v-model="formData.sos_relation" show-search placeholder="请选择紧急联系人关系">
-                <a-select-option v-for="item in enums.SOS_RELATION" :key="item.id" :value="item.value">
+              <a-select
+                v-model="formData.sos_relation"
+                show-search
+                placeholder="请选择紧急联系人关系"
+              >
+                <a-select-option
+                  v-for="item in enums.SOS_RELATION"
+                  :key="item.id"
+                  :value="item.value"
+                >
                   {{ item.value }}
                 </a-select-option>
               </a-select>
@@ -530,9 +562,6 @@ export default {
     };
   },
   async mounted() {
-    const { klass_id } = this.$route.query;
-    this.formData.klass_id = klass_id;
-
     this.mounting = true;
     this.editedId = this.$route.params.id;
     await this.fetchOrgTree();
@@ -582,7 +611,6 @@ export default {
     },
 
     async submit() {
-      console.log(this.formData);
       this.$refs.form.validate((valid) => {
         if (!valid) return;
         if (this.editedId) {
