@@ -1,7 +1,11 @@
-export const tableColumns = [
+export const deptTableColumns = [
   {
     title: "部门名称",
     dataIndex: "name",
+  },
+  {
+    title: "成员数",
+    dataIndex: "employee_count",
   },
   {
     title: "可见菜单数",
