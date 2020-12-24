@@ -2,33 +2,18 @@
   <div>
     <p>
       <a-button type="primary" icon="plus" @click="onAdd">创建部门</a-button>
-      <a-button icon="bars" @click="showTreeModal">查看树形结构</a-button>
     </p>
 
     <a-table
+      v-if="!loading"
       size="small"
       row-key="id"
+      default-expand-all-rows
       :columns="tableColumns"
       :data-source="tableData"
       :loading="loading"
       :pagination="false"
     >
-      <template slot="enable" slot-scope="text, record">
-        <a-switch
-          v-model="record.enable"
-          checked-children="已启用"
-          un-checked-children="已停用"
-          @change="switchStatus(record)"
-        />
-      </template>
-      <template slot="enable" slot-scope="text, record">
-        <a-switch
-          v-model="record.enable"
-          checked-children="已启用"
-          un-checked-children="已停用"
-          @change="switchStatus(record)"
-        />
-      </template>
       <template slot="action" slot-scope="text, record">
         <a href="javascript:;" @click="onEdit(record)">编辑</a>
         <a-divider type="vertical" />
@@ -78,7 +63,6 @@ export default {
     },
 
     async onEdit({ id }) {
-      this.loading = true;
       try {
         const res = await this.$http({ method: "GET", url: `/hr/org/${id}` });
         if (res.code !== 200) {
@@ -89,13 +73,10 @@ export default {
         this.updateModalVisible = true;
       } catch (e) {
         this.$message.warning(e.message);
-      } finally {
-        this.loading = false;
       }
     },
 
     async onRemove({ id }) {
-      this.loading = true;
       try {
         const res = await this.$http({ method: "DELETE", url: `/hr/org/${id}` });
         if (res.code !== 200) {
@@ -106,8 +87,6 @@ export default {
         await this.fetchTableData();
       } catch (e) {
         this.$message.warning(e.message);
-      } finally {
-        this.loading = false;
       }
     },
 
@@ -120,26 +99,6 @@ export default {
           return;
         }
         this.tableData = res.data;
-      } catch (e) {
-        this.$message.warning(e.message);
-      } finally {
-        this.loading = false;
-      }
-    },
-
-    async switchStatus({ id, enable }) {
-      this.loading = true;
-      try {
-        const res = await this.$http({
-          method: "PUT",
-          url: `/hr/org/${id}/enable`,
-          data: { enable },
-        });
-        if (res.code !== 200) {
-          this.$message.warning(res.message);
-          return;
-        }
-        await this.fetchTableData();
       } catch (e) {
         this.$message.warning(e.message);
       } finally {

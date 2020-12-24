@@ -4,7 +4,7 @@
       <a-tab-pane key="contact" tab="内部通讯录管理">
         <contact />
       </a-tab-pane>
-      <a-tab-pane key="department" tab="部门管理">
+      <a-tab-pane key="dept" tab="部门管理">
         <dept />
       </a-tab-pane>
     </a-tabs>

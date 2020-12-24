@@ -43,13 +43,6 @@
           placeholder="请选择可见菜单"
         />
       </a-form-model-item>
-      <a-form-model-item label="启用状态" prop="enable">
-        <a-switch
-          v-model="formData.enable"
-          checked-children="已启用"
-          un-checked-children="已停用"
-        />
-      </a-form-model-item>
       <a-form-model-item label="部门备注" prop="remark">
         <a-textarea
           v-model="formData.remark"
@@ -82,7 +75,6 @@ export default {
         id: "",
         parent_id: "",
         name: "",
-        enable: true,
         menu_names: [],
         remark: "",
       },
@@ -159,7 +151,6 @@ export default {
         id: "",
         parent_id: "",
         name: "",
-        enable: true,
         menu_names: [],
         remark: "",
       };

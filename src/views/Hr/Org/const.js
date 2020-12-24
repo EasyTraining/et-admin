@@ -1,6 +1,7 @@
 export const deptTableColumns = [
   {
     title: "部门名称",
+    width: 400,
     dataIndex: "name",
   },
   {
@@ -8,17 +9,8 @@ export const deptTableColumns = [
     dataIndex: "employee_count",
   },
   {
-    title: "可见菜单数",
-    dataIndex: "menu_names_count",
-  },
-  {
     title: "部门备注",
     dataIndex: "remark",
-  },
-  {
-    title: "启用状态",
-    width: 120,
-    scopedSlots: { customRender: "enable" },
   },
   {
     title: "更新时间",
@@ -31,3 +23,26 @@ export const deptTableColumns = [
     scopedSlots: { customRender: "action" },
   },
 ];
+
+export const employeeTableColumns = [
+  {
+    title: "工号",
+    dataIndex: "work_code",
+  },
+  {
+    title: "名称",
+    dataIndex: "name",
+  },
+  {
+    title: "职位",
+    dataIndex: "position",
+  },
+  {
+    title: "手机",
+    dataIndex: "phone",
+  },
+  {
+    title: "邮箱",
+    dataIndex: "email",
+  },
+]

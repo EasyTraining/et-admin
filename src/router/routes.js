@@ -261,7 +261,7 @@ export default [
           {
             name: "/hr/join-in",
             path: "/hr/join-in",
-            component: () => import(/* webpackChunkName: "hr" */ "@/views/Hr/Index"),
+            component: () => import(/* webpackChunkName: "hr" */ "@/views/Hr/JoinIn/Index"),
             meta: { title: "办理入职" },
           },
           {

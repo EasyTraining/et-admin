@@ -38,12 +38,12 @@
 const tableColumns = [
   {
     title: "字典编码",
-    width: 150,
+    width: 200,
     dataIndex: "code",
   },
   {
     title: "字典名称",
-    width: 100,
+    width: 150,
     dataIndex: "name",
   },
   {

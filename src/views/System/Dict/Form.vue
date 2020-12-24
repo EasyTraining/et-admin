@@ -37,6 +37,7 @@
     </a-form-model>
 
     <footer-tool-bar>
+      <a-button :loading="submitting" @click="goBack">返回</a-button>
       <a-button :loading="submitting" type="primary" icon="save" @click="submit">保存</a-button>
     </footer-tool-bar>
   </div>
@@ -92,10 +93,15 @@ export default {
       this.formData.options = options;
     },
 
+    goBack() {
+      this.$router.go(-1);
+    },
+
     async submit() {
       this.$refs.form.validate(async (valid) => {
         if (!valid) return;
         const fd = _.cloneDeep(this.formData);
+        fd.code = fd.code.toUpperCase();
         if (fd.options.length === 0) {
           this.$message.warn("字典选项不能为空");
           return;
