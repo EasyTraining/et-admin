@@ -98,7 +98,7 @@ export default {
           const hashed_pwd = sha256(password);
           const res = await this.$http({
             method: "POST",
-            url: "/system/employee_login",
+            url: "/hr/employee_login",
             data: {
               account,
               hashed_pwd,

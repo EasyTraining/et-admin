@@ -93,7 +93,7 @@ export default {
   methods: {
     async fetchUsers() {
       try {
-        const res = await this.$http({ method: "GET", url: "/system/employee_util/simple_list" });
+        const res = await this.$http({ method: "GET", url: "/hr/employee_util/simple_list" });
         if (res.code !== 200) {
           this.$message.warning(res.message);
           return;

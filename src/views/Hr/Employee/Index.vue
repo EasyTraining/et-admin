@@ -113,7 +113,7 @@ export default {
     async onRemove({ id }) {
       this.loading = true;
       try {
-        const res = await this.$http({ method: "DELETE", url: `/system/employee/${id}` });
+        const res = await this.$http({ method: "DELETE", url: `/hr/employee/${id}` });
         if (res.code !== 200) {
           this.$message.warning(res.message);
           return;
@@ -130,7 +130,7 @@ export default {
     async fetchTableData() {
       this.loading = true;
       try {
-        const res = await this.$http({ method: "GET", url: "/system/employee" });
+        const res = await this.$http({ method: "GET", url: "/hr/employee" });
         if (res.code !== 200) {
           this.$message.warning(res.message);
           return;
@@ -150,7 +150,7 @@ export default {
       try {
         const res = await this.$http({
           method: "PUT",
-          url: `/system/employee/${id}/enable`,
+          url: `/hr/employee/${id}/enable`,
           data: { enable },
         });
         if (res.code !== 200) {

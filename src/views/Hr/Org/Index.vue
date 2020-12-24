@@ -80,7 +80,7 @@ export default {
     async onEdit({ id }) {
       this.loading = true;
       try {
-        const res = await this.$http({ method: "GET", url: `/system/org/${id}` });
+        const res = await this.$http({ method: "GET", url: `/hr/org/${id}` });
         if (res.code !== 200) {
           this.$message.warning(res.message);
           return;
@@ -97,7 +97,7 @@ export default {
     async onRemove({ id }) {
       this.loading = true;
       try {
-        const res = await this.$http({ method: "DELETE", url: `/system/org/${id}` });
+        const res = await this.$http({ method: "DELETE", url: `/hr/org/${id}` });
         if (res.code !== 200) {
           this.$message.warning(res.message);
           return;
@@ -114,7 +114,7 @@ export default {
     async fetchTableData() {
       this.loading = true;
       try {
-        const res = await this.$http({ method: "GET", url: "/system/org" });
+        const res = await this.$http({ method: "GET", url: "/hr/org" });
         if (res.code !== 200) {
           this.$message.warning(res.message);
           return;
@@ -132,7 +132,7 @@ export default {
       try {
         const res = await this.$http({
           method: "PUT",
-          url: `/system/org/${id}/enable`,
+          url: `/hr/org/${id}/enable`,
           data: { enable },
         });
         if (res.code !== 200) {

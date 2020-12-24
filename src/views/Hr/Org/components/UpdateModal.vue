@@ -104,7 +104,7 @@ export default {
   methods: {
     async fetchOrgTreeData() {
       try {
-        const res = await this.$http({ method: "GET", url: `/system/org_util/tree` });
+        const res = await this.$http({ method: "GET", url: `/hr/org_util/tree` });
         if (res.code !== 200) {
           this.$message.warning(res.message);
           return;
@@ -135,8 +135,8 @@ export default {
         try {
           const { id, ...rest } = this.formData;
           const res = id
-            ? await this.$http({ method: "PUT", url: `/system/org/${id}`, data: rest })
-            : await this.$http({ method: "POST", url: "/system/org", data: rest });
+            ? await this.$http({ method: "PUT", url: `/hr/org/${id}`, data: rest })
+            : await this.$http({ method: "POST", url: "/hr/org", data: rest });
           if (res.code !== 200) {
             this.$message.warning(res.message);
             return;

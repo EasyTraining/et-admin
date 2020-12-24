@@ -62,7 +62,7 @@ export default {
   methods: {
     async fetchDetail() {
       try {
-        const res = await this.$http({ method: "GET", url: `/system/employee/${this.id}` });
+        const res = await this.$http({ method: "GET", url: `/hr/employee/${this.id}` });
         if (res.code !== 200) {
           this.$message.warning(res.message);
           return;
@@ -91,7 +91,7 @@ export default {
           const hashed_pwd = sha256(new_pwd);
           const res = await this.$http({
             method: "PUT",
-            url: `/system/employee/${id}/reset_password`,
+            url: `/hr/employee/${id}/reset_password`,
             data: { hashed_pwd },
           });
           if (res.code !== 200) {

@@ -34,7 +34,7 @@ export default {
     async fetchTreeData() {
       this.loading = true;
       try {
-        const res = await this.$http({ method: "GET", url: "/system/org_util/org_employee_tree" });
+        const res = await this.$http({ method: "GET", url: "/hr/org_util/org_employee_tree" });
         if (res.code !== 200) {
           this.$message.warning(res.message);
           return;
