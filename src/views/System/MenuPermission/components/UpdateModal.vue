@@ -4,7 +4,7 @@
     :width="800"
     centered
     :visible="visible"
-    :title="formData.id ? '编辑部门' : '添加部门'"
+    title="设置部门可见菜单"
     @cancel="onCancel"
     @ok="onOk"
   >
@@ -15,27 +15,20 @@
       :label-col="{ span: 6 }"
       :wrapper-col="{ span: 15 }"
     >
-      <a-form-model-item label="上级部门" prop="parent_id" extra="留空代表顶级部门">
+      <a-form-model-item label="部门名称" prop="name">
+        {{ formData.name }}
+      </a-form-model-item>
+      <a-form-model-item label="可见菜单" prop="menu_names">
         <a-tree-select
-          v-model="formData.parent_id"
-          :tree-data="orgTreeData"
-          :replace-fields="{ title: 'name', key: 'id', value: 'id' }"
+          v-model="formData.menu_names"
+          :tree-data="menuTreeData"
+          :replace-fields="{ title: 'title', key: 'id', value: 'name' }"
           :dropdown-style="{ maxHeight: '400px', overflow: 'auto' }"
           allow-clear
           tree-default-expand-all
+          tree-checkable
           style="width: 100%"
-          placeholder="请选择上级部门"
-        />
-      </a-form-model-item>
-      <a-form-model-item label="部门名称" prop="name">
-        <a-input v-model="formData.name" :max-length="100" placeholder="请填写部门名称" />
-      </a-form-model-item>
-      <a-form-model-item label="部门备注" prop="remark">
-        <a-textarea
-          v-model="formData.remark"
-          :max-length="300"
-          :auto-size="{ minRows: 3, maxRows: 5 }"
-          placeholder="请填写部门备注"
+          placeholder="请选择可见菜单"
         />
       </a-form-model-item>
     </a-form-model>
@@ -46,7 +39,7 @@
 import { _ } from "@/utils";
 
 const formRules = {
-  name: [{ required: true, message: "请填写部门名称" }],
+  menu_names: [{ required: true, message: "请选择可见菜单" }],
 };
 
 export default {
@@ -54,13 +47,12 @@ export default {
   props: ["initialValues", "visible"],
   data() {
     return {
-      orgTreeData: [],
+      menuTreeData: [],
 
       formData: {
         id: "",
-        parent_id: "",
         name: "",
-        remark: "",
+        menu_names: [],
       },
       formRules,
     };
@@ -73,18 +65,18 @@ export default {
     },
   },
   mounted() {
-    this.fetchOrgTreeData();
+    this.fetchMenuTreeData();
   },
 
   methods: {
-    async fetchOrgTreeData() {
+    async fetchMenuTreeData() {
       try {
-        const res = await this.$http({ method: "GET", url: "/hr/org_util/tree" });
+        const res = await this.$http({ method: "GET", url: `/system/menu_util/tree` });
         if (res.code !== 200) {
           this.$message.warning(res.message);
           return;
         }
-        this.orgTreeData = res.data || [];
+        this.menuTreeData = res.data || [];
       } catch (e) {
         this.$message.warning(e.message);
       }
@@ -95,10 +87,12 @@ export default {
         if (!valid) return;
         this.loading = true;
         try {
-          const { id, ...rest } = this.formData;
-          const res = id
-            ? await this.$http({ method: "PUT", url: `/hr/org/${id}`, data: rest })
-            : await this.$http({ method: "POST", url: "/hr/org", data: rest });
+          const { id, menu_names } = this.formData;
+          const res = await this.$http({
+            method: "PUT",
+            url: `/hr/org/${id}`,
+            data: { menu_names },
+          });
           if (res.code !== 200) {
             this.$message.warning(res.message);
             return;
@@ -106,7 +100,6 @@ export default {
           this.$message.success("操作成功");
           this.$emit("ok", _.cloneDeep(this.formData));
           this.onCancel();
-          await this.fetchOrgTreeData();
         } catch (e) {
           this.$message.warning(e.message);
         } finally {
@@ -119,9 +112,8 @@ export default {
       this.$emit("cancel", null);
       this.formData = {
         id: "",
-        parent_id: "",
         name: "",
-        remark: "",
+        menu_names: [],
       };
       this.$refs.form.resetFields();
     },

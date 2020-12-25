@@ -424,12 +424,12 @@ export default [
             component: () => import(/* webpackChunkName: "system" */ "@/views/System/Config/Index"),
             meta: { title: "全局配置" },
           },
-          {
-            name: "/system/deploy",
-            path: "/system/deploy",
-            component: () => import(/* webpackChunkName: "system" */ "@/views/System/Deploy/Index"),
-            meta: { title: "应用部署" },
-          },
+          // {
+          //   name: "/system/deploy",
+          //   path: "/system/deploy",
+          //   component: () => import(/* webpackChunkName: "system" */ "@/views/System/Deploy/Index"),
+          //   meta: { title: "应用部署" },
+          // },
           {
             name: "/system/menu",
             path: "/system/menu",
@@ -455,6 +455,12 @@ export default [
             path: "/system/dict/edit/:id",
             component: () => import(/* webpackChunkName: "system" */ "@/views/System/Dict/Form"),
             meta: { title: "编辑字典" },
+          },
+          {
+            name: "/system/menu-permission",
+            path: "/system/menu-permission",
+            component: () => import(/* webpackChunkName: "system" */ "@/views/System/MenuPermission/Index"),
+            meta: { title: "菜单权限" },
           },
           {
             name: "/system/log",
