@@ -416,8 +416,14 @@ export default [
         path: "/system",
         component: RouteView,
         meta: { title: "系统管理", icon: "setting" },
-        redirect: "/system/deploy",
+        redirect: "/system/config",
         children: [
+          {
+            name: "/system/config",
+            path: "/system/config",
+            component: () => import(/* webpackChunkName: "system" */ "@/views/System/Config/Index"),
+            meta: { title: "全局配置" },
+          },
           {
             name: "/system/deploy",
             path: "/system/deploy",

@@ -490,7 +490,7 @@ import { formRules } from "./const";
 import { fetchMultipleDict } from "./util";
 
 export default {
-  name: "JoinIn",
+  name: "EmployeeForm",
   components: { AvatarUpload },
   data() {
     return {

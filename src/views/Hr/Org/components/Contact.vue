@@ -6,35 +6,24 @@
           show-line
           default-expand-all
           :tree-data="treeData"
-          :replace-fields="{ title: 'name', key: 'id', value: 'id' }"
+          :replace-fields="{ title: 'name_with_count', key: 'id', value: 'id' }"
+          @select="onOrgSelect"
         />
       </a-col>
       <a-col :span="18">
         <a-table
           size="small"
-          :columns="tableColumns"
           row-key="id"
+          :columns="tableColumns"
           :data-source="tableData"
           :loading="loading"
           :pagination="tablePager"
           @change="onTableChange"
         >
-          <template slot="enable" slot-scope="text, record">
-            <a-switch
-              v-model="record.enable"
-              checked-children="已启用"
-              un-checked-children="已停用"
-              @change="switchStatus(record)"
-            />
-          </template>
           <template slot="action" slot-scope="text, record">
-            <a href="javascript:;" @click="onReset(record)">重置密码</a>
+            <router-link :to="'/hr/employee/detail/' + record.id">查看</router-link>
             <a-divider type="vertical" />
-            <a href="javascript:;" @click="onEdit(record)">编辑</a>
-            <a-divider type="vertical" />
-            <a-popconfirm title="删除以后无法恢复, 是否继续?" @confirm="onRemove(record)">
-              <a href="javascript:;">删除</a>
-            </a-popconfirm>
+            <router-link :to="'/hr/employee/edit/' + record.id">编辑</router-link>
           </template>
         </a-table>
       </a-col>
@@ -52,9 +41,17 @@ export default {
       mounting: false,
       treeData: [],
       curOrgId: "",
+      loading: false,
 
       tableColumns: employeeTableColumns,
       tableData: [],
+      tablePager: {
+        current: 1,
+        pageSize: 30,
+        showSizeChanger: true,
+        showQuickJumper: true,
+        total: 0,
+      },
     };
   },
   async mounted() {
@@ -64,15 +61,32 @@ export default {
     this.mounting = false;
   },
   methods: {
+    onOrgSelect(org_ids) {
+      if (org_ids.length) {
+        this.curOrgId = org_ids[0];
+        this.fetchTableData();
+      }
+    },
+
+    onTableChange(pagination, filters, sorter) {
+      const { current, pageSize } = pagination;
+      this.tablePager.current = current;
+      this.tablePager.pageSize = pageSize;
+      this.fetchTableData();
+    },
+
     async fetchTreeData() {
       this.loading = true;
       try {
-        const res = await this.$http({ method: "GET", url: "/hr/org_util/org_employee_tree" });
+        const res = await this.$http({ method: "GET", url: "/hr/org_util/tree" });
         if (res.code !== 200) {
           this.$message.warning(res.message);
           return;
         }
         this.treeData = res.data;
+        if (this.treeData) {
+          this.curOrgId = this.treeData[0].id;
+        }
       } catch (e) {
         this.$message.warning(e.message);
       } finally {
@@ -83,13 +97,19 @@ export default {
     async fetchTableData() {
       this.loading = true;
       try {
-        const res = await this.$http({ method: "GET", url: "/hr/employee" });
+        const { current, pageSize } = this.tablePager;
+        const res = await this.$http({
+          method: "GET",
+          url: "/hr/employee",
+          params: { current, pageSize, org_id: this.curOrgId },
+        });
         if (res.code !== 200) {
           this.$message.warning(res.message);
           return;
         }
         const { total, data } = res.data;
         this.tableData = data;
+        this.tablePager.total = total;
       } catch (e) {
         this.$message.warning(e.message);
       } finally {

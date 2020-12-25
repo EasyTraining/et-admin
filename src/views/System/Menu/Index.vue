@@ -2,7 +2,6 @@
   <div>
     <p>
       <a-button type="primary" icon="plus" @click="onAdd">添加菜单</a-button>
-      <a-button icon="bars" @click="showTreeModal">查看树形结构</a-button>
     </p>
 
     <a-table
@@ -30,7 +29,6 @@
       </template>
     </a-table>
 
-    <tree-modal :visible="treeModalVisible" @cancel="closeTreeModal" />
     <update-modal
       :visible="visible"
       :initial-values="editedRecord"
@@ -43,11 +41,10 @@
 <script>
 import { tableColumns } from "./const";
 import UpdateModal from "./components/UpdateModal";
-import TreeModal from "./components/TreeModal";
 
 export default {
   name: "OrgIndex",
-  components: { UpdateModal, TreeModal },
+  components: { UpdateModal },
   data() {
     return {
       mounting: false,
@@ -58,8 +55,6 @@ export default {
 
       visible: false,
       editedRecord: null,
-
-      treeModalVisible: false,
     };
   },
   async mounted() {
@@ -126,14 +121,6 @@ export default {
       } finally {
         this.loading = false;
       }
-    },
-
-    showTreeModal() {
-      this.treeModalVisible = true;
-    },
-
-    closeTreeModal() {
-      this.treeModalVisible = false;
     },
 
     closeModal() {

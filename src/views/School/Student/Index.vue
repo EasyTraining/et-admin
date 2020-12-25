@@ -9,10 +9,10 @@
         </a-select>
       </div>
       <div class="filter__item">
-        <a-input v-model="tableQuery.name" style="width: 200px" placeholder="姓名关键字" />
+        <a-input v-model="tableQuery.name" style="width: 200px" placeholder="学员姓名关键字" />
       </div>
       <div class="filter__item">
-        <a-input v-model="tableQuery.phone" style="width: 200px" placeholder="手机号码关键字" />
+        <a-input v-model="tableQuery.phone" style="width: 200px" placeholder="学员手机号码关键字" />
       </div>
       <div class="filter__item">
         <a-button :loading="loading" type="primary" @click="search">查询</a-button>

@@ -9,7 +9,7 @@
     :footer="null"
     @cancel="onCancel"
   >
-    <a-spin :spinning="loading" tip="正在接受数据...">
+    <a-spin :spinning="loading" tip="正在接收数据...">
       <div style="min-height: 300px">
         <div class="log" v-for="(log, index) in logs" :key="index">
           <template v-if="log.done">

@@ -23,7 +23,6 @@
       </template>
     </a-table>
 
-    <tree-modal :visible="treeModalVisible" @cancel="closeTreeModal" />
     <update-modal
       :visible="updateModalVisible"
       :initial-values="editedRecord"
@@ -36,11 +35,10 @@
 <script>
 import { deptTableColumns } from "../const";
 import UpdateModal from "./UpdateModal";
-import TreeModal from "./TreeModal";
 
 export default {
   name: "Dept",
-  components: { TreeModal, UpdateModal },
+  components: { UpdateModal },
   data() {
     return {
       mounting: false,
@@ -49,7 +47,6 @@ export default {
       tableColumns: deptTableColumns,
       tableData: [],
 
-      treeModalVisible: false,
       updateModalVisible: false,
       editedRecord: null,
     };
@@ -104,14 +101,6 @@ export default {
       } finally {
         this.loading = false;
       }
-    },
-
-    showTreeModal() {
-      this.treeModalVisible = true;
-    },
-
-    closeTreeModal() {
-      this.treeModalVisible = false;
     },
 
     closeUpdateModal() {

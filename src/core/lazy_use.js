@@ -96,6 +96,10 @@ Vue.use(Tree);
 Vue.use(TreeSelect);
 Vue.use(Empty);
 
+message.config({
+  maxCount: 1,
+});
+
 Vue.prototype.$confirm = Modal.confirm;
 Vue.prototype.$message = message;
 Vue.prototype.$notification = notification;
@@ -112,11 +116,14 @@ import "echarts/lib/chart/funnel";
 import "echarts/lib/component/tooltip";
 import "echarts/lib/component/title";
 import "echarts/lib/component/legend";
+
 Vue.component("v-chart", ECharts);
 
 import FooterToolBar from "@/components/FooterToolbar";
+
 Vue.component("footer-tool-bar", FooterToolBar);
 
 import "viewerjs/dist/viewer.css";
 import Viewer from "v-viewer";
+
 Vue.use(Viewer);

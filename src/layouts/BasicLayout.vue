@@ -1,5 +1,5 @@
 <template>
-  <a-spin tip="数据接收中..." :spinning="loading">
+  <a-spin tip="正在接收数据..." :spinning="loading">
     <pro-layout
       v-bind="settings"
       :menus="authorizedRoutes"
@@ -10,8 +10,13 @@
       :handleCollapse="onCollapse"
     >
       <template v-slot:menuHeaderRender>
-        <img src="../assets/logo.png" width="40" alt="" />
-        <h1>{{ title }}</h1>
+        <img
+          v-if="siteCfg.company_logo"
+          :src="siteCfg.company_logo"
+          :alt="siteCfg.company_name"
+          width="40"
+        />
+        <h1>{{ siteCfg.company_name }}运营管理系统</h1>
       </template>
 
       <template v-slot:rightContentRender>
@@ -32,7 +37,7 @@
       </template>
 
       <template v-slot:footerRender>
-        <div class="et-footer">Copyright © 易培训</div>
+        <div class="et-footer">Copyright © {{ siteCfg.company_name }}</div>
       </template>
 
       <page-header-wrapper />
@@ -47,12 +52,14 @@ import { Modal } from "ant-design-vue";
 import { mapState } from "vuex";
 import TreeNodeUtils from "tree-node-utils";
 import setting from "@/setting";
-import { Cookies } from "@/utils";
+import { Cookies, getSiteCfg } from "@/utils";
 
 const treeUtils = new TreeNodeUtils({
   childrenField: "children",
   keyField: "id",
 });
+
+const siteCfg = getSiteCfg();
 
 export default {
   name: "BasicLayout",
@@ -61,7 +68,7 @@ export default {
       loading: false,
       collapsed: false,
       authorizedRoutes: [],
-      title: setting.title,
+      siteCfg,
       settings: {
         layout: setting.layout,
         theme: setting.navTheme,

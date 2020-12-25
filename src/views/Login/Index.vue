@@ -1,11 +1,15 @@
 <template>
-  <div id="userLayout">
+  <div id="userLayout" :style="{ 'background-image': 'url(' + siteCfg.login_background_img + ')' }">
     <div class="container">
       <div class="main">
         <a-form-model ref="form" :model="formData" :rules="formRules">
           <div class="logo">
-            <img src="../../assets/logo.png" alt="" />
-            <h2>登录{{ title }}</h2>
+            <img
+              v-if="siteCfg.company_logo"
+              :src="siteCfg.company_logo"
+              :alt="siteCfg.company_name"
+            />
+            <h2>登录{{ siteCfg.company_name }}</h2>
           </div>
           <a-form-model-item prop="account">
             <a-input v-model="formData.account" size="large" type="text" placeholder="用户名">
@@ -47,14 +51,16 @@
 
 <script>
 import setting from "@/setting";
-import { sha256, Cookies, getBrowser } from "@/utils";
+import { sha256, Cookies, getBrowser, getSiteCfg } from "@/utils";
+
+const siteCfg = getSiteCfg();
 
 export default {
   name: "Login",
   data() {
     return {
       loading: false,
-      title: setting.title,
+      siteCfg,
       captchaImg: "",
       formData: {
         account: "",
@@ -133,8 +139,7 @@ export default {
 <style lang="less" scoped>
 #userLayout {
   height: 100%;
-  background-color: #fff;
-  background-image: url("../../assets/login-bg.jpg");
+  background-color: #24292e;
   background-size: cover;
 
   .container {
@@ -157,6 +162,7 @@ export default {
 
         img {
           height: 80px;
+          margin-bottom: 8px;
         }
       }
     }

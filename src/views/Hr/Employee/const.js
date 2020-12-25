@@ -1,7 +1,15 @@
 export const tableColumns = [
   {
-    title: "用户昵称",
+    title: "工号",
+    dataIndex: "work_code",
+  },
+  {
+    title: "姓名",
     dataIndex: "name",
+  },
+  {
+    title: "手机号码",
+    dataIndex: "phone",
   },
   {
     title: "部门",
@@ -14,10 +22,6 @@ export const tableColumns = [
   {
     title: "入职时间",
     dataIndex: "join_date",
-  },
-  {
-    title: "手机号码",
-    dataIndex: "phone",
   },
   {
     title: "操作",

@@ -19,7 +19,7 @@ export const deptTableColumns = [
   },
   {
     title: "操作",
-    width: 180,
+    width: 150,
     scopedSlots: { customRender: "action" },
   },
 ];
@@ -30,19 +30,28 @@ export const employeeTableColumns = [
     dataIndex: "work_code",
   },
   {
-    title: "名称",
+    title: "姓名",
     dataIndex: "name",
+  },
+  {
+    title: "手机号码",
+    dataIndex: "phone",
+  },
+  {
+    title: "部门",
+    dataIndex: "org_name",
   },
   {
     title: "职位",
     dataIndex: "position",
   },
   {
-    title: "手机",
-    dataIndex: "phone",
+    title: "入职时间",
+    dataIndex: "join_date",
   },
   {
-    title: "邮箱",
-    dataIndex: "email",
+    title: "操作",
+    width: 150,
+    scopedSlots: { customRender: "action" },
   },
 ]

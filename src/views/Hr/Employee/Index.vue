@@ -1,5 +1,21 @@
 <template>
   <div>
+    <div class="filter">
+      <div class="filter__item">
+        <a-input v-model="tableQuery.work_code" style="width: 200px" placeholder="员工工号关键字" />
+      </div>
+      <div class="filter__item">
+        <a-input v-model="tableQuery.name" style="width: 200px" placeholder="员工姓名关键字" />
+      </div>
+      <div class="filter__item">
+        <a-input v-model="tableQuery.phone" style="width: 200px" placeholder="员工手机号码关键字" />
+      </div>
+      <div class="filter__item">
+        <a-button :loading="loading" type="primary" @click="search">查询</a-button>
+        <a-button :loading="loading" @click="reset">重置</a-button>
+      </div>
+    </div>
+
     <p>
       <router-link to="/hr/employee/add">
         <a-button type="primary" icon="plus">添加员工</a-button>
@@ -28,12 +44,17 @@
 import { tableColumns } from "./const";
 
 export default {
-  name: "SystemEmployeeIndex",
+  name: "EmployeeIndex",
   data() {
     return {
       mounting: false,
       loading: false,
 
+      tableQuery: {
+        name: "",
+        phone: "",
+        work_code: "",
+      },
       tableColumns,
       tableData: [],
       tablePager: {
@@ -49,6 +70,20 @@ export default {
     await this.fetchTableData();
   },
   methods: {
+    search() {
+      this.tablePager.current = 1;
+      this.fetchTableData();
+    },
+
+    reset() {
+      this.tableQuery = {
+        name: "",
+        phone: "",
+        work_code: "",
+      };
+      this.search();
+    },
+
     onTableChange(pagination, filters, sorter) {
       const { current, pageSize } = pagination;
       this.tablePager.current = current;
@@ -56,15 +91,15 @@ export default {
       this.fetchTableData();
     },
 
-    onReset({ id }) {
-      this.currentUserId = id;
-      this.resetModalVisible = true;
-    },
-
     async fetchTableData() {
       this.loading = true;
       try {
-        const res = await this.$http({ method: "GET", url: "/hr/employee" });
+        const { current, pageSize } = this.tablePager;
+        const res = await this.$http({
+          method: "GET",
+          url: "/hr/employee",
+          params: { current, pageSize, ...this.tableQuery },
+        });
         if (res.code !== 200) {
           this.$message.warning(res.message);
           return;
