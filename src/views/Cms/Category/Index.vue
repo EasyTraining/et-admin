@@ -1,18 +1,28 @@
 <template>
   <div>
+    <div class="filter">
+      <div class="filter__item">
+        <a-input v-model="tableQuery.name" style="width: 200px" placeholder="分类名称关键字" />
+      </div>
+      <div class="filter__item">
+        <a-button :loading="loading" type="primary" @click="search">查询</a-button>
+        <a-button :loading="loading" @click="reset">重置</a-button>
+      </div>
+    </div>
+
     <p>
       <a-button type="primary" icon="plus" @click="onAdd">添加分类</a-button>
-      <a-button icon="bars" @click="showTreeModal">查看树形结构</a-button>
     </p>
 
     <a-table
+      v-if="!loading"
       size="small"
-      :columns="tableColumns"
       row-key="id"
+      default-expand-all-rows
+      :columns="tableColumns"
       :data-source="tableData"
       :loading="loading"
-      :pagination="tablePager"
-      @change="onTableChange"
+      :pagination="false"
     >
       <template slot="enable" slot-scope="text, record">
         <a-switch
@@ -25,13 +35,12 @@
       <template slot="action" slot-scope="text, record">
         <a href="javascript:;" @click="onEdit(record)">编辑</a>
         <a-divider type="vertical" />
-        <a-popconfirm title="删除以后无法恢复, 是否继续?" @confirm="onRemove(record)">
+        <a-popconfirm title="删除以后无法恢复, 是否继续?" @confirm="remove(record)">
           <a href="javascript:;">删除</a>
         </a-popconfirm>
       </template>
     </a-table>
 
-    <tree-modal :visible="treeModalVisible" @cancel="closeTreeModal" />
     <update-modal
       :visible="updateModalVisible"
       :initial-values="editedRecord"
@@ -44,27 +53,21 @@
 <script>
 import { tableColumns } from "./const";
 import UpdateModal from "./components/UpdateModal";
-import TreeModal from "./components/TreeModal";
 
 export default {
   name: "CmsCategoryIndex",
-  components: { TreeModal, UpdateModal },
+  components: { UpdateModal },
   data() {
     return {
       mounting: false,
       loading: false,
 
+      tableQuery: {
+        name: "",
+      },
       tableColumns,
       tableData: [],
-      tablePager: {
-        current: 1,
-        pageSize: 30,
-        showSizeChanger: true,
-        showQuickJumper: true,
-        total: 0,
-      },
 
-      treeModalVisible: false,
       updateModalVisible: false,
       editedRecord: null,
     };
@@ -73,11 +76,15 @@ export default {
     await this.fetchTableData();
   },
   methods: {
-    onTableChange(pagination, filters, sorter) {
-      const { current, pageSize } = pagination;
-      this.tablePager.current = current;
-      this.tablePager.pageSize = pageSize;
+    search() {
       this.fetchTableData();
+    },
+
+    reset() {
+      this.tableQuery = {
+        name: "",
+      };
+      this.search();
     },
 
     onAdd() {
@@ -89,16 +96,19 @@ export default {
       this.updateModalVisible = true;
     },
 
-    async onRemove({ id }) {
+    async fetchTableData() {
       this.loading = true;
       try {
-        const res = await this.$http({ method: "DELETE", url: `/cms/category/${id}` });
+        const res = await this.$http({
+          method: "GET",
+          url: "/cms/category",
+          params: this.tableQuery,
+        });
         if (res.code !== 200) {
           this.$message.warning(res.message);
           return;
         }
-        this.$message.success(res.message);
-        await this.fetchTableData();
+        this.tableData = res.data;
       } catch (e) {
         this.$message.warning(e.message);
       } finally {
@@ -106,17 +116,19 @@ export default {
       }
     },
 
-    async fetchTableData() {
+    async remove({ id }) {
       this.loading = true;
       try {
-        const res = await this.$http({ method: "GET", url: "/cms/category" });
+        const res = await this.$http({
+          method: "DELETE",
+          url: `/cms/category/${id}`,
+        });
         if (res.code !== 200) {
           this.$message.warning(res.message);
           return;
         }
-        const { total, data } = res.data;
-        this.tableData = data;
-        this.tablePager.total = total;
+        this.$message.success(res.message);
+        await this.fetchTableData();
       } catch (e) {
         this.$message.warning(e.message);
       } finally {
@@ -142,14 +154,6 @@ export default {
       } finally {
         this.loading = false;
       }
-    },
-
-    showTreeModal() {
-      this.treeModalVisible = true;
-    },
-
-    closeTreeModal() {
-      this.treeModalVisible = false;
     },
 
     closeUpdateModal() {

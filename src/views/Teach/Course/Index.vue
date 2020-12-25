@@ -22,7 +22,7 @@
         <a-divider type="vertical" />
         <a href="javascript:;" @click="onEdit(record)">编辑</a>
         <a-divider type="vertical" />
-        <a-popconfirm title="删除以后无法恢复, 是否继续?" @confirm="onRemove(record)">
+        <a-popconfirm title="删除以后无法恢复, 是否继续?" @confirm="remove(record)">
           <a href="javascript:;">删除</a>
         </a-popconfirm>
       </template>
@@ -87,7 +87,7 @@ export default {
       this.updateModalVisible = true;
     },
 
-    async onRemove({ id }) {
+    async remove({ id }) {
       this.loading = true;
       try {
         const res = await this.$http({ method: "DELETE", url: `/teach/course/${id}` });

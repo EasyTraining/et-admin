@@ -2,7 +2,7 @@
   <div>
     <div class="filter">
       <div class="filter__item">
-        <a-input v-model="tableQuery.title" style="width: 200px" placeholder="文章标题关键字" />
+        <a-input v-model="tableQuery.name" style="width: 200px" placeholder="文件名称关键字" />
       </div>
       <div class="filter__item">
         <a-button :loading="loading" type="primary" @click="search">查询</a-button>
@@ -10,34 +10,22 @@
       </div>
     </div>
 
-    <p>
-      <router-link to="/cms/article/add">
-        <a-button type="primary" icon="plus">添加文章</a-button>
-      </router-link>
-    </p>
-
     <a-table
       size="small"
-      :columns="tableColumns"
       row-key="id"
+      :columns="tableColumns"
       :data-source="tableData"
       :loading="loading"
       :pagination="tablePager"
       @change="onTableChange"
     >
-      <template slot="enable" slot-scope="text, record">
-        <a-switch
-          v-model="record.enable"
-          checked-children="已启用"
-          un-checked-children="已停用"
-          @change="switchStatus(record)"
-        />
+      <template slot="name" slot-scope="text, record">
+        <a :href="record.url || 'javascript:;'" target="_blank">{{ record.name }}</a>
+      </template>
+      <template slot="size" slot-scope="text, record">
+        <span>{{ record.size | humanFileSize }}</span>
       </template>
       <template slot="action" slot-scope="text, record">
-        <router-link :to="'/cms/article/detail/' + record.id">查看</router-link>
-        <a-divider type="vertical" />
-        <router-link :to="'/cms/article/edit/' + record.id">编辑</router-link>
-        <a-divider type="vertical" />
         <a-popconfirm title="删除以后无法恢复, 是否继续?" @confirm="remove(record)">
           <a href="javascript:;">删除</a>
         </a-popconfirm>
@@ -50,14 +38,13 @@
 import { tableColumns } from "./const";
 
 export default {
-  name: "CmsArticleIndex",
+  name: "SystemLogIndex",
   data() {
     return {
-      mounting: false,
       loading: false,
 
       tableQuery: {
-        title: "",
+        name: "",
       },
       tableColumns,
       tableData: [],
@@ -81,7 +68,7 @@ export default {
 
     reset() {
       this.tableQuery = {
-        title: "",
+        name: "",
       };
       this.search();
     },
@@ -99,8 +86,12 @@ export default {
         const { current, pageSize } = this.tablePager;
         const res = await this.$http({
           method: "GET",
-          url: "/cms/article",
-          params: { current, pageSize, ...this.tableQuery },
+          url: "/system/file",
+          params: {
+            current,
+            pageSize,
+            ...this.tableQuery,
+          },
         });
         if (res.code !== 200) {
           this.$message.warning(res.message);
@@ -119,35 +110,12 @@ export default {
     async remove({ id }) {
       this.loading = true;
       try {
-        const res = await this.$http({
-          method: "DELETE",
-          url: `/cms/article/${id}`,
-        });
+        const res = await this.$http({ method: "DELETE", url: `/system/file/${id}` });
         if (res.code !== 200) {
           this.$message.warning(res.message);
           return;
         }
         this.$message.success(res.message);
-        await this.fetchTableData();
-      } catch (e) {
-        this.$message.warning(e.message);
-      } finally {
-        this.loading = false;
-      }
-    },
-
-    async switchStatus({ id, enable }) {
-      this.loading = true;
-      try {
-        const res = await this.$http({
-          method: "PUT",
-          url: `/cms/article/${id}/enable`,
-          data: { enable },
-        });
-        if (res.code !== 200) {
-          this.$message.warning(res.message);
-          return;
-        }
         await this.fetchTableData();
       } catch (e) {
         this.$message.warning(e.message);

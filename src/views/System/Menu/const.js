@@ -1,11 +1,11 @@
 export const tableColumns = [
   {
-    title: "菜单编码",
-    dataIndex: "name",
-  },
-  {
     title: "菜单名称",
     dataIndex: "title",
+  },
+  {
+    title: "菜单编码",
+    dataIndex: "name",
   },
   {
     title: "启用状态",
@@ -19,7 +19,7 @@ export const tableColumns = [
   },
   {
     title: "操作",
-    width: 180,
+    width: 150,
     scopedSlots: { customRender: "action" },
   },
 ];

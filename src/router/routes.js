@@ -462,6 +462,12 @@ export default [
             component: () => import(/* webpackChunkName: "system" */ "@/views/System/Log/Index"),
             meta: { title: "登录日志" },
           },
+          {
+            name: "/system/file",
+            path: "/system/file",
+            component: () => import(/* webpackChunkName: "system" */ "@/views/System/File/Index"),
+            meta: { title: "文件库" },
+          },
         ],
       },
     ],

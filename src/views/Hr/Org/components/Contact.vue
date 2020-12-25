@@ -1,34 +1,41 @@
 <template>
-  <a-card :loading="mounting">
-    <a-row :gutter="15">
-      <a-col :span="6">
-        <a-tree
-          show-line
-          default-expand-all
-          :tree-data="treeData"
-          :replace-fields="{ title: 'name_with_count', key: 'id', value: 'id' }"
-          @select="onOrgSelect"
-        />
-      </a-col>
-      <a-col :span="18">
-        <a-table
-          size="small"
-          row-key="id"
-          :columns="tableColumns"
-          :data-source="tableData"
-          :loading="loading"
-          :pagination="tablePager"
-          @change="onTableChange"
-        >
-          <template slot="action" slot-scope="text, record">
-            <router-link :to="'/hr/employee/detail/' + record.id">查看</router-link>
-            <a-divider type="vertical" />
-            <router-link :to="'/hr/employee/edit/' + record.id">编辑</router-link>
-          </template>
-        </a-table>
-      </a-col>
-    </a-row>
-  </a-card>
+  <div>
+    <p>
+      <router-link to="/hr/employee/add">
+        <a-button type="primary" icon="plus">添加员工</a-button>
+      </router-link>
+    </p>
+    <a-card :loading="mounting">
+      <a-row :gutter="15">
+        <a-col :span="6">
+          <a-tree
+            show-line
+            default-expand-all
+            :tree-data="treeData"
+            :replace-fields="{ title: 'name_with_count', key: 'id', value: 'id' }"
+            @select="onOrgSelect"
+          />
+        </a-col>
+        <a-col :span="18">
+          <a-table
+            size="small"
+            row-key="id"
+            :columns="tableColumns"
+            :data-source="tableData"
+            :loading="loading"
+            :pagination="tablePager"
+            @change="onTableChange"
+          >
+            <template slot="action" slot-scope="text, record">
+              <router-link :to="'/hr/employee/detail/' + record.id">查看</router-link>
+              <a-divider type="vertical" />
+              <router-link :to="'/hr/employee/edit/' + record.id">编辑</router-link>
+            </template>
+          </a-table>
+        </a-col>
+      </a-row>
+    </a-card>
+  </div>
 </template>
 
 <script>
@@ -78,7 +85,10 @@ export default {
     async fetchTreeData() {
       this.loading = true;
       try {
-        const res = await this.$http({ method: "GET", url: "/hr/org_util/tree" });
+        const res = await this.$http({
+          method: "GET",
+          url: "/hr/org_util/tree",
+        });
         if (res.code !== 200) {
           this.$message.warning(res.message);
           return;

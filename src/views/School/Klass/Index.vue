@@ -1,16 +1,27 @@
 <template>
   <div>
+    <div class="filter">
+      <div class="filter__item">
+        <a-input v-model="tableQuery.name" style="width: 200px" placeholder="班级名称关键字" />
+      </div>
+      <div class="filter__item">
+        <a-button :loading="loading" type="primary" @click="search">查询</a-button>
+        <a-button :loading="loading" @click="reset">重置</a-button>
+      </div>
+    </div>
+
     <p>
       <a-button type="primary" icon="plus" @click="onAdd">添加班级</a-button>
     </p>
 
     <a-table
       size="small"
-      :columns="tableColumns"
       row-key="id"
+      :columns="tableColumns"
       :data-source="tableData"
       :loading="loading"
-      :pagination="false"
+      :pagination="tablePager"
+      @change="onTableChange"
     >
       <template slot="action" slot-scope="text, record">
         <router-link :to="'/school/student?klass_id=' + record.id">学员管理</router-link>
@@ -40,8 +51,18 @@ export default {
       mounting: false,
       loading: false,
 
+      tableQuery: {
+        name: "",
+      },
       tableColumns,
       tableData: [],
+      tablePager: {
+        current: 1,
+        pageSize: 30,
+        showSizeChanger: true,
+        showQuickJumper: true,
+        total: 0,
+      },
 
       updateModalVisible: false,
       editedRecord: null,
@@ -51,6 +72,25 @@ export default {
     await this.fetchTableData();
   },
   methods: {
+    search() {
+      this.tablePager.current = 1;
+      this.fetchTableData();
+    },
+
+    reset() {
+      this.tableQuery = {
+        name: "",
+      };
+      this.search();
+    },
+
+    onTableChange(pagination, filters, sorter) {
+      const { current, pageSize } = pagination;
+      this.tablePager.current = current;
+      this.tablePager.pageSize = pageSize;
+      this.fetchTableData();
+    },
+
     onAdd() {
       this.updateModalVisible = true;
     },
@@ -90,12 +130,23 @@ export default {
     async fetchTableData() {
       this.loading = true;
       try {
-        const res = await this.$http({ method: "GET", url: "/school/klass" });
+        const { current, pageSize } = this.tablePager;
+        const res = await this.$http({
+          method: "GET",
+          url: "/school/klass",
+          params: {
+            current,
+            pageSize,
+            ...this.tableQuery,
+          },
+        });
         if (res.code !== 200) {
           this.$message.error(res.message);
           return;
         }
-        this.tableData = res.data;
+        const { total, data } = res.data;
+        this.tableData = data;
+        this.tablePager.total = total;
       } catch (e) {
         this.$message.error(e.message);
       } finally {

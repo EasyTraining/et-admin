@@ -1,5 +1,18 @@
 <template>
   <div>
+    <div class="filter">
+      <div class="filter__item">
+        <a-input v-model="tableQuery.user_name" style="width: 200px" placeholder="用户名称关键字" />
+      </div>
+      <div class="filter__item">
+        <a-input v-model="tableQuery.ip" style="width: 200px" placeholder="IP关键字" />
+      </div>
+      <div class="filter__item">
+        <a-button :loading="loading" type="primary" @click="search">查询</a-button>
+        <a-button :loading="loading" @click="reset">重置</a-button>
+      </div>
+    </div>
+
     <a-table
       size="small"
       :columns="tableColumns"
@@ -25,6 +38,10 @@ export default {
     return {
       loading: false,
 
+      tableQuery: {
+        user_name: "",
+        ip: "",
+      },
       tableColumns,
       tableData: [],
       tablePager: {
@@ -40,6 +57,19 @@ export default {
     await this.fetchTableData();
   },
   methods: {
+    search() {
+      this.tablePager.current = 1;
+      this.fetchTableData();
+    },
+
+    reset() {
+      this.tableQuery = {
+        user_name: "",
+        ip: "",
+      };
+      this.search();
+    },
+
     onTableChange(pagination, filters, sorter) {
       const { current, pageSize } = pagination;
       this.tablePager.current = current;
@@ -50,7 +80,16 @@ export default {
     async fetchTableData() {
       this.loading = true;
       try {
-        const res = await this.$http({ method: "GET", url: "/log/login" });
+        const { current, pageSize } = this.tablePager;
+        const res = await this.$http({
+          method: "GET",
+          url: "/log/login",
+          params: {
+            current,
+            pageSize,
+            ...this.tableQuery,
+          },
+        });
         if (res.code !== 200) {
           this.$message.warning(res.message);
           return;

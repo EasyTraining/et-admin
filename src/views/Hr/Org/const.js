@@ -54,4 +54,4 @@ export const employeeTableColumns = [
     width: 150,
     scopedSlots: { customRender: "action" },
   },
-]
+];

@@ -18,7 +18,7 @@
       <template slot="action" slot-scope="text, record">
         <a href="javascript:;" @click="onEdit(record)">编辑</a>
         <a-divider type="vertical" />
-        <a href="javascript:;" @click="onRemove(record)">删除</a>
+        <a href="javascript:;" @click="remove(record)">删除</a>
       </template>
     </a-table>
 
@@ -98,7 +98,7 @@ export default {
       this.visible = true;
     },
 
-    onRemove(record) {
+    remove(record) {
       this.tableData = this.tableData.filter((item) => item.uuid !== record.uuid);
       this.onSort();
       this.emitChange();
