@@ -106,7 +106,7 @@ export default {
     async remove({ id }) {
       this.loading = true;
       try {
-        const res = await this.$http({ method: "DELETE", url: `/system/menu/${id}`, });
+        const res = await this.$http({ method: "DELETE", url: `/system/menu/${id}` });
         if (res.code !== 200) {
           this.$message.warning(res.message);
           return;

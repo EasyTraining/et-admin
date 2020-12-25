@@ -1,8 +1,21 @@
 <template>
   <div>
-    <a-tabs v-model="curKlassId" @change="onKlassChange">
-      <a-tab-pane v-for="klass in klassList" :key="klass.id" :tab="klass.name" />
-    </a-tabs>
+    <div class="filter">
+      <div class="filter__item">
+        <a-select v-model="tableQuery.klass_id" style="width: 200px" placeholder="请选择班级">
+          <a-select-option v-for="klass in klassList" :key="klass.id" :value="klass.id">
+            {{ klass.name }}
+          </a-select-option>
+        </a-select>
+      </div>
+      <div class="filter__item">
+        <a-input v-model="tableQuery.name" style="width: 200px" placeholder="学员姓名关键字" />
+      </div>
+      <div class="filter__item">
+        <a-button :loading="studentLoading" type="primary" @click="search">查询</a-button>
+        <a-button :loading="studentLoading" @click="reset">重置</a-button>
+      </div>
+    </div>
 
     <a-card size="small" title="班级信息">
       <a-spin :spinning="klassLoading">
@@ -68,7 +81,7 @@
 
     <broadcast-modal
       :visible="broadcastVisible"
-      :klass-id="curKlassId"
+      :klass-id="tableQuery.klass_id"
       @cancel="closeBroadcastModal"
       @ok="onBroadcastModalOk"
     />
@@ -94,10 +107,13 @@ export default {
       klassLoading: false,
       studentLoading: false,
 
-      curKlassId: "",
       curKlassInfo: {},
       klassList: [],
 
+      tableQuery: {
+        klass_id: "",
+        name: "",
+      },
       tableColumns,
       tableData: [],
 
@@ -110,9 +126,14 @@ export default {
     await this.fetchKlassList();
   },
   methods: {
-    onKlassChange() {
+    search() {
       this.fetchKlassInfo();
       this.fetchTableData();
+    },
+
+    reset() {
+      this.tableQuery.name = "";
+      this.search();
     },
 
     async fetchKlassList() {
@@ -124,9 +145,8 @@ export default {
         }
         this.klassList = res.data || [];
         if (this.klassList.length) {
-          this.curKlassId = this.klassList[0].id;
-          await this.fetchKlassInfo();
-          await this.fetchTableData();
+          this.tableQuery.klass_id = this.klassList[0].id;
+          await this.search();
         }
       } catch (e) {
         this.$message.warning(e.message);
@@ -138,7 +158,7 @@ export default {
       try {
         const res = await this.$http({
           method: "GET",
-          url: `/school/klass/${this.curKlassId}`,
+          url: `/school/klass/${this.tableQuery.klass_id}`,
         });
         if (res.code !== 200) {
           this.$message.warning(res.message);
@@ -158,7 +178,7 @@ export default {
         const res = await this.$http({
           method: "GET",
           url: "/school/student",
-          params: { klass_id: this.curKlassId },
+          params: this.tableQuery,
         });
         if (res.code !== 200) {
           this.$message.warning(res.message);
@@ -198,7 +218,7 @@ export default {
         const res = await this.$http({
           method: "POST",
           url: "/school/klass_util/gen_invite_code",
-          data: { klass_id: this.curKlassId },
+          data: { klass_id: this.tableQuery.klass_id },
         });
         if (res.code !== 200) {
           this.$message.warning(res.message);

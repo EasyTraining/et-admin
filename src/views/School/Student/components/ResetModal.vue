@@ -39,7 +39,7 @@ const formRules = {
 
 export default {
   name: "ResetModal",
-  props: ["initialValues", "visible"],
+  props: ["id", "visible"],
   data() {
     return {
       submitting: false,
@@ -54,12 +54,36 @@ export default {
   },
   watch: {
     visible(newVal) {
-      if (newVal && this.initialValues) {
-        this.formData = _.pick(this.initialValues, Object.keys(this.formData));
+      if (newVal && this.id) {
+        this.fetchDetail();
       }
     },
   },
   methods: {
+    async fetchDetail() {
+      try {
+        const res = await this.$http({ method: "GET", url: `/school/student/${this.id}` });
+        if (res.code !== 200) {
+          this.$message.warning(res.message);
+          return;
+        }
+        this.formData = _.pick(res.data, ["id", "name"]);
+      } catch (e) {
+        this.$message.warning(e.message);
+      }
+    },
+
+    onCancel() {
+      this.formData = {
+        id: "",
+        name: "",
+        new_pwd: "",
+        repeat_pwd: "",
+      };
+      this.$refs.form.resetFields();
+      this.$emit("cancel", null);
+    },
+
     async onOk() {
       this.$refs.form.validate(async (valid) => {
         if (!valid) return;
@@ -81,24 +105,14 @@ export default {
             return;
           }
           this.$message.success("操作成功");
-          this.$emit("ok", null);
+          this.$emit("refresh", null);
+          this.onCancel();
         } catch (e) {
           this.$message.warning(e.message);
         } finally {
           this.submitting = false;
         }
       });
-    },
-
-    onCancel() {
-      this.$emit("cancel", null);
-      this.formData = {
-        id: "",
-        name: "",
-        new_pwd: "",
-        repeat_pwd: "",
-      };
-      this.$refs.form.resetFields();
     },
   },
 };

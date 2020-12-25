@@ -65,10 +65,10 @@
     </a-table>
 
     <reset-modal
+      :id="currentId"
       :visible="resetVisible"
-      :initial-values="currentRow"
       @cancel="closeResetModal"
-      @ok="onResetOk"
+      @refresh="fetchTableData"
     />
   </div>
 </template>
@@ -96,7 +96,7 @@ export default {
       tableData: [],
 
       resetVisible: false,
-      currentRow: null,
+      currentId: null,
     };
   },
   async mounted() {
@@ -114,18 +114,14 @@ export default {
       this.search();
     },
 
-    showResetModal(row) {
-      this.currentRow = row;
+    showResetModal({ id }) {
+      this.currentId = id;
       this.resetVisible = true;
     },
 
     closeResetModal() {
+      this.currentId = "";
       this.resetVisible = false;
-    },
-
-    onResetOk() {
-      this.search();
-      this.closeResetModal();
     },
 
     async fetchKlassList() {

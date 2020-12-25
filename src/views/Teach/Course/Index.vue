@@ -1,18 +1,32 @@
 <template>
   <div>
-    <a-tabs v-model="curKlassId" @change="onKlassChange">
-      <a-tab-pane v-for="klass in klassList" :key="klass.id" :tab="klass.name" />
-    </a-tabs>
+    <div class="filter">
+      <div class="filter__item">
+        <a-select v-model="tableQuery.klass_id" style="width: 200px" placeholder="请选择班级">
+          <a-select-option v-for="klass in klassList" :key="klass.id" :value="klass.id">
+            {{ klass.name }}
+          </a-select-option>
+        </a-select>
+      </div>
+      <div class="filter__item">
+        <a-input v-model="tableQuery.name" style="width: 200px" placeholder="章节名称关键字" />
+      </div>
+      <div class="filter__item">
+        <a-button :loading="loading" type="primary" @click="search">查询</a-button>
+        <a-button :loading="loading" @click="reset">重置</a-button>
+      </div>
+    </div>
 
-    <p style="margin-top: 15px">
+    <p>
       <a-button type="primary" icon="plus" @click="onAdd">添加章节</a-button>
-      <a-button icon="bars" @click="showTreeModal">查看树形结构</a-button>
     </p>
 
     <a-table
+      v-if="!loading"
       size="small"
-      :columns="tableColumns"
       row-key="id"
+      default-expand-all-rows
+      :columns="tableColumns"
       :data-source="tableData"
       :loading="loading"
       :pagination="false"
@@ -28,16 +42,10 @@
       </template>
     </a-table>
 
-    <tree-modal
-      v-if="curKlassId"
-      :visible="treeModalVisible"
-      :klass-id="curKlassId"
-      @cancel="closeTreeModal"
-    />
     <update-modal
-      v-if="curKlassId"
+      v-if="tableQuery.klass_id"
       :visible="updateModalVisible"
-      :klass-id="curKlassId"
+      :klass-id="tableQuery.klass_id"
       :initial-values="editedRecord"
       @cancel="closeUpdateModal"
       @ok="onUpdateModalOk"
@@ -48,32 +56,41 @@
 <script>
 import { tableColumns } from "./const";
 import UpdateModal from "./components/UpdateModal";
-import TreeModal from "./components/TreeModal";
 
 export default {
   name: "CourseIndex",
-  components: { UpdateModal, TreeModal },
+  components: { UpdateModal },
   data() {
     return {
       mounting: false,
       loading: false,
 
-      curKlassId: undefined,
       klassList: [],
 
+      tableQuery: {
+        klass_id: "",
+        name: "",
+      },
       tableColumns,
       tableData: [],
 
       updateModalVisible: false,
       editedRecord: null,
-
-      treeModalVisible: false,
     };
   },
   async mounted() {
     await this.fetchKlassList();
   },
   methods: {
+    search() {
+      this.fetchTableData();
+    },
+
+    reset() {
+      this.tableQuery.name = "";
+      this.search();
+    },
+
     onKlassChange() {
       this.fetchTableData();
     },
@@ -113,7 +130,7 @@ export default {
         }
         this.klassList = res.data || [];
         if (this.klassList.length) {
-          this.curKlassId = this.klassList[0].id;
+          this.tableQuery.klass_id = this.klassList[0].id;
           await this.fetchTableData();
         }
       } catch (e) {
@@ -127,7 +144,7 @@ export default {
         const res = await this.$http({
           method: "GET",
           url: "/teach/course",
-          params: { klass_id: this.curKlassId },
+          params: this.tableQuery,
         });
         if (res.code !== 200) {
           this.$message.warning(res.message);
@@ -168,14 +185,6 @@ export default {
 
     async onUpdateModalOk() {
       await this.fetchTableData();
-    },
-
-    showTreeModal() {
-      this.treeModalVisible = true;
-    },
-
-    closeTreeModal() {
-      this.treeModalVisible = false;
     },
   },
 };

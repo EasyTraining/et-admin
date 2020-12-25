@@ -16,7 +16,7 @@
       :label-col="{ span: 6 }"
       :wrapper-col="{ span: 14 }"
     >
-      <a-form-model-item label="昵称" prop="name">
+      <a-form-model-item label="员工姓名" prop="name">
         {{ formData.name }}
       </a-form-model-item>
       <a-form-model-item label="新密码" prop="new_pwd">
@@ -74,6 +74,12 @@ export default {
     },
 
     onCancel() {
+      this.formData = {
+        id: "",
+        name: "",
+        new_pwd: "",
+        repeat_pwd: "",
+      };
       this.$refs.form.resetFields();
       this.$emit("cancel", null);
     },

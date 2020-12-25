@@ -8,7 +8,7 @@
         <a-input
           v-model="tableQuery.created_name"
           style="width: 200px"
-          placeholder="添加人关键字"
+          placeholder="创建人关键字"
         />
       </div>
       <div class="filter__item">

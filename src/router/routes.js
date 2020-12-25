@@ -463,6 +463,12 @@ export default [
             meta: { title: "菜单权限" },
           },
           {
+            name: "/system/reset-password",
+            path: "/system/reset-password",
+            component: () => import(/* webpackChunkName: "system" */ "@/views/System/ResetPassword/Index"),
+            meta: { title: "重置员工密码" },
+          },
+          {
             name: "/system/log",
             path: "/system/log",
             component: () => import(/* webpackChunkName: "system" */ "@/views/System/Log/Index"),

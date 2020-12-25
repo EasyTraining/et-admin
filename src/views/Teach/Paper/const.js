@@ -31,7 +31,7 @@ export const tableColumns = [
     scopedSlots: { customRender: "enable" },
   },
   {
-    title: "添加人",
+    title: "创建人",
     width: 100,
     dataIndex: "created_name",
   },
