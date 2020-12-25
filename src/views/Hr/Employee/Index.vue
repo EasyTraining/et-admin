@@ -1,8 +1,8 @@
 <template>
   <div>
     <p>
-      <router-link to="/hr/join-in">
-        <a-button type="primary" icon="plus">办理入职</a-button>
+      <router-link to="/hr/employee/add">
+        <a-button type="primary" icon="plus">添加员工</a-button>
       </router-link>
     </p>
 
@@ -16,7 +16,9 @@
       @change="onTableChange"
     >
       <template slot="action" slot-scope="text, record">
-        <a href="javascript:;" @click="onEdit(record)">编辑</a>
+        <router-link :to="'/hr/employee/detail/' + record.id">查看</router-link>
+        <a-divider type="vertical" />
+        <router-link :to="'/hr/employee/edit/' + record.id">编辑</router-link>
       </template>
     </a-table>
   </div>

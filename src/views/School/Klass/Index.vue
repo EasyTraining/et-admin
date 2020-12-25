@@ -1,7 +1,7 @@
 <template>
   <div>
     <p>
-      <a-button type="primary" icon="plus" @click="onAdd">创建班级</a-button>
+      <a-button type="primary" icon="plus" @click="onAdd">添加班级</a-button>
     </p>
 
     <a-table

@@ -4,7 +4,7 @@
     :width="600"
     centered
     :visible="visible"
-    :title="formData.id ? '编辑菜单' : '创建菜单'"
+    :title="formData.id ? '编辑菜单' : '添加菜单'"
     :confirm-loading="loading"
     @cancel="onCancel"
     @ok="onOk"

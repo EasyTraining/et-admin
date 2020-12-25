@@ -4,7 +4,7 @@
     :width="600"
     centered
     :visible="visible"
-    :title="formData.id ? '编辑分类' : '创建分类'"
+    :title="formData.id ? '编辑分类' : '添加分类'"
     @cancel="onCancel"
     @ok="onOk"
   >

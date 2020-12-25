@@ -8,7 +8,7 @@
         <a-input
           v-model="tableQuery.created_name"
           style="width: 200px"
-          placeholder="创建人关键字"
+          placeholder="添加人关键字"
         />
       </div>
       <div class="filter__item">
@@ -18,7 +18,7 @@
     </div>
 
     <p>
-      <a-button type="primary" icon="plus" @click="setModalVisible(true)">创建题库</a-button>
+      <a-button type="primary" icon="plus" @click="setModalVisible(true)">添加题库</a-button>
     </p>
 
     <a-table
@@ -50,7 +50,7 @@
       :width="600"
       centered
       v-model="modalVisible"
-      :title="modalForm.id ? '编辑题库' : '创建题库'"
+      :title="modalForm.id ? '编辑题库' : '添加题库'"
       @cancel="setModalVisible(false)"
       @ok="onModalOk"
     >

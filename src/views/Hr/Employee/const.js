@@ -4,21 +4,35 @@ export const tableColumns = [
     dataIndex: "name",
   },
   {
-    title: "所属部门",
+    title: "部门",
     dataIndex: "org_name",
+  },
+  {
+    title: "职位",
+    dataIndex: "position",
+  },
+  {
+    title: "入职时间",
+    dataIndex: "join_date",
   },
   {
     title: "手机号码",
     dataIndex: "phone",
   },
   {
-    title: "更新时间",
-    width: 180,
-    dataIndex: "updated_at",
-  },
-  {
     title: "操作",
-    width: 200,
+    width: 150,
     scopedSlots: { customRender: "action" },
   },
 ];
+
+export const formRules = {
+  account: [{ required: true, message: "必填项" }],
+  password: [{ required: true, message: "必填项" }],
+
+  name: [{ required: true, message: "必填项" }],
+  org_id: [{ required: true, message: "必填项" }],
+  phone: [{ required: true, message: "必填项" }],
+  work_code: [{ required: true, message: "必填项" }],
+  position: [{ required: true, message: "必填项" }],
+};

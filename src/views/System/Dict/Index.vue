@@ -2,7 +2,7 @@
   <div>
     <p>
       <router-link to="/system/dict/add">
-        <a-button type="primary" icon="plus">创建字典</a-button>
+        <a-button type="primary" icon="plus">添加字典</a-button>
       </router-link>
     </p>
 

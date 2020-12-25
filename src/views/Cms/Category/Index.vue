@@ -1,7 +1,7 @@
 <template>
   <div>
     <p>
-      <a-button type="primary" icon="plus" @click="onAdd">创建分类</a-button>
+      <a-button type="primary" icon="plus" @click="onAdd">添加分类</a-button>
       <a-button icon="bars" @click="showTreeModal">查看树形结构</a-button>
     </p>
 

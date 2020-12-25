@@ -2,7 +2,7 @@
   <div>
     <p>
       <router-link :to="'/repo/library/' + info.id + '/questions/add'">
-        <a-button type="primary" icon="plus">创建试题</a-button>
+        <a-button type="primary" icon="plus">添加试题</a-button>
       </router-link>
       <a-button style="margin-left: 15px" @click="showImportModal">批量导入</a-button>
       <a-popconfirm placement="right" title="删除以后无法恢复, 是否继续?" @confirm="multipleRemove">
@@ -36,16 +36,16 @@
       :pagination="false"
       :scroll="{ x: 1200 }"
     >
-      <div slot="name" slot-scope="text, record, index">
+      <div slot="name" slot-scope="text, record">
         <div class="rich-wrapper" v-html="record.name"></div>
       </div>
-      <div slot="type" slot-scope="text, record, index">
+      <div slot="type" slot-scope="text, record">
         {{ record.type | questionTypeToLabel }}
       </div>
-      <div slot="level" slot-scope="text, record, index">
+      <div slot="level" slot-scope="text, record">
         {{ record.level | levelToLabel }}
       </div>
-      <div slot="points" slot-scope="text, record, index">
+      <div slot="points" slot-scope="text, record">
         <a-tag v-for="item in record.points" :key="item">{{ item }}</a-tag>
       </div>
       <template slot="action" slot-scope="text, record">
@@ -62,7 +62,11 @@
     </a-table>
 
     <import-modal :visible="importModalVisible" @cancel="closeImportModal" />
-    <preview-modal :visible="previewModalVisible" :question="curQuestion" @cancel="closePreviewModal" />
+    <preview-modal
+      :visible="previewModalVisible"
+      :question="curQuestion"
+      @cancel="closePreviewModal"
+    />
   </div>
 </template>
 

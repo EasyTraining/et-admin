@@ -59,7 +59,7 @@ export default [
             name: "/repo/library/:libraryId/questions/add",
             path: "/repo/library/:libraryId/questions/add",
             component: () => import("@/views/Repo/Question/Form"),
-            meta: { title: "创建试题" },
+            meta: { title: "添加试题" },
           },
           {
             hidden: true,
@@ -140,7 +140,7 @@ export default [
             name: "/school/student/add",
             path: "/school/student/add",
             component: () => import("@/views/School/Student/Form"),
-            meta: { title: "创建学员" },
+            meta: { title: "添加学员" },
           },
           {
             hidden: true,
@@ -237,15 +237,15 @@ export default [
         name: "/hr",
         path: "/hr",
         component: RouteView,
-        meta: { title: "人事中心", icon: "smile" },
-        redirect: "/hr/index",
+        meta: { title: "人事中心", icon: "usergroup-add" },
+        redirect: "/hr/org",
         children: [
-          {
-            name: "/hr/index",
-            path: "/hr/index",
-            component: () => import(/* webpackChunkName: "hr" */ "@/views/Hr/Index"),
-            meta: { title: "首页" },
-          },
+          // {
+          //   name: "/hr/index",
+          //   path: "/hr/index",
+          //   component: () => import(/* webpackChunkName: "hr" */ "@/views/Hr/Index"),
+          //   meta: { title: "首页" },
+          // },
           {
             name: "/hr/org",
             path: "/hr/org",
@@ -256,13 +256,28 @@ export default [
             name: "/hr/employee",
             path: "/hr/employee",
             component: () => import(/* webpackChunkName: "hr" */ "@/views/Hr/Employee/Index"),
-            meta: { title: "花名册" },
+            meta: { title: "员工管理" },
           },
           {
-            name: "/hr/join-in",
-            path: "/hr/join-in",
-            component: () => import(/* webpackChunkName: "hr" */ "@/views/Hr/JoinIn/Index"),
-            meta: { title: "办理入职" },
+            hidden: true,
+            name: "/hr/employee/add",
+            path: "/hr/employee/add",
+            component: () => import(/* webpackChunkName: "hr" */ "@/views/Hr/Employee/Form"),
+            meta: { title: "添加员工" },
+          },
+          {
+            hidden: true,
+            name: "/hr/employee/edit/:id",
+            path: "/hr/employee/edit/:id",
+            component: () => import(/* webpackChunkName: "hr" */ "@/views/Hr/Employee/Form"),
+            meta: { title: "编辑员工" },
+          },
+          {
+            hidden: true,
+            name: "/hr/employee/detail/:id",
+            path: "/hr/employee/detail/:id",
+            component: () => import(/* webpackChunkName: "hr" */ "@/views/Hr/Employee/Detail"),
+            meta: { title: "员工详情" },
           },
           {
             name: "/hr/leave",
@@ -329,7 +344,7 @@ export default [
             name: "/cms/article/add",
             path: "/cms/article/add",
             component: () => import("@/views/Cms/Article/Form"),
-            meta: { title: "创建文章" },
+            meta: { title: "添加文章" },
           },
           {
             hidden: true,
@@ -426,7 +441,7 @@ export default [
             name: "/system/dict/add",
             path: "/system/dict/add",
             component: () => import(/* webpackChunkName: "system" */ "@/views/System/Dict/Form"),
-            meta: { title: "创建字典" },
+            meta: { title: "添加字典" },
           },
           {
             hidden: true,

@@ -22,7 +22,7 @@
 
     <p>
       <router-link :to="'/school/student/add?klass_id=' + tableQuery.klass_id">
-        <a-button type="primary" icon="plus">创建学员</a-button>
+        <a-button type="primary" icon="plus">添加学员</a-button>
       </router-link>
     </p>
 

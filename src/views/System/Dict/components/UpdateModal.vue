@@ -4,7 +4,7 @@
     :width="600"
     centered
     :visible="visible"
-    :title="formData.uuid ? '编辑选项' : '创建选项'"
+    :title="formData.uuid ? '编辑选项' : '添加选项'"
     @cancel="onCancel"
     @ok="onOk"
   >

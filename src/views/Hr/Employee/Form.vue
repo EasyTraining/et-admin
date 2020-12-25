@@ -231,12 +231,13 @@
         </a-row>
         <a-row :gutter="15">
           <a-col :span="12">
-            <a-form-model-item label="入职时间" prop="join_date">
+            <a-form-model-item label="入职日期" prop="join_date">
               <a-date-picker
                 v-model="formData.join_date"
                 style="width: 100%"
-                placeholder="请选择入职时间"
+                placeholder="请选择入职日期"
                 value-format="YYYY-MM-DD"
+                @change="calcPlanFormalDate"
               />
             </a-form-model-item>
           </a-col>
@@ -248,11 +249,17 @@
                 :min="1"
                 :max="999"
                 placeholder="请填写试用期"
+                @change="calcPlanFormalDate"
               />
             </a-form-model-item>
           </a-col>
         </a-row>
         <a-row :gutter="15">
+          <a-col :span="12">
+            <a-form-model-item label="计划转正日期" prop="plan_formal_date">
+              {{ formData.plan_formal_date || "系统自动计算" }}
+            </a-form-model-item>
+          </a-col>
           <a-col :span="12">
             <a-form-model-item label="招聘来源" prop="invite_from">
               <a-select v-model="formData.invite_from" show-search placeholder="请选择招聘来源">
@@ -292,11 +299,11 @@
             </a-form-model-item>
           </a-col>
           <a-col :span="12">
-            <a-form-model-item label="毕业时间" prop="graduate_date">
+            <a-form-model-item label="毕业日期" prop="graduate_date">
               <a-date-picker
                 v-model="formData.graduate_date"
                 style="width: 100%"
-                placeholder="请选择毕业时间"
+                placeholder="请选择毕业日期"
                 value-format="YYYY-MM-DD"
               />
             </a-form-model-item>
@@ -320,7 +327,7 @@
         </a-row>
       </a-card>
 
-      <a-card size="small" title="银行卡" :loading="mounting">
+      <a-card size="small" title="银行卡信息" :loading="mounting">
         <a-row :gutter="15">
           <a-col :span="12">
             <a-form-model-item label="开户行" prop="bank_account">
@@ -357,7 +364,7 @@
               <a-input
                 v-model="formData.contact_company"
                 :max-length="100"
-                placeholder="请填写工号"
+                placeholder="请填写合同公司"
               />
             </a-form-model-item>
           </a-col>
@@ -451,7 +458,7 @@
               <a-input
                 v-model="formData.social_security_no"
                 :max-length="4"
-                placeholder="请填写紧急联系人姓名"
+                placeholder="请填写社保账号"
               />
             </a-form-model-item>
           </a-col>
@@ -460,7 +467,7 @@
               <a-input
                 v-model="formData.provident_fund_no"
                 :max-length="11"
-                placeholder="请填写紧急联系人手机号码"
+                placeholder="请填写公积金账号"
               />
             </a-form-model-item>
           </a-col>
@@ -476,6 +483,7 @@
 </template>
 
 <script>
+import dayjs from "dayjs";
 import { _, sha256 } from "@/utils";
 import AvatarUpload from "@/components/AvatarUpload";
 import { formRules } from "./const";
@@ -534,6 +542,7 @@ export default {
         status: undefined,
         join_date: "",
         probation_month: 6,
+        plan_formal_date: "",
         invite_from: undefined,
         prev_leave_img: "",
 
@@ -576,6 +585,15 @@ export default {
       this.$router.go(-1);
     },
 
+    calcPlanFormalDate() {
+      const { join_date, probation_month } = this.formData;
+      if (join_date && probation_month) {
+        this.formData.plan_formal_date = dayjs(join_date)
+          .add(probation_month, "month")
+          .format("YYYY-MM-DD");
+      }
+    },
+
     async fetchOrgTree() {
       try {
         const res = await this.$http({ method: "GET", url: "/hr/org_util/tree" });
@@ -602,7 +620,13 @@ export default {
           this.$message.warning(res.message);
           return;
         }
-        this.formData = _.pick(res.data, Object.keys(this.formData));
+        const formData = _.pick(res.data, Object.keys(this.formData));
+        // 清空空字符串的数据, 防止 select 控件 placeholder 不展示
+        Object.keys(formData).forEach((key) => {
+          const val = formData[key];
+          if (val === "") delete formData[key];
+        });
+        this.formData = formData;
       } catch (e) {
         this.$message.warning(e.message);
       } finally {
@@ -658,7 +682,7 @@ export default {
           return;
         }
         this.$message.success("操作成功");
-        await this.$router.replace(`/hr/employee/detail/${res.data.id}`);
+        await this.fetchDetail();
       } catch (e) {
         this.$message.warning(e.message);
       } finally {

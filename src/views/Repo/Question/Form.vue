@@ -36,7 +36,7 @@
             style="margin-left: 14px"
             @click="addOption"
           >
-            创建选项
+            添加选项
           </a-button>
         </a-form-model-item>
         <a-form-model-item label="答案" prop="real_answer">
@@ -66,7 +66,7 @@
             style="margin-left: 14px"
             @click="addOption"
           >
-            创建选项
+            添加选项
           </a-button>
         </a-form-model-item>
         <a-form-model-item label="答案" prop="real_answer">
@@ -111,7 +111,7 @@
             style="margin-left: 14px"
             @click="addOption"
           >
-            创建选项
+            添加选项
           </a-button>
         </a-form-model-item>
         <a-form-model-item
@@ -144,7 +144,11 @@
       <a-form-model-item label="解析" prop="explain">
         <rich-editor v-model="formData.explain" placeholder="请填写解析" :max-length="300" />
       </a-form-model-item>
-      <a-form-model-item label="对应考点" prop="points" extra="小提示: 如需新增考点, 输入内容后按回车添加">
+      <a-form-model-item
+        label="对应考点"
+        prop="points"
+        extra="小提示: 如需新增考点, 输入内容后按回车添加"
+      >
         <a-select mode="tags" v-model="formData.points" placeholder="请选择对应考点">
           <a-select-option v-for="item in points" :key="item">{{ item }}</a-select-option>
         </a-select>

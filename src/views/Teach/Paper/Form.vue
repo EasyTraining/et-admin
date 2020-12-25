@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="page__actions">
-      <a-button type="primary" icon="plus" @click="modalVisible = true">创建试题</a-button>
+      <a-button type="primary" icon="plus" @click="modalVisible = true">添加试题</a-button>
     </div>
     <a-card size="small">
       <a-row :gutter="15">
@@ -85,7 +85,7 @@
       :width="800"
       centered
       v-model="modalVisible"
-      title="创建试题"
+      title="添加试题"
       @cancel="modalVisible = false"
       @ok="setQuestions"
     >
@@ -280,9 +280,6 @@ export default {
     position: absolute;
     top: 5px;
     left: 28px;
-  }
-
-  &__name {
   }
 }
 
