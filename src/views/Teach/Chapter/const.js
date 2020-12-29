@@ -1,15 +1,11 @@
 export const tableColumns = [
   {
-    title: "课程名称",
+    title: "章节名称",
     dataIndex: "name",
   },
   {
-    title: "课程简介",
-    dataIndex: "desc",
-  },
-  {
-    title: "章节数",
-    dataIndex: "chapter_count",
+    title: "章节备注",
+    dataIndex: "remark",
   },
   {
     title: "更新时间",
@@ -18,7 +14,7 @@ export const tableColumns = [
   },
   {
     title: "操作",
-    width: 180,
+    width: 200,
     scopedSlots: { customRender: "action" },
   },
 ];

@@ -15,8 +15,8 @@
 
     <a-table
       size="small"
-      :columns="tableColumns"
       row-key="id"
+      :columns="tableColumns"
       :data-source="tableData"
       :loading="loading"
       :pagination="tablePager"

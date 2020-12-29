@@ -4,7 +4,8 @@
     :width="600"
     centered
     :visible="visible"
-    :title="formData.id ? '编辑章节' : '添加章节'"
+    :title="formData.id ? '编辑课程' : '添加课程'"
+    :confirm-loading="loading"
     @cancel="onCancel"
     @ok="onOk"
   >
@@ -15,36 +16,19 @@
       :label-col="{ span: 6 }"
       :wrapper-col="{ span: 15 }"
     >
-      <a-form-model-item label="上级章节" prop="parent_id">
-        <a-tree-select
-          v-model="formData.parent_id"
-          :tree-data="treeData"
-          :replace-fields="{ title: 'name', key: 'id', value: 'id' }"
-          :dropdown-style="{ maxHeight: '400px', overflow: 'auto' }"
-          allow-clear
-          tree-default-expand-all
-          style="width: 100%"
-          placeholder="请选择上级菜单"
-        />
+      <a-form-model-item label="课程名称" prop="name">
+        <a-input v-model="formData.name" :max-length="100" placeholder="请填写课程名称" />
       </a-form-model-item>
-      <a-form-model-item label="章节名称" prop="name">
-        <a-input v-model="formData.name" :max-length="100" placeholder="请填写章节名称" />
-      </a-form-model-item>
-      <a-form-model-item label="教学目标" prop="target">
+      <a-form-model-item label="课程简介" prop="desc">
         <a-textarea
-          v-model="formData.target"
+          v-model="formData.desc"
           :max-length="300"
           :auto-size="{ minRows: 3, maxRows: 5 }"
-          placeholder="请填写章节备注"
+          placeholder="请填写课程简介"
         />
       </a-form-model-item>
-      <a-form-model-item label="章节备注" prop="remark">
-        <a-textarea
-          v-model="formData.remark"
-          :max-length="300"
-          :auto-size="{ minRows: 3, maxRows: 5 }"
-          placeholder="请填写章节备注"
-        />
+      <a-form-model-item label="预览图" prop="banner_img">
+        <avatar-upload v-model="formData.banner_img" />
       </a-form-model-item>
     </a-form-model>
   </a-modal>
@@ -52,61 +36,38 @@
 
 <script>
 import { _ } from "@/utils";
+import AvatarUpload from "@/components/AvatarUpload";
 
 const formRules = {
-  name: [{ required: true, message: "请填写章节名称" }],
-  target: [{ required: true, message: "请填写教学目标" }],
+  name: [{ required: true, message: "请填写课程名称" }],
+  desc: [{ required: true, message: "请填写课程简介" }],
 };
 
 export default {
   name: "UpdateModal",
-  props: ["visible", "initialValues", "klassId"],
+  props: ["initialValues", "visible", "klassId"],
+  components: { AvatarUpload },
   data() {
     return {
+      loading: false,
+      treeData: [],
       formData: {
-        parent_id: undefined,
         id: "",
         name: "",
-        target: "",
-        attachments: [],
-        remark: "",
+        banner_img: "",
+        desc: "",
       },
       formRules,
-
-      treeData: [],
     };
   },
   watch: {
     visible(newVal) {
-      if (newVal) {
-        this.fetchTreeData();
-        if (this.initialValues) {
-          this.formData = _.cloneDeep(this.initialValues);
-        }
+      if (newVal && this.initialValues) {
+        this.formData = _.cloneDeep(this.initialValues);
       }
     },
   },
   methods: {
-    async fetchTreeData() {
-      this.loading = true;
-      try {
-        const res = await this.$http({
-          method: "GET",
-          url: "/teach/course_util/tree",
-          params: { klass_id: this.klassId },
-        });
-        if (res.code !== 200) {
-          this.$message.warning(res.message);
-          return;
-        }
-        this.treeData = res.data || [];
-      } catch (e) {
-        this.$message.warning(e.message);
-      } finally {
-        this.loading = false;
-      }
-    },
-
     async onOk() {
       this.loading = true;
       try {
@@ -115,7 +76,7 @@ export default {
           ? await this.$http({
               method: "PUT",
               url: `/teach/course/${id}`,
-              data: rest,
+              data: { klass_id: this.klassId, ...rest },
             })
           : await this.$http({
               method: "POST",
@@ -140,10 +101,9 @@ export default {
       this.$emit("cancel", null);
       this.formData = {
         id: "",
-        course_id: "",
         name: "",
-        enable: true,
-        remark: "",
+        banner_img: "",
+        desc: "",
       };
       this.$refs.form.resetFields();
     },

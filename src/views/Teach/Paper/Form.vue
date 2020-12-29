@@ -3,7 +3,8 @@
     <div class="page__actions">
       <a-button type="primary" icon="plus" @click="modalVisible = true">添加试题</a-button>
     </div>
-    <a-card size="small">
+
+    <a-card size="small" style="margin-bottom: 15px">
       <a-row :gutter="15">
         <a-col :span="4">
           <a-statistic title="试卷总分数" :value="analysis.gradeCount">
@@ -33,47 +34,45 @@
       </a-row>
     </a-card>
 
-    <a-card size="small" :body-style="{ padding: 0 }">
-      <a-table
-        size="small"
-        :columns="tableColumns"
-        row-key="id"
-        :data-source="tableData"
-        :loading="loading"
-        :pagination="false"
-      >
-        <template slot="sort" slot-scope="text, record">
-          <a-input-number
-            v-model="record.sort"
-            size="small"
-            :min="1"
-            style="width: 70px"
-            @blur="sort(record)"
-          />
-        </template>
-        <template slot="type" slot-scope="text, record">
-          <span>{{ record.type | questionTypeToLabel }}</span>
-        </template>
-        <template slot="name" slot-scope="text, record">
-          <div v-html="record.name"></div>
-        </template>
-        <template slot="level" slot-scope="text, record">
-          {{ record.level | levelToLabel }}
-        </template>
-        <template slot="grade" slot-scope="text, record">
-          <a-input-number
-            v-model="record.grade"
-            size="small"
-            :min="1"
-            style="width: 70px"
-            @blur="calcGrade"
-          />
-        </template>
-        <div class="actions" slot="action" slot-scope="text, record">
-          <a href="javascript:;" @click="remove(record)">删除</a>
-        </div>
-      </a-table>
-    </a-card>
+    <a-table
+      size="small"
+      :columns="tableColumns"
+      row-key="id"
+      :data-source="tableData"
+      :loading="loading"
+      :pagination="false"
+    >
+      <template slot="sort" slot-scope="text, record">
+        <a-input-number
+          v-model="record.sort"
+          size="small"
+          :min="1"
+          style="width: 70px"
+          @blur="sort(record)"
+        />
+      </template>
+      <template slot="type" slot-scope="text, record">
+        <span>{{ record.type | questionTypeToLabel }}</span>
+      </template>
+      <template slot="name" slot-scope="text, record">
+        <div v-html="record.name"></div>
+      </template>
+      <template slot="level" slot-scope="text, record">
+        {{ record.level | levelToLabel }}
+      </template>
+      <template slot="grade" slot-scope="text, record">
+        <a-input-number
+          v-model="record.grade"
+          size="small"
+          :min="1"
+          style="width: 70px"
+          @blur="calcGrade"
+        />
+      </template>
+      <div class="actions" slot="action" slot-scope="text, record">
+        <a href="javascript:;" @click="remove(record)">删除</a>
+      </div>
+    </a-table>
 
     <footer-tool-bar>
       <a-button :loading="submitting" @click="goBack">返回</a-button>

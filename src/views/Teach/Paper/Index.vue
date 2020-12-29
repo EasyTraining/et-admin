@@ -2,14 +2,14 @@
   <div>
     <div class="filter">
       <div class="filter__item">
-        <a-input v-model="tableQuery.name" style="width: 200px" placeholder="试卷名称关键字" />
+        <a-select v-model="tableQuery.klass_id" style="width: 200px" placeholder="请选择班级">
+          <a-select-option v-for="klass in klassList" :key="klass.id" :value="klass.id">
+            {{ klass.name }}
+          </a-select-option>
+        </a-select>
       </div>
       <div class="filter__item">
-        <a-input
-          v-model="tableQuery.created_name"
-          style="width: 200px"
-          placeholder="创建人关键字"
-        />
+        <a-input v-model="tableQuery.name" style="width: 200px" placeholder="试卷名称关键字" />
       </div>
       <div class="filter__item">
         <a-button :loading="loading" type="primary" @click="search">查询</a-button>
@@ -33,6 +33,7 @@
     >
       <template slot="enable" slot-scope="text, record">
         <a-switch
+          :disabled="record.count.TOTAL === 0"
           v-model="record.enable"
           checked-children="启用中"
           un-checked-children="已停用"
@@ -93,9 +94,11 @@ export default {
     return {
       loading: false,
 
+      klassList: [],
+
       tableQuery: {
+        klass_id: undefined,
         name: "",
-        created_name: "",
       },
       tableColumns,
       tableData: [],
@@ -126,7 +129,7 @@ export default {
     },
   },
   mounted() {
-    this.fetchTableData();
+    this.fetchKlassList();
   },
   methods: {
     search() {
@@ -135,10 +138,7 @@ export default {
     },
 
     reset() {
-      this.tableQuery = {
-        name: "",
-        created_name: "",
-      };
+      this.tableQuery.name = "";
       this.search();
     },
 
@@ -147,6 +147,23 @@ export default {
       this.tablePager.current = current;
       this.tablePager.pageSize = pageSize;
       this.fetchTableData();
+    },
+
+    async fetchKlassList() {
+      try {
+        const res = await this.$http({ method: "GET", url: `/school/klass_util/simple_list` });
+        if (res.code !== 200) {
+          this.$message.warning(res.message);
+          return;
+        }
+        this.klassList = res.data || [];
+        if (this.klassList.length) {
+          this.tableQuery.klass_id = this.klassList[0].id;
+          await this.search();
+        }
+      } catch (e) {
+        this.$message.warning(e.message);
+      }
     },
 
     async fetchTableData() {
@@ -189,7 +206,7 @@ export default {
       }
     },
 
-    async switchStatus({ id, enable }) {
+    async switchStatus({ id, enable, count }) {
       this.loading = true;
       try {
         const res = await this.$http({
@@ -232,8 +249,16 @@ export default {
         try {
           const { id, ...rest } = this.modalForm;
           const res = id
-            ? await this.$http({ method: "PUT", url: `/teach/paper/${id}`, data: rest })
-            : await this.$http({ method: "POST", url: "/teach/paper", data: rest });
+            ? await this.$http({
+                method: "PUT",
+                url: `/teach/paper/${id}`,
+                data: { klass_id: this.tableQuery.klass_id, ...rest },
+              })
+            : await this.$http({
+                method: "POST",
+                url: "/teach/paper",
+                data: { klass_id: this.tableQuery.klass_id, ...rest },
+              });
           if (res.code !== 200) {
             this.$message.warning(res.message);
             return;

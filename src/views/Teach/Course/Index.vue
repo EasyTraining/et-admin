@@ -9,7 +9,7 @@
         </a-select>
       </div>
       <div class="filter__item">
-        <a-input v-model="tableQuery.name" style="width: 200px" placeholder="章节名称关键字" />
+        <a-input v-model="tableQuery.name" style="width: 200px" placeholder="课程名称关键字" />
       </div>
       <div class="filter__item">
         <a-button :loading="loading" type="primary" @click="search">查询</a-button>
@@ -18,21 +18,20 @@
     </div>
 
     <p>
-      <a-button type="primary" icon="plus" @click="onAdd">添加章节</a-button>
+      <a-button type="primary" icon="plus" @click="onAdd">添加课程</a-button>
     </p>
 
     <a-table
-      v-if="!loading"
       size="small"
       row-key="id"
-      default-expand-all-rows
       :columns="tableColumns"
       :data-source="tableData"
       :loading="loading"
-      :pagination="false"
+      :pagination="tablePager"
+      @change="onTableChange"
     >
       <template slot="action" slot-scope="text, record">
-        <a href="javascript:;">课件管理</a>
+        <router-link :to="'/teach/' + record.id + '/chapter'">课程章节</router-link>
         <a-divider type="vertical" />
         <a href="javascript:;" @click="onEdit(record)">编辑</a>
         <a-divider type="vertical" />
@@ -43,12 +42,11 @@
     </a-table>
 
     <update-modal
-      v-if="tableQuery.klass_id"
-      :visible="updateModalVisible"
+      :visible="visible"
       :klass-id="tableQuery.klass_id"
       :initial-values="editedRecord"
-      @cancel="closeUpdateModal"
-      @ok="onUpdateModalOk"
+      @cancel="closeModal"
+      @ok="onModalOk"
     />
   </div>
 </template>
@@ -68,13 +66,20 @@ export default {
       klassList: [],
 
       tableQuery: {
-        klass_id: "",
+        klass_id: undefined,
         name: "",
       },
       tableColumns,
       tableData: [],
+      tablePager: {
+        current: 1,
+        pageSize: 30,
+        showSizeChanger: true,
+        showQuickJumper: true,
+        total: 0,
+      },
 
-      updateModalVisible: false,
+      visible: false,
       editedRecord: null,
     };
   },
@@ -91,17 +96,64 @@ export default {
       this.search();
     },
 
-    onKlassChange() {
-      this.fetchTableData();
-    },
-
     onAdd() {
-      this.updateModalVisible = true;
+      this.visible = true;
     },
 
     onEdit(record) {
       this.editedRecord = record;
-      this.updateModalVisible = true;
+      this.visible = true;
+    },
+
+    onTableChange(pagination, filters, sorter) {
+      const { current, pageSize } = pagination;
+      this.tablePager.current = current;
+      this.tablePager.pageSize = pageSize;
+      this.fetchTableData();
+    },
+
+    async fetchKlassList() {
+      try {
+        const res = await this.$http({ method: "GET", url: `/school/klass_util/simple_list` });
+        if (res.code !== 200) {
+          this.$message.warning(res.message);
+          return;
+        }
+        this.klassList = res.data || [];
+        if (this.klassList.length) {
+          this.tableQuery.klass_id = this.klassList[0].id;
+          await this.search();
+        }
+      } catch (e) {
+        this.$message.warning(e.message);
+      }
+    },
+
+    async fetchTableData() {
+      this.loading = true;
+      try {
+        const { current, pageSize } = this.tablePager;
+        const res = await this.$http({
+          method: "GET",
+          url: "/teach/course",
+          params: {
+            current,
+            pageSize,
+            ...this.tableQuery,
+          },
+        });
+        if (res.code !== 200) {
+          this.$message.warning(res.message);
+          return;
+        }
+        const { total, data } = res.data;
+        this.tableData = data;
+        this.tablePager.total = total;
+      } catch (e) {
+        this.$message.warning(e.message);
+      } finally {
+        this.loading = false;
+      }
     },
 
     async remove({ id }) {
@@ -121,69 +173,12 @@ export default {
       }
     },
 
-    async fetchKlassList() {
-      try {
-        const res = await this.$http({ method: "GET", url: `/school/klass_util/simple_list` });
-        if (res.code !== 200) {
-          this.$message.warning(res.message);
-          return;
-        }
-        this.klassList = res.data || [];
-        if (this.klassList.length) {
-          this.tableQuery.klass_id = this.klassList[0].id;
-          await this.fetchTableData();
-        }
-      } catch (e) {
-        this.$message.warning(e.message);
-      }
-    },
-
-    async fetchTableData() {
-      this.loading = true;
-      try {
-        const res = await this.$http({
-          method: "GET",
-          url: "/teach/course",
-          params: this.tableQuery,
-        });
-        if (res.code !== 200) {
-          this.$message.warning(res.message);
-          return;
-        }
-        this.tableData = res.data;
-      } catch (e) {
-        this.$message.warning(e.message);
-      } finally {
-        this.loading = false;
-      }
-    },
-
-    async switchStatus({ id, enable }) {
-      this.loading = true;
-      try {
-        const res = await this.$http({
-          method: "PUT",
-          url: `/teach/course/${id}/enable`,
-          data: { enable },
-        });
-        if (res.code !== 200) {
-          this.$message.warning(res.message);
-          return;
-        }
-        await this.fetchTableData();
-      } catch (e) {
-        this.$message.warning(e.message);
-      } finally {
-        this.loading = false;
-      }
-    },
-
-    closeUpdateModal() {
-      this.updateModalVisible = false;
+    closeModal() {
+      this.visible = false;
       this.editedRecord = null;
     },
 
-    async onUpdateModalOk() {
+    async onModalOk() {
       await this.fetchTableData();
     },
   },

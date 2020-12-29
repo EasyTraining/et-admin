@@ -17,7 +17,7 @@
       </div>
     </div>
 
-    <a-card size="small" title="班级信息">
+    <a-card v-if="0" size="small" title="班级信息">
       <a-spin :spinning="klassLoading">
         <a-descriptions>
           <a-descriptions-item label="班级名称">{{ curKlassInfo.name }}</a-descriptions-item>
@@ -48,36 +48,33 @@
       </a-spin>
     </a-card>
 
-    <a-card size="small" title="学员档案">
-      <a slot="extra" href="javascript:;" @click="fetchTableData">刷新数据</a>
-      <a-table
-        size="small"
-        row-key="id"
-        :columns="tableColumns"
-        :data-source="tableData"
-        :loading="studentLoading"
-        :pagination="false"
-      >
-        <template slot="name" slot-scope="text, record">
-          <a-avatar v-if="record.avatar_url" size="small" :src="record.avatar_url" />
-          <a-avatar v-else size="small">{{ record.name }}</a-avatar>
-          <router-link style="margin-left: 5px" :to="'/school/student/detail/' + record.id">
-            {{ record.name }}
-          </router-link>
-        </template>
-        <template slot="enable" slot-scope="text, record">
-          <a-switch
-            v-model="record.enable"
-            checked-children="启用中"
-            un-checked-children="已停用"
-            @change="switchStatus(record)"
-          />
-        </template>
-        <template slot="sos_name" slot-scope="text, record">
-          {{ record.sos_name }}/{{ record.sos_phone }}
-        </template>
-      </a-table>
-    </a-card>
+    <a-table
+      size="small"
+      row-key="id"
+      :columns="tableColumns"
+      :data-source="tableData"
+      :loading="studentLoading"
+      :pagination="false"
+    >
+      <template slot="name" slot-scope="text, record">
+        <a-avatar v-if="record.avatar_url" size="small" :src="record.avatar_url" />
+        <a-avatar v-else size="small">{{ record.name }}</a-avatar>
+        <router-link style="margin-left: 5px" :to="'/school/student/detail/' + record.id">
+          {{ record.name }}
+        </router-link>
+      </template>
+      <template slot="enable" slot-scope="text, record">
+        <a-switch
+          v-model="record.enable"
+          checked-children="启用中"
+          un-checked-children="已停用"
+          @change="switchStatus(record)"
+        />
+      </template>
+      <template slot="sos_name" slot-scope="text, record">
+        {{ record.sos_name }}/{{ record.sos_phone }}
+      </template>
+    </a-table>
 
     <broadcast-modal
       :visible="broadcastVisible"

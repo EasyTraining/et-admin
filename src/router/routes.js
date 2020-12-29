@@ -75,7 +75,7 @@ export default [
         path: "/teach",
         component: RouteView,
         meta: { title: "授课中心", icon: "fund" },
-        redirect: "/teach/course",
+        redirect: "/teach/student",
         children: [
           {
             name: "/teach/student",
@@ -88,6 +88,13 @@ export default [
             path: "/teach/course",
             component: () => import("@/views/Teach/Course/Index"),
             meta: { title: "课程管理" },
+          },
+          {
+            hidden: true,
+            name: "/teach/:courseId/chapter",
+            path: "/teach/:courseId/chapter",
+            component: () => import("@/views/Teach/Chapter/Index"),
+            meta: { title: "课程章节" },
           },
           {
             name: "/teach/paper",
