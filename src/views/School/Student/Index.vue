@@ -28,12 +28,12 @@
 
     <a-table
       size="small"
-      :columns="tableColumns"
-      :scroll="{ x: 1300 }"
       row-key="id"
+      :columns="tableColumns"
       :data-source="tableData"
       :loading="loading"
       :pagination="false"
+      :scroll="{ x: 1100 }"
     >
       <template slot="name" slot-scope="text, record">
         <a-avatar v-if="record.avatar_url" size="small" :src="record.avatar_url" />

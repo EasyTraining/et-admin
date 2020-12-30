@@ -2,7 +2,9 @@ import { v4 as uuidv4 } from "uuid";
 import lodash from "lodash";
 import { sha256 as _sha256 } from "js-sha256";
 import _Cookies from "js-cookie";
-import storage from "store";
+import _storage from "store";
+
+export const storage = _storage;
 
 export const Cookies = _Cookies;
 

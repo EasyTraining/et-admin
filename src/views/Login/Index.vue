@@ -1,15 +1,19 @@
 <template>
-  <div id="userLayout" :style="{ 'background-image': 'url(' + siteCfg.login_background_img + ')' }">
+  <div
+    v-if="!mounting"
+    id="userLayout"
+    :style="{ 'background-image': 'url(' + publicCfg.login_background_img + ')' }"
+  >
     <div class="container">
       <div class="main">
         <a-form-model ref="form" :model="formData" :rules="formRules">
           <div class="logo">
             <img
-              v-if="siteCfg.company_logo"
-              :src="siteCfg.company_logo"
-              :alt="siteCfg.company_name"
+              v-if="publicCfg.company_logo"
+              :src="publicCfg.company_logo"
+              :alt="publicCfg.company_name"
             />
-            <h2>登录{{ siteCfg.company_name }}</h2>
+            <h2>登录{{ publicCfg.company_name }}</h2>
           </div>
           <a-form-model-item prop="account">
             <a-input v-model="formData.account" size="large" type="text" placeholder="用户名">
@@ -27,9 +31,9 @@
               <div slot="suffix" class="captcha-box" v-html="captchaImg" @click="fetchCaptcha" />
             </a-input>
           </a-form-model-item>
-          <!--          <a-form-model-item>-->
-          <!--            <a-checkbox v-model="formData.remember">自动登录</a-checkbox>-->
-          <!--          </a-form-model-item>-->
+          <a-form-model-item>
+            <a-checkbox v-model="formData.remember">记住我七天</a-checkbox>
+          </a-form-model-item>
 
           <a-form-model-item style="margin-top: 24px; margin-bottom: 15px">
             <a-button
@@ -51,22 +55,22 @@
 
 <script>
 import setting from "@/setting";
-import { sha256, Cookies, getBrowser, getSiteCfg } from "@/utils";
-
-const siteCfg = getSiteCfg();
+import { sha256, Cookies, getBrowser } from "@/utils";
 
 export default {
   name: "Login",
   data() {
     return {
+      mounting: true,
       loading: false,
-      siteCfg,
+
+      publicCfg: {},
       captchaImg: "",
       formData: {
         account: "",
         password: "",
         captcha: "",
-        remember: false,
+        remember: true,
       },
       formRules: {
         account: [{ required: true, message: "请输入用户名" }],
@@ -75,10 +79,24 @@ export default {
       },
     };
   },
-  mounted() {
-    this.fetchCaptcha();
+  async mounted() {
+    this.mounting = true;
+    await this.fetchPublicCfg();
+    await this.fetchCaptcha();
+    this.mounting = false;
   },
   methods: {
+    async fetchPublicCfg() {
+      try {
+        const res = await this.$http({ method: "GET", url: "/system/cfg_util/public" });
+        if (res.code === 200 && res.data) {
+          this.publicCfg = res.data;
+        }
+      } catch (e) {
+        // pass
+      }
+    },
+
     async fetchCaptcha() {
       try {
         const res = await this.$http({ method: "GET", url: "/captcha" });
@@ -99,7 +117,7 @@ export default {
         if (!valid) return;
         this.loading = true;
         try {
-          const { account, password, captcha } = this.formData;
+          const { account, password, captcha, remember } = this.formData;
           const { name, version } = getBrowser();
           const hashed_pwd = sha256(password);
           const res = await this.$http({
@@ -120,7 +138,7 @@ export default {
           }
           const token = res.data;
           if (token) {
-            Cookies.set("token", token);
+            Cookies.set("token", token, { expires: remember ? 7 : 1 });
             await this.$router.push("/dashboard");
           } else {
             this.$message.warning(res.data);

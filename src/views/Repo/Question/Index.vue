@@ -34,7 +34,7 @@
       :data-source="info.questions"
       :loading="loading"
       :pagination="false"
-      :scroll="{ x: 1200 }"
+      :scroll="{ x: 1100 }"
     >
       <div slot="name" slot-scope="text, record">
         <div class="rich-wrapper" v-html="record.name"></div>

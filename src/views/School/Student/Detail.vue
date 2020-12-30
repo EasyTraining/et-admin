@@ -30,6 +30,7 @@
         :columns="logColumns"
         :data-source="logData"
         :pagination="false"
+        :scroll="{ x: 1100 }"
       >
         <template slot="browser" slot-scope="text, record">
           {{ record.browser_name }} {{ record.browser_version }}

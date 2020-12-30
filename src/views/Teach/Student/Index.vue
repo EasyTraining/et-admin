@@ -55,6 +55,7 @@
       :data-source="tableData"
       :loading="studentLoading"
       :pagination="false"
+      :scroll="{ x: 1100 }"
     >
       <template slot="name" slot-scope="text, record">
         <a-avatar v-if="record.avatar_url" size="small" :src="record.avatar_url" />

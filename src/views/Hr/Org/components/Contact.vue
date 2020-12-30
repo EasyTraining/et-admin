@@ -24,10 +24,11 @@
             :data-source="tableData"
             :loading="loading"
             :pagination="tablePager"
+            :scroll="{ x: 1100 }"
             @change="onTableChange"
           >
             <template slot="action" slot-scope="text, record">
-              <router-link :to="'/hr/employee/detail/' + record.id">查看</router-link>
+              <detail-btn :id="record.id" />
               <a-divider type="vertical" />
               <router-link :to="'/hr/employee/edit/' + record.id">编辑</router-link>
             </template>
@@ -40,9 +41,11 @@
 
 <script>
 import { employeeTableColumns } from "../const";
+import DetailBtn from "./DetailBtn";
 
 export default {
   name: "Contact",
+  components: { DetailBtn },
   data() {
     return {
       mounting: false,

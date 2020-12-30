@@ -28,6 +28,7 @@
       :data-source="tableData"
       :loading="loading"
       :pagination="tablePager"
+      :scroll="{ x: 1100 }"
       @change="onTableChange"
     >
       <template slot="action" slot-scope="text, record">

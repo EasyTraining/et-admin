@@ -1,19 +1,29 @@
 export const tableColumns = [
   {
     title: "班级名称",
+    width: 120,
     dataIndex: "name",
   },
   {
     title: "班主任",
+    width: 120,
     dataIndex: "leader_name",
   },
   {
+    title: "教师",
+    width: 120,
+    dataIndex: "teachers",
+    scopedSlots: { customRender: "teachers" },
+  },
+  {
     title: "班级描述",
+    width: 200,
     dataIndex: "description",
   },
   {
-    title: "邀请码",
-    dataIndex: "invite_code",
+    title: "更新人",
+    width: 120,
+    dataIndex: "updated_name",
   },
   {
     title: "更新时间",
@@ -22,7 +32,8 @@ export const tableColumns = [
   },
   {
     title: "操作",
-    width: 180,
+    width: 150,
+    fixed: "right",
     scopedSlots: { customRender: "action" },
   },
 ];

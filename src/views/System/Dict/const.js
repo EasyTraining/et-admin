@@ -12,6 +12,11 @@ export const tableColumns = [
     scopedSlots: { customRender: "status" },
   },
   {
+    title: "更新人",
+    width: 120,
+    dataIndex: "updated_name",
+  },
+  {
     title: "更新时间",
     width: 180,
     dataIndex: "updated_at",

@@ -10,6 +10,7 @@
       :columns="tableColumns"
       :data-source="tableData"
       :pagination="false"
+      :scroll="{ x: 1100 }"
     >
       <template slot="enable" slot-scope="text, record">
         <a-tag v-if="record.enable" color="#87d068">已启用</a-tag>
@@ -57,6 +58,7 @@ const tableColumns = [
   {
     title: "操作",
     width: 200,
+    fixed: "right",
     scopedSlots: { customRender: "action" },
   },
 ];

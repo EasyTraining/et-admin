@@ -17,6 +17,7 @@
       :data-source="tableData"
       :loading="loading"
       :pagination="tablePager"
+      :scroll="{ x: 1100 }"
       @change="onTableChange"
     >
       <template slot="name" slot-scope="text, record">

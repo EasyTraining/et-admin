@@ -33,6 +33,13 @@
           </a-select-option>
         </a-select>
       </a-form-model-item>
+      <a-form-model-item label="教师" prop="teacher_ids">
+        <a-select v-model="formData.teacher_ids" mode="multiple" placeholder="请选择教师">
+          <a-select-option v-for="user in userList" :key="user.id" :value="user.id">
+            {{ user.name }}
+          </a-select-option>
+        </a-select>
+      </a-form-model-item>
       <a-form-model-item label="班级描述" prop="description">
         <a-textarea
           v-model="formData.description"
@@ -57,10 +64,11 @@
 import { _ } from "@/utils";
 
 const formRules = {
-  name: [{ required: true, message: "请填写班级名称" }],
-  prefix: [{ required: true, message: "请填写学号前缀" }],
-  leader_id: [{ required: true, message: "请选择班主任" }],
-  description: [{ required: true, message: "请填写班级描述" }],
+  name: [{ required: true, message: "必填项" }],
+  prefix: [{ required: true, message: "必填项" }],
+  leader_id: [{ required: true, message: "必填项" }],
+  teacher_ids: [{ required: true, message: "必填项" }],
+  description: [{ required: true, message: "必填项" }],
 };
 
 export default {
@@ -74,6 +82,7 @@ export default {
         id: "",
         name: "",
         leader_id: undefined,
+        teacher_ids: [],
         description: "",
         remark: "",
       },
@@ -131,6 +140,7 @@ export default {
         id: "",
         name: "",
         leader_id: undefined,
+        teacher_ids: [],
         description: "",
         remark: "",
       };

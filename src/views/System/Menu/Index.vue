@@ -26,6 +26,7 @@
       :data-source="tableData"
       :loading="loading"
       :pagination="false"
+      :scroll="{ x: 1100 }"
     >
       <template slot="enable" slot-scope="text, record">
         <a-switch

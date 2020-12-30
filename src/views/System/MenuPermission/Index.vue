@@ -19,6 +19,7 @@
       :data-source="tableData"
       :loading="loading"
       :pagination="false"
+      :scroll="{ x: 1100 }"
     >
       <template slot="action" slot-scope="text, record">
         <a href="javascript:;" @click="onEdit(record)">设置</a>

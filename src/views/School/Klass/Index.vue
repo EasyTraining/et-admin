@@ -21,8 +21,14 @@
       :data-source="tableData"
       :loading="loading"
       :pagination="tablePager"
+      :scroll="{ x: 1100 }"
       @change="onTableChange"
     >
+      <template slot="teachers" slot-scope="text, record">
+        <a-tag v-for="teacher in record.teachers" color="blue" :key="teacher.id">
+          {{ teacher.name }}
+        </a-tag>
+      </template>
       <template slot="action" slot-scope="text, record">
         <router-link :to="'/school/student?klass_id=' + record.id">学员管理</router-link>
         <a-divider type="vertical" />

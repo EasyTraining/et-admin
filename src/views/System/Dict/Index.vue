@@ -21,11 +21,12 @@
 
     <a-table
       size="small"
-      :columns="tableColumns"
       row-key="id"
+      :columns="tableColumns"
       :data-source="tableData"
       :loading="loading"
       :pagination="tablePager"
+      :scroll="{ x: 1100 }"
       @change="onTableChange"
     >
       <template slot="enable" slot-scope="text, record">
@@ -69,6 +70,11 @@ const tableColumns = [
     scopedSlots: { customRender: "enable" },
   },
   {
+    title: "更新人",
+    width: 120,
+    dataIndex: "updated_name",
+  },
+  {
     title: "更新时间",
     width: 180,
     dataIndex: "updated_at",
@@ -76,6 +82,7 @@ const tableColumns = [
   {
     title: "操作",
     width: 180,
+    fixed: "right",
     scopedSlots: { customRender: "action" },
   },
 ];

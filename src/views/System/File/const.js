@@ -28,7 +28,7 @@ export const tableColumns = [
   {
     title: "操作",
     width: 120,
-    dataIndex: "action",
+    fixed: "right",
     scopedSlots: { customRender: "action" },
   },
 ];
