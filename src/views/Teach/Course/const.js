@@ -5,10 +5,11 @@ export const tableColumns = [
   },
   {
     title: "课程简介",
-    dataIndex: "desc",
+    dataIndex: "summary",
   },
   {
     title: "章节数",
+    width: 80,
     dataIndex: "chapter_count",
   },
   {
@@ -23,7 +24,7 @@ export const tableColumns = [
   },
   {
     title: "操作",
-    width: 185,
+    width: 190,
     fixed: "right",
     scopedSlots: { customRender: "action" },
   },

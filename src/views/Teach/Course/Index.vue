@@ -34,13 +34,11 @@
       @change="onTableChange"
     >
       <template slot="action" slot-scope="text, record">
-        <router-link :to="'/teach/' + record.id + '/chapter' + '?klass_id=' + tableQuery.klass_id">
-          课程章节
-        </router-link>
+        <comment-btn :target-id="record.id" type="COURSE" />
         <a-divider type="vertical" />
-        <router-link :to="'/teach/course/edit/' + record.id + '?klass_id=' + tableQuery.klass_id">
-          编辑
-        </router-link>
+        <a href="javascript:;" @click="toChapterPage(record)">章节</a>
+        <a-divider type="vertical" />
+        <a href="javascript:;" @click="toEditPage(record)">编辑</a>
         <a-divider type="vertical" />
         <a-popconfirm title="删除以后无法恢复, 是否继续?" @confirm="remove(record)">
           <a href="javascript:;">删除</a>
@@ -51,10 +49,12 @@
 </template>
 
 <script>
+import CommentBtn from "@/components/CommentBtn";
 import { tableColumns } from "./const";
 
 export default {
   name: "CourseIndex",
+  components: { CommentBtn },
   data() {
     return {
       mounting: false,
@@ -88,6 +88,18 @@ export default {
     reset() {
       this.tableQuery.name = "";
       this.search();
+    },
+
+    showCommentDialog() {},
+
+    toChapterPage({ id }) {
+      const { klass_id } = this.tableQuery;
+      this.$router.push(`/teach/${id}/chapter?klass_id=${klass_id}`);
+    },
+
+    toEditPage({ id }) {
+      const { klass_id } = this.tableQuery;
+      this.$router.push(`/teach/course/edit/${id}?klass_id=${klass_id}`);
     },
 
     onTableChange(pagination, filters, sorter) {

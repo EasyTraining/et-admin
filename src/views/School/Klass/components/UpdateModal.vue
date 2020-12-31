@@ -20,6 +20,18 @@
         <a-input v-model="formData.name" :max-length="100" placeholder="请填写班级名称" />
       </a-form-model-item>
       <a-form-model-item
+        label="设为默认班级"
+        prop="is_default"
+        extra="如果启用, 新注册学员将被分配到此班级"
+      >
+        <a-switch
+          v-model="formData.is_default"
+          checked-children="是"
+          un-checked-children="否"
+          default-checked
+        />
+      </a-form-model-item>
+      <a-form-model-item
         label="学号前缀"
         prop="prefix"
         extra="此前缀会应用在所有学员, 例如: VIP001, VIP002"
