@@ -23,8 +23,15 @@ export const tableColumns = [
   },
   {
     title: "操作",
-    width: 180,
+    width: 185,
     fixed: "right",
     scopedSlots: { customRender: "action" },
   },
 ];
+
+export const formRules = {
+  name: [{ required: true, message: "必填项" }],
+  banner_img: [{ required: true, message: "必填项" }],
+  summary: [{ required: true, message: "必填项" }],
+  introduction: [{ required: true, message: "必填项" }],
+};

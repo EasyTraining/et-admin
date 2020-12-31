@@ -38,6 +38,7 @@
 
     <update-modal
       :visible="updateModalVisible"
+      :course-id="tableQuery.course_id"
       :initial-values="currentRecord"
       @cancel="closeUpdateModal"
       @ok="onUpdateModalOk"

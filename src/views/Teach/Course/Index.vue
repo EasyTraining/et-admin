@@ -18,7 +18,9 @@
     </div>
 
     <p>
-      <a-button type="primary" icon="plus" @click="onAdd">添加课程</a-button>
+      <router-link :to="'/teach/course/add?klass_id=' + tableQuery.klass_id">
+        <a-button type="primary" icon="plus">添加课程</a-button>
+      </router-link>
     </p>
 
     <a-table
@@ -32,33 +34,27 @@
       @change="onTableChange"
     >
       <template slot="action" slot-scope="text, record">
-        <router-link :to="'/teach/' + record.id + '/chapter'">课程章节</router-link>
+        <router-link :to="'/teach/' + record.id + '/chapter' + '?klass_id=' + tableQuery.klass_id">
+          课程章节
+        </router-link>
         <a-divider type="vertical" />
-        <a href="javascript:;" @click="onEdit(record)">编辑</a>
+        <router-link :to="'/teach/course/edit/' + record.id + '?klass_id=' + tableQuery.klass_id">
+          编辑
+        </router-link>
         <a-divider type="vertical" />
         <a-popconfirm title="删除以后无法恢复, 是否继续?" @confirm="remove(record)">
           <a href="javascript:;">删除</a>
         </a-popconfirm>
       </template>
     </a-table>
-
-    <update-modal
-      :visible="visible"
-      :klass-id="tableQuery.klass_id"
-      :initial-values="editedRecord"
-      @cancel="closeModal"
-      @ok="onModalOk"
-    />
   </div>
 </template>
 
 <script>
 import { tableColumns } from "./const";
-import UpdateModal from "./components/UpdateModal";
 
 export default {
   name: "CourseIndex",
-  components: { UpdateModal },
   data() {
     return {
       mounting: false,
@@ -79,9 +75,6 @@ export default {
         showQuickJumper: true,
         total: 0,
       },
-
-      visible: false,
-      editedRecord: null,
     };
   },
   async mounted() {
@@ -95,15 +88,6 @@ export default {
     reset() {
       this.tableQuery.name = "";
       this.search();
-    },
-
-    onAdd() {
-      this.visible = true;
-    },
-
-    onEdit(record) {
-      this.editedRecord = record;
-      this.visible = true;
     },
 
     onTableChange(pagination, filters, sorter) {
@@ -172,15 +156,6 @@ export default {
       } finally {
         this.loading = false;
       }
-    },
-
-    closeModal() {
-      this.visible = false;
-      this.editedRecord = null;
-    },
-
-    async onModalOk() {
-      await this.fetchTableData();
     },
   },
 };

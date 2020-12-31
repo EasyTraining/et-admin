@@ -91,6 +91,20 @@ export default [
           },
           {
             hidden: true,
+            name: "/teach/course/add",
+            path: "/teach/course/add",
+            component: () => import("@/views/Teach/Course/Form"),
+            meta: { title: "添加课程" },
+          },
+          {
+            hidden: true,
+            name: "/teach/course/edit/:id",
+            path: "/teach/course/edit/:id",
+            component: () => import("@/views/Teach/Course/Form"),
+            meta: { title: "编辑课程" },
+          },
+          {
+            hidden: true,
             name: "/teach/:courseId/chapter",
             path: "/teach/:courseId/chapter",
             component: () => import("@/views/Teach/Chapter/Index"),
@@ -444,6 +458,13 @@ export default [
             meta: { title: "菜单目录" },
           },
           {
+            name: "/system/menu-permission",
+            path: "/system/menu-permission",
+            component: () =>
+              import(/* webpackChunkName: "system" */ "@/views/System/MenuPermission/Index"),
+            meta: { title: "菜单权限" },
+          },
+          {
             name: "/system/dict",
             path: "/system/dict",
             component: () => import(/* webpackChunkName: "system" */ "@/views/System/Dict/Index"),
@@ -464,15 +485,10 @@ export default [
             meta: { title: "编辑字典" },
           },
           {
-            name: "/system/menu-permission",
-            path: "/system/menu-permission",
-            component: () => import(/* webpackChunkName: "system" */ "@/views/System/MenuPermission/Index"),
-            meta: { title: "菜单权限" },
-          },
-          {
             name: "/system/reset-password",
             path: "/system/reset-password",
-            component: () => import(/* webpackChunkName: "system" */ "@/views/System/ResetPassword/Index"),
+            component: () =>
+              import(/* webpackChunkName: "system" */ "@/views/System/ResetPassword/Index"),
             meta: { title: "重置员工密码" },
           },
           {
