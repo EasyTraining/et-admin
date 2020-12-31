@@ -16,7 +16,7 @@
           prop="company_logo"
           extra="建议上传图片尺寸为640*640，大小不超过1M"
         >
-          <avatar-upload v-model="formData.company_logo" />
+          <single-image-upload v-model="formData.company_logo" />
         </a-form-model-item>
       </a-card>
 
@@ -26,7 +26,7 @@
           prop="login_background_img"
           extra="用于后台系统登录页"
         >
-          <avatar-upload v-model="formData.login_background_img" />
+          <single-image-upload v-model="formData.login_background_img" />
         </a-form-model-item>
       </a-card>
     </a-form-model>
@@ -39,13 +39,11 @@
 </template>
 
 <script>
-import AvatarUpload from "@/components/AvatarUpload";
 import { setSiteCfg } from "@/utils";
 import { formRules } from "./const";
 
 export default {
   name: "SystemConfig",
-  components: { AvatarUpload },
   data() {
     return {
       loading: false,

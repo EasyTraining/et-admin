@@ -1,9 +1,11 @@
 <template>
   <span>
-    <a href="javascript:;" @click="showModal">查看</a>
+    <a href="javascript:;" @click="showModal">
+      <slot></slot>
+    </a>
 
     <a-modal
-      title="员工信息"
+      title="学员信息"
       centered
       :keyboard="false"
       :width="800"
@@ -11,7 +13,7 @@
       :footer="null"
       @cancel="closeModal"
     >
-      <employee-detail :id="id" />
+      <student-detail :id="id" />
     </a-modal>
   </span>
 </template>

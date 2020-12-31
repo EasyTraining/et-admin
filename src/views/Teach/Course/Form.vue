@@ -12,7 +12,7 @@
           <a-input v-model="formData.name" :max-length="300" placeholder="请填写课程名称" />
         </a-form-model-item>
         <a-form-model-item label="预览图" prop="banner_img">
-          <avatar-upload v-model="formData.banner_img" />
+          <single-image-upload v-model="formData.banner_img" />
         </a-form-model-item>
         <a-form-model-item label="课程摘要" prop="summary">
           <a-textarea
@@ -43,13 +43,10 @@
 
 <script>
 import { _ } from "@/utils";
-import AvatarUpload from "@/components/AvatarUpload";
-import RichEditor from "@/components/RichEditor";
 import { formRules } from "./const";
 
 export default {
   name: "CourseForm",
-  components: { AvatarUpload, RichEditor },
   data() {
     return {
       loading: false,

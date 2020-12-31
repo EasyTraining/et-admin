@@ -116,14 +116,10 @@ import "echarts/lib/chart/funnel";
 import "echarts/lib/component/tooltip";
 import "echarts/lib/component/title";
 import "echarts/lib/component/legend";
-
 Vue.component("v-chart", ECharts);
-
-import FooterToolBar from "@/components/FooterToolbar";
-
-Vue.component("footer-tool-bar", FooterToolBar);
 
 import "viewerjs/dist/viewer.css";
 import Viewer from "v-viewer";
-
 Vue.use(Viewer);
+
+import "@/components/index";

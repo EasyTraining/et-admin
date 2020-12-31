@@ -171,7 +171,6 @@
 </template>
 
 <script>
-import RichEditor from "@/components/RichEditor";
 import { levelMap, questionMap } from "@/utils/const";
 import { _ } from "@/utils";
 import { formRules } from "./const";
@@ -179,7 +178,6 @@ import * as Util from "./util";
 
 export default {
   name: "QuestionForm",
-  components: { RichEditor },
   data() {
     return {
       loading: false,

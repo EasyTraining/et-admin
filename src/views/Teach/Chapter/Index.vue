@@ -10,31 +10,41 @@
       </div>
     </div>
 
-    <p>
-      <a-button type="primary" icon="plus" @click="onAdd">添加章节</a-button>
-    </p>
+    <a-card size="small" title="课程信息">
+      <a-spin :spinning="mounting">
+        <a-descriptions>
+          <a-descriptions-item label="班级名称">{{ courseInfo.name }}</a-descriptions-item>
+          <a-descriptions-item label="班主任">{{ courseInfo.leader_id }}</a-descriptions-item>
+        </a-descriptions>
+      </a-spin>
+    </a-card>
 
-    <a-table
-      v-if="!loading"
-      size="small"
-      row-key="id"
-      default-expand-all-rows
-      :columns="tableColumns"
-      :data-source="tableData"
-      :loading="loading"
-      :pagination="false"
-      :scroll="{ x: 1100 }"
-    >
-      <template slot="action" slot-scope="text, record">
-        <a href="javascript:;">课件管理</a>
-        <a-divider type="vertical" />
-        <a href="javascript:;" @click="onEdit(record)">编辑</a>
-        <a-divider type="vertical" />
-        <a-popconfirm title="删除以后无法恢复, 是否继续?" @confirm="remove(record)">
-          <a href="javascript:;">删除</a>
-        </a-popconfirm>
-      </template>
-    </a-table>
+    <a-card size="small" title="章节管理">
+      <p>
+        <a-button type="primary" icon="plus" @click="onAdd">添加章节</a-button>
+      </p>
+      <a-table
+        v-if="!loading"
+        size="small"
+        row-key="id"
+        default-expand-all-rows
+        :columns="tableColumns"
+        :data-source="tableData"
+        :loading="loading"
+        :pagination="false"
+        :scroll="{ x: 1100 }"
+      >
+        <template slot="action" slot-scope="text, record">
+          <a href="javascript:;">课件管理</a>
+          <a-divider type="vertical" />
+          <a href="javascript:;" @click="onEdit(record)">编辑</a>
+          <a-divider type="vertical" />
+          <a-popconfirm title="删除以后无法恢复, 是否继续?" @confirm="remove(record)">
+            <a href="javascript:;">删除</a>
+          </a-popconfirm>
+        </template>
+      </a-table>
+    </a-card>
 
     <update-modal
       :visible="updateModalVisible"
@@ -58,6 +68,7 @@ export default {
       mounting: false,
       loading: false,
 
+      courseInfo: {},
       klassList: [],
 
       tableQuery: {

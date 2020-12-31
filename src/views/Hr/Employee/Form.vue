@@ -189,7 +189,7 @@
               prop="id_card_front_img"
               style="margin-bottom: 0"
             >
-              <avatar-upload v-model="formData.id_card_front_img" />
+              <single-image-upload v-model="formData.id_card_front_img" />
             </a-form-model-item>
           </a-col>
           <a-col :span="12">
@@ -198,7 +198,7 @@
               prop="id_card_back_img"
               style="margin-bottom: 0"
             >
-              <avatar-upload v-model="formData.id_card_back_img" />
+              <single-image-upload v-model="formData.id_card_back_img" />
             </a-form-model-item>
           </a-col>
         </a-row>
@@ -281,7 +281,7 @@
               prop="prev_leave_img"
               style="margin-bottom: 0"
             >
-              <avatar-upload v-model="formData.prev_leave_img" />
+              <single-image-upload v-model="formData.prev_leave_img" />
             </a-form-model-item>
           </a-col>
         </a-row>
@@ -351,7 +351,7 @@
         <a-row :gutter="15">
           <a-col :span="12">
             <a-form-model-item label="银行卡照片" prop="back_card_img" style="margin-bottom: 0">
-              <avatar-upload v-model="formData.back_card_img" />
+              <single-image-upload v-model="formData.back_card_img" />
             </a-form-model-item>
           </a-col>
         </a-row>
@@ -485,13 +485,11 @@
 <script>
 import dayjs from "dayjs";
 import { _, sha256 } from "@/utils";
-import AvatarUpload from "@/components/AvatarUpload";
 import { formRules } from "./const";
 import { fetchMultipleDict } from "./util";
 
 export default {
   name: "EmployeeForm",
-  components: { AvatarUpload },
   data() {
     return {
       mounting: false,

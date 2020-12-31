@@ -119,12 +119,10 @@
 
 <script>
 import { _ } from "@/utils";
-import RichEditor from "@/components/RichEditor";
 import { formRules } from "./const";
 
 export default {
   name: "ArticleForm",
-  components: { RichEditor },
   data() {
     return {
       loading: false,

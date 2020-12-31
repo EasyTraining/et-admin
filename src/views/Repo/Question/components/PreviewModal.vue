@@ -14,12 +14,9 @@
 </template>
 
 <script>
-import QuestionPreview from "@/components/QuestionPreview";
-
 export default {
   name: "PreviewModal",
   props: ["visible", "question"],
-  components: { QuestionPreview },
   data() {
     return {
       submitting: false,

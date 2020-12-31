@@ -10,11 +10,8 @@
 </template>
 
 <script>
-import EmployeeDetail from "@/components/EmployeeDetail";
-
 export default {
   name: "Detail",
-  components: { EmployeeDetail },
   data() {
     return {
       id: "",

@@ -17,7 +17,7 @@
       :wrapper-col="{ span: 15 }"
     >
       <a-form-model-item label="头像" prop="avatar_url" style="margin-bottom: 0">
-        <avatar-upload v-model="formData.avatar_url" />
+        <single-image-upload v-model="formData.avatar_url" />
       </a-form-model-item>
       <a-form-model-item label="所属部门" prop="org_id">
         <a-tree-select
@@ -64,7 +64,6 @@
 
 <script>
 import { _, sha256 } from "@/utils";
-import AvatarUpload from "@/components/AvatarUpload";
 
 const formRules = {
   org_id: [{ required: true, message: "请选择所属部门" }],
@@ -76,7 +75,6 @@ const formRules = {
 
 export default {
   name: "UpdateModal",
-  components: { AvatarUpload },
   props: ["id", "visible"],
   data() {
     return {

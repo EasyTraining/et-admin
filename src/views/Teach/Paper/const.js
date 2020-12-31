@@ -65,13 +65,8 @@ export const questionColumns = [
     scopedSlots: { customRender: "sort" },
   },
   {
-    title: "试题类型",
-    width: 100,
-    dataIndex: "type",
-    scopedSlots: { customRender: "type" },
-  },
-  {
     title: "试题",
+    width: 300,
     dataIndex: "name",
     scopedSlots: { customRender: "name" },
   },
@@ -88,9 +83,15 @@ export const questionColumns = [
     scopedSlots: { customRender: "level" },
   },
   {
-    title: "章节",
+    title: "试题类型",
     width: 100,
-    dataIndex: "from_chapter",
+    dataIndex: "type",
+    scopedSlots: { customRender: "type" },
+  },
+  {
+    title: "考点",
+    width: 100,
+    dataIndex: "main_point",
   },
   {
     title: "操作",

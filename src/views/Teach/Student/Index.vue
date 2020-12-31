@@ -2,7 +2,13 @@
   <div>
     <div class="filter">
       <div class="filter__item">
-        <a-select v-model="tableQuery.klass_id" style="width: 200px" placeholder="请选择班级">
+        <a-select
+          v-model="tableQuery.klass_id"
+          show-search
+          style="width: 200px"
+          placeholder="请选择班级"
+          @change="search"
+        >
           <a-select-option v-for="klass in klassList" :key="klass.id" :value="klass.id">
             {{ klass.name }}
           </a-select-option>
@@ -17,7 +23,7 @@
       </div>
     </div>
 
-    <a-card v-if="0" size="small" title="班级信息">
+    <a-card size="small" title="班级信息">
       <a-spin :spinning="klassLoading">
         <a-descriptions>
           <a-descriptions-item label="班级名称">{{ curKlassInfo.name }}</a-descriptions-item>
@@ -48,34 +54,35 @@
       </a-spin>
     </a-card>
 
-    <a-table
-      size="small"
-      row-key="id"
-      :columns="tableColumns"
-      :data-source="tableData"
-      :loading="studentLoading"
-      :pagination="false"
-      :scroll="{ x: 1100 }"
-    >
-      <template slot="name" slot-scope="text, record">
-        <a-avatar v-if="record.avatar_url" size="small" :src="record.avatar_url" />
-        <a-avatar v-else size="small">{{ record.name }}</a-avatar>
-        <router-link style="margin-left: 5px" :to="'/school/student/detail/' + record.id">
-          {{ record.name }}
-        </router-link>
-      </template>
-      <template slot="enable" slot-scope="text, record">
-        <a-switch
-          v-model="record.enable"
-          checked-children="启用中"
-          un-checked-children="已停用"
-          @change="switchStatus(record)"
-        />
-      </template>
-      <template slot="sos_name" slot-scope="text, record">
-        {{ record.sos_name }}/{{ record.sos_phone }}
-      </template>
-    </a-table>
+    <a-card size="small" title="学员信息">
+      <a-table
+        size="small"
+        row-key="id"
+        :columns="tableColumns"
+        :data-source="tableData"
+        :loading="studentLoading"
+        :pagination="false"
+      >
+        <template slot="name" slot-scope="text, record">
+          <a-avatar v-if="record.avatar_url" size="small" :src="record.avatar_url" />
+          <a-avatar v-else size="small">{{ record.name }}</a-avatar>
+          <detail-btn style="margin-left: 5px" :key="record.id" :id="record.id">
+            {{ record.name }}
+          </detail-btn>
+        </template>
+        <template slot="enable" slot-scope="text, record">
+          <a-switch
+            v-model="record.enable"
+            checked-children="启用中"
+            un-checked-children="已停用"
+            @change="switchStatus(record)"
+          />
+        </template>
+        <template slot="sos_name" slot-scope="text, record">
+          {{ record.sos_name }}/{{ record.sos_phone }}
+        </template>
+      </a-table>
+    </a-card>
 
     <broadcast-modal
       :visible="broadcastVisible"
@@ -94,12 +101,13 @@
 
 <script>
 import { tableColumns } from "./const";
+import DetailBtn from "./components/DetailBtn";
 import BroadcastModal from "./components/BroadcastModal";
 import HistoryModal from "./components/HistoryModal";
 
 export default {
   name: "StudentIndex",
-  components: { BroadcastModal, HistoryModal },
+  components: { DetailBtn, BroadcastModal, HistoryModal },
   data() {
     return {
       klassLoading: false,

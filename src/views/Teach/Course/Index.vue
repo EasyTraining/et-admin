@@ -49,12 +49,10 @@
 </template>
 
 <script>
-import CommentBtn from "@/components/CommentBtn";
 import { tableColumns } from "./const";
 
 export default {
   name: "CourseIndex",
-  components: { CommentBtn },
   data() {
     return {
       mounting: false,

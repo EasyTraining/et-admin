@@ -5,7 +5,7 @@
         <a-row :gutter="15">
           <a-col :span="12">
             <a-form-model-item label="头像" prop="avatar_url" style="margin-bottom: 0">
-              <avatar-upload v-model="formData.avatar_url" />
+              <single-image-upload v-model="formData.avatar_url" />
             </a-form-model-item>
           </a-col>
         </a-row>
@@ -123,12 +123,10 @@
 
 <script>
 import { _, sha256 } from "@/utils";
-import AvatarUpload from "@/components/AvatarUpload";
 import { formRules } from "./const";
 
 export default {
   name: "StudentForm",
-  components: { AvatarUpload },
   data() {
     return {
       mounting: false,

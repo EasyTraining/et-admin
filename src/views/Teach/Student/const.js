@@ -10,10 +10,6 @@ export const tableColumns = [
     dataIndex: "phone",
   },
   {
-    title: "所属班级",
-    dataIndex: "klass_name",
-  },
-  {
     title: "紧急联系人",
     dataIndex: "sos_name",
     scopedSlots: { customRender: "sos_name" },
