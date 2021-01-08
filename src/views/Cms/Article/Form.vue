@@ -288,7 +288,7 @@ export default {
     async fetchTreeData() {
       this.loading = true;
       try {
-        const res = await this.$http({ method: "GET", url: "/cms/search/category/tree" });
+        const res = await this.$http({ method: "GET", url: "/cms/category_util/tree" });
         if (res.code !== 200) {
           this.$message.warning(res.message);
           return;
