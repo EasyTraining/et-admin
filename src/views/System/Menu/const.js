@@ -1,16 +1,12 @@
 export const tableColumns = [
   {
     title: "菜单名称",
+    width: 220,
     dataIndex: "title",
   },
   {
     title: "菜单编码",
     dataIndex: "name",
-  },
-  {
-    title: "启用状态",
-    width: 120,
-    scopedSlots: { customRender: "enable" },
   },
   {
     title: "更新人",

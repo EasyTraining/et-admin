@@ -34,13 +34,6 @@
       <a-form-model-item label="菜单名称" prop="title">
         <a-input v-model="formData.title" :max-length="100" placeholder="请填写菜单名称" />
       </a-form-model-item>
-      <a-form-model-item label="启用状态" prop="enable">
-        <a-switch
-          v-model="formData.enable"
-          checked-children="已启用"
-          un-checked-children="已停用"
-        />
-      </a-form-model-item>
       <a-form-model-item label="菜单附加数据" prop="meta">
         <a-textarea
           v-model="formData.meta"
@@ -70,10 +63,9 @@ export default {
       treeData: [],
       formData: {
         id: "",
-        parent_id: "",
+        parent_id: undefined,
         name: "",
         title: "",
-        enable: true,
         meta: "",
       },
       formRules,
@@ -135,10 +127,9 @@ export default {
       this.$emit("cancel", null);
       this.formData = {
         id: "",
-        parent_id: "",
+        parent_id: undefined,
         name: "",
         title: "",
-        enable: true,
         meta: "",
       };
       this.$refs.form.resetFields();

@@ -22,7 +22,7 @@
       :scroll="{ x: 1100 }"
     >
       <template slot="action" slot-scope="text, record">
-        <a href="javascript:;" @click="onEdit(record)">设置</a>
+        <a href="javascript:;" @click="onEdit(record)">设置菜单权限</a>
       </template>
     </a-table>
 

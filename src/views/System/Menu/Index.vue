@@ -28,14 +28,6 @@
       :pagination="false"
       :scroll="{ x: 1100 }"
     >
-      <template slot="enable" slot-scope="text, record">
-        <a-switch
-          v-model="record.enable"
-          checked-children="已启用"
-          un-checked-children="已停用"
-          @change="switchStatus(record)"
-        />
-      </template>
       <template slot="action" slot-scope="text, record">
         <template v-if="record.name !== 'ROOT'">
           <a href="javascript:;" @click="onEdit(record)">编辑</a>
@@ -134,26 +126,6 @@ export default {
           return;
         }
         this.tableData = res.data;
-      } catch (e) {
-        this.$message.warning(e.message);
-      } finally {
-        this.loading = false;
-      }
-    },
-
-    async switchStatus({ id, enable }) {
-      this.loading = true;
-      try {
-        const res = await this.$http({
-          method: "PUT",
-          url: `/system/menu/${id}/enable`,
-          data: { enable },
-        });
-        if (res.code !== 200) {
-          this.$message.warning(res.message);
-          return;
-        }
-        await this.fetchTableData();
       } catch (e) {
         this.$message.warning(e.message);
       } finally {

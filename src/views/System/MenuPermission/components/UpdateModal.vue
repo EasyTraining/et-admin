@@ -4,7 +4,7 @@
     :width="800"
     centered
     :visible="visible"
-    title="设置部门可见菜单"
+    title="设置菜单权限"
     @cancel="onCancel"
     @ok="onOk"
   >
