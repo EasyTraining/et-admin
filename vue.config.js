@@ -90,10 +90,10 @@ const vueConfig = {
   },
 
   devServer: {
-    port: 6001,
+    port: 1025,
     proxy: {
       "/v1": {
-        target: "http://127.0.0.1:6002",
+        target: "http://127.0.0.1:1024",
         // ws: false,
         changeOrigin: true,
       },
